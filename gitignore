@@ -2,5 +2,5 @@
 *.userprefs
 *.csproj
 *.pidb
-Library
-Temp
+/Library
+/Temp
