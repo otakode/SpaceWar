@@ -19,64 +19,161 @@ public class Weapon
 		Repair
 	}
 
-	public static string TypeToString(Weapon.Type weapon)
+	public static string TypeToString(Type weapon)
 	{
 		switch (weapon)
 		{
-			case Weapon.Type.Rifle:
+			case Type.Rifle:
 				return "Rifle";
-			case Weapon.Type.Rocket:
+			case Type.Rocket:
 				return "Rocket";
-	//		case Weapon.Type.:
+	//		case Type.:
 	//			return "";
-	//		case Weapon.Type.:
+	//		case Type.:
 	//			return "";
-	//		case Weapon.Type.:
+	//		case Type.:
 	//			return "";
-			case Weapon.Type.Shield:
+			case Type.Shield:
 				return "Shield";
-	//		case Weapon.Type.:
+	//		case Type.:
 	//			return "";
-			case Weapon.Type.Stealth:
+			case Type.Stealth:
 				return "Stealth";
-			case Weapon.Type.Bomb:
+			case Type.Bomb:
 				return "Bomb";
-			case Weapon.Type.Nova:
+			case Type.Nova:
 				return "Nova";
-			case Weapon.Type.Repair:
+			case Type.Repair:
 				return "Repair";
 		}
 		return "None";
 	}
 	
-	public static Weapon.Type StringToType(string weapon)
+	public static Type StringToType(string weapon)
 	{
 		switch (weapon)
 		{
 			case "Rifle":
-				return Weapon.Type.Rifle;
+				return Type.Rifle;
 			case "Rocket":
-				return Weapon.Type.Rocket;
+				return Type.Rocket;
 	//		case "":
-	//			return Weapon.Type.;
+	//			return Type.;
 	//		case "":
-	//			return Weapon.Type.;
+	//			return Type.;
 	//		case "":
-	//			return Weapon.Type.;
+	//			return Type.;
 			case "Shield":
-				return Weapon.Type.Shield;
+				return Type.Shield;
 	//		case "":
-	//			return Weapon.Type.;
+	//			return Type.;
 			case "Stealth":
-				return Weapon.Type.Stealth;
+				return Type.Stealth;
 			case "Bomb":
-				return Weapon.Type.Bomb;
+				return Type.Bomb;
 			case "Nova":
-				return Weapon.Type.Nova;
+				return Type.Nova;
 			case "Repair":
-				return Weapon.Type.Repair;
+				return Type.Repair;
 		}
-		return Weapon.Type.None;
+		return Type.None;
 	}
 
+	public Type type { get; private set; }
+	public int ammo { get; private set; }
+
+	Weapon(Type t, int a)
+	{
+		this.type = t;
+		this.ammo = a;
+	}
+
+	public virtual void Fire(Vector3 pos, Quaternion rot)
+	{
+	}
 }
+/*
+public class Rifle : Weapon
+{
+	public GameObject bullet;
+
+	Rifle() : base(Type.Rifle)
+	{
+	}
+
+	public override void Fire (Vector3 pos, Quaternion rot)
+	{
+		Transform laserShot = (Transform) Instantiate(bullet, pos, transform.rotation);
+		laserShot.GetComponent<LaserShot>().firedBy = transform;
+	}
+}
+
+public class Rocket : Weapon
+{
+	Rocket() : base(Type.Rocket)
+	{
+	}
+}*/
+/*
+public class  : Weapon
+{
+	() : base(Type.)
+	{
+	}
+}*/
+/*
+public class  : Weapon
+{
+	() : base(Type.)
+	{
+	}
+}*/
+/*
+public class  : Weapon
+{
+	() : base(Type.)
+	{
+	}
+}*/
+/*
+public class Shield : Weapon
+{
+	Shield() : base(Type.Shield)
+	{
+	}
+}*/
+/*
+public class  : Weapon
+{
+	() : base(Type.)
+	{
+	}
+}*/
+/*
+public class Stealth : Weapon
+{
+	Stealth() : base(Type.Stealth)
+	{
+	}
+}
+
+public class Bomb : Weapon
+{
+	Bomb() : base(Type.Bomb)
+	{
+	}
+}
+
+public class Nova : Weapon
+{
+	Nova() : base(Type.Nova)
+	{
+	}
+}
+
+public class Repair : Weapon
+{
+	Repair() : base(Type.Repair)
+	{
+	}
+}*/
