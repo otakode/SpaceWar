@@ -9,31 +9,16 @@ public class VoiceHandler : MonoBehaviour
 	private string[] commands;
 	private delegate void actions(string param);
 
-	public enum Weapon
-	{
-		None,
-		Rifle,
-		Rocket,
-	//	,
-	//	,
-	//	,
-		Shield,
-	//	,
-		Stealth,
-		Bomb,
-		Nova,
-		Repair
-	}
-	private Weapon activeWeapon;
-	private List<Weapon> inventory;
+	private Weapon.Type activeWeapon;
+	private List<Weapon.Type> inventory;
 
 	private int speed;
 
 	void Start()
 	{
-		this.activeWeapon = Weapon.Rifle;
-		this.inventory = new List<Weapon>();
-		this.inventory.Add(Weapon.Rifle);
+		this.activeWeapon = Weapon.Type.Rifle;
+		this.inventory = new List<Weapon.Type>();
+		this.inventory.Add(Weapon.Type.Rifle);
 		this.speed = 0;
 
 		this.pp = new PXCUPipeline();
@@ -48,17 +33,17 @@ public class VoiceHandler : MonoBehaviour
 		{
 			commandList.Add("Weapon " + i);
 		}
-		commandList.Add("Rifle");
-		commandList.Add("Rocket");
-	//	commandList.Add("");
-	//	commandList.Add("");
-	//	commandList.Add("");
-		commandList.Add("Shield");
-	//	commandList.Add("");
-		commandList.Add("Stealth");
-		commandList.Add("Bomb");
-		commandList.Add("Nova");
-		commandList.Add("Repair");
+		commandList.Add(Weapon.TypeToString(Weapon.Type.Rifle));
+		commandList.Add(Weapon.TypeToString(Weapon.Type.Rocket));
+	//	commandList.Add(Weapon.TypeToString(Weapon.Type.);
+	//	commandList.Add(Weapon.TypeToString(Weapon.Type.);
+	//	commandList.Add(Weapon.TypeToString(Weapon.Type.);
+		commandList.Add(Weapon.TypeToString(Weapon.Type.Shield));
+	//	commandList.Add(Weapon.TypeToString(Weapon.Type.);
+		commandList.Add(Weapon.TypeToString(Weapon.Type.Stealth));
+		commandList.Add(Weapon.TypeToString(Weapon.Type.Bomb));
+		commandList.Add(Weapon.TypeToString(Weapon.Type.Nova));
+		commandList.Add(Weapon.TypeToString(Weapon.Type.Repair));
 		commandList.Add("Fire");
 		commandList.Add("Activate");
 		for (int i = 0; i <= 100; i++)
@@ -80,7 +65,7 @@ public class VoiceHandler : MonoBehaviour
 	{
 		if (Input.GetKeyUp(KeyCode.Space))
 		{
-			this.DropWeapon((Weapon)Random.Range((int)Weapon.Rocket, (int)Weapon.Repair));
+			this.DropWeapon((Weapon.Type)Random.Range((int)Weapon.Type.Rocket, (int)Weapon.Type.Repair));
 		}
 		if (this.pp != null && this.pp.AcquireFrame(false))
 		{
@@ -118,76 +103,16 @@ public class VoiceHandler : MonoBehaviour
 	void OnGUI()
 	{
 		GUILayout.BeginVertical();
-		foreach (Weapon weapon in this.inventory)
+		foreach (Weapon.Type weapon in this.inventory)
 		{
-			GUILayout.Label(new GUIContent(Name(weapon)));
+			GUILayout.Label(new GUIContent(Weapon.TypeToString(weapon)));
 		}
 		GUILayout.EndVertical();
 	}
-	
-	static string Name(Weapon weapon)
-	{
-		switch (weapon)
-		{
-			case Weapon.Rifle:
-				return "Rifle";
-			case Weapon.Rocket:
-				return "Rocket";
-	//		case Weapon.:
-	//			return "";
-	//		case Weapon.:
-	//			return "";
-	//		case Weapon.:
-	//			return "";
-			case Weapon.Shield:
-				return "Shield";
-	//		case Weapon.:
-	//			return "";
-			case Weapon.Stealth:
-				return "Stealth";
-			case Weapon.Bomb:
-				return "Bomb";
-			case Weapon.Nova:
-				return "Nova";
-			case Weapon.Repair:
-				return "Repair";
-		}
-		return "None";
-	}
 
-	static Weapon Enum(string weapon)
+	bool HasWeapon(Weapon.Type test)
 	{
-		switch (weapon)
-		{
-			case "Rifle":
-				return Weapon.Rifle;
-			case "Rocket":
-				return Weapon.Rocket;
-	//		case "":
-	//			return Weapon.;
-	//		case "":
-	//			return Weapon.;
-	//		case "":
-	//			return Weapon.;
-			case "Shield":
-				return Weapon.Shield;
-	//		case "":
-	//			return Weapon.;
-			case "Stealth":
-				return Weapon.Stealth;
-			case "Bomb":
-				return Weapon.Bomb;
-			case "Nova":
-				return Weapon.Nova;
-			case "Repair":
-				return Weapon.Repair;
-		}
-		return Weapon.None;
-	}
-
-	bool HasWeapon(Weapon test)
-	{
-		foreach (Weapon weapon in this.inventory)
+		foreach (Weapon.Type weapon in this.inventory)
 		{
 			if (weapon == test)
 				return true;
@@ -197,7 +122,7 @@ public class VoiceHandler : MonoBehaviour
 	
 	void ChangeWeaponName(string name)
 	{
-		Weapon weapon = Enum(name);
+		Weapon.Type weapon = Weapon.StringToType(name);
 		if (this.HasWeapon(weapon))
 		{
 			this.activeWeapon = weapon;
@@ -214,7 +139,7 @@ public class VoiceHandler : MonoBehaviour
 		if (index < this.inventory.Count)
 		{
 			this.activeWeapon = this.inventory[index];
-			Debug.Log(Name(this.activeWeapon) + " ready.");
+			Debug.Log(Weapon.TypeToString(this.activeWeapon) + " ready.");
 		}
 		else
 		{
@@ -226,53 +151,53 @@ public class VoiceHandler : MonoBehaviour
 	{
 		switch (this.activeWeapon)
 		{
-			case Weapon.Rifle:
+			case Weapon.Type.Rifle:
 				Debug.Log("pew pew pew pew pew");
 			this.GetComponent<Spaceship>().Fire();
 				break;
-			case Weapon.Rocket:
+			case Weapon.Type.Rocket:
 				Debug.Log("pew... BOOM");
-				this.inventory.Remove(Weapon.Rocket);
+				this.inventory.Remove(Weapon.Type.Rocket);
 				break;
-		//	case Weapon.:
+		//	case Weapon.Type.:
 		//		Debug.Log("");
 		//		break;
-		//	case Weapon.:
+		//	case Weapon.Type.:
 		//		Debug.Log("");
 		//		break;
-		//	case Weapon.:
+		//	case Weapon.Type.:
 		//		Debug.Log("");
 		//		break;
-			case Weapon.Shield:
+			case Weapon.Type.Shield:
 				Debug.Log("Bouclier anti-mourant, empechant la mort de passer");
-				this.inventory.Remove(Weapon.Shield);
+				this.inventory.Remove(Weapon.Type.Shield);
 				break;
-		//	case Weapon.:
+		//	case Weapon.Type.:
 		//		Debug.Log("");
 		//		break;
-			case Weapon.Stealth:
+			case Weapon.Type.Stealth:
 				Debug.Log("NINJA");
-				this.inventory.Remove(Weapon.Stealth);
+				this.inventory.Remove(Weapon.Type.Stealth);
 				break;
-			case Weapon.Bomb:
+			case Weapon.Type.Bomb:
 				Debug.Log("bomb");
-				this.inventory.Remove(Weapon.Bomb);
+				this.inventory.Remove(Weapon.Type.Bomb);
 				break;
-			case Weapon.Nova:
+			case Weapon.Type.Nova:
 				Debug.Log("Nova");
-				this.inventory.Remove(Weapon.Nova);
+				this.inventory.Remove(Weapon.Type.Nova);
 				break;
-			case Weapon.Repair:
+			case Weapon.Type.Repair:
 				Debug.Log("Repair");
 				break;
 		}
 	}
 
-	void DropWeapon(Weapon weapon)
+	void DropWeapon(Weapon.Type weapon)
 	{
 		if (this.inventory.Count < 5)
 		{
-			Debug.Log(Name(weapon) + " dropped.");
+			Debug.Log(Weapon.TypeToString(weapon) + " dropped.");
 			this.inventory.Add(weapon);
 		}
 		else
