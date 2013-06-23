@@ -11,7 +11,7 @@ public class VoiceHandler : MonoBehaviour
 
 	public enum Weapon
 	{
-		None = 1,
+		None,
 		Rifle,
 		Rocket,
 	//	,
@@ -113,6 +113,16 @@ public class VoiceHandler : MonoBehaviour
 
 			this.pp.ReleaseFrame();
 		}
+	}
+
+	void OnGUI()
+	{
+		GUILayout.BeginVertical();
+		foreach (Weapon weapon in this.inventory)
+		{
+			GUILayout.Label(new GUIContent(Name(weapon)));
+		}
+		GUILayout.EndVertical();
 	}
 	
 	static string Name(Weapon weapon)
