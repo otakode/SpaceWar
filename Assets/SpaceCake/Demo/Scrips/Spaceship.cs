@@ -47,16 +47,7 @@ public class Spaceship : MonoBehaviour
 		
 		if (Input.GetButtonDown("Fire2")) 
 		{
-			foreach (Vector3 wmp in weaponMountPoints) 
-			{
-				Vector3 pos = transform.position + transform.right * wmp.x + transform.up * wmp.y + transform.forward * wmp.z;
-				Transform laserShot = (Transform) Instantiate(laserShotPrefab, pos, transform.rotation);
-				laserShot.GetComponent<LaserShot>().firedBy = transform;
-			}
-			if (soundEffectFire != null) 
-			{
-				audio.PlayOneShot(soundEffectFire);
-			}
+			this.Fire();
 		}		
 	}
 	
@@ -65,5 +56,19 @@ public class Spaceship : MonoBehaviour
 		cacheRigidbody.AddRelativeTorque(new Vector3(0,0,-Input.GetAxis("Horizontal")*rollRate*cacheRigidbody.mass));
 		cacheRigidbody.AddRelativeTorque(new Vector3(0,Input.GetAxis("Horizontal")*yawRate*cacheRigidbody.mass,0));
 		cacheRigidbody.AddRelativeTorque(new Vector3(Input.GetAxis("Vertical")*pitchRate*cacheRigidbody.mass,0,0));	
+	}
+
+	public void Fire()
+	{
+		foreach (Vector3 wmp in weaponMountPoints) 
+		{
+			Vector3 pos = transform.position + transform.right * wmp.x + transform.up * wmp.y + transform.forward * wmp.z;
+			Transform laserShot = (Transform) Instantiate(laserShotPrefab, pos, transform.rotation);
+			laserShot.GetComponent<LaserShot>().firedBy = transform;
+		}
+		if (soundEffectFire != null) 
+		{
+			audio.PlayOneShot(soundEffectFire);
+		}
 	}
 }

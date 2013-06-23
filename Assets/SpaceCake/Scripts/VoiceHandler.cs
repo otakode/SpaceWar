@@ -228,6 +228,7 @@ public class VoiceHandler : MonoBehaviour
 		{
 			case Weapon.Rifle:
 				Debug.Log("pew pew pew pew pew");
+			this.GetComponent<Spaceship>().Fire();
 				break;
 			case Weapon.Rocket:
 				Debug.Log("pew... BOOM");
