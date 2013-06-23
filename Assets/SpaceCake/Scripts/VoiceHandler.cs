@@ -88,11 +88,11 @@ public class VoiceHandler : MonoBehaviour
 				}
 				else if (command.StartsWith("Weapon "))
 				{
-					this.ChangeWeaponIndex(int.Parse(command.Substring(command.IndexOf(" ") + 1)));
+					this.ChangeWeapon(int.Parse(command.Substring(command.IndexOf(" ") + 1)));
 				}
 				else
 				{
-					this.ChangeWeaponName(command);
+					this.ChangeWeapon(command);
 				}
 			}
 
@@ -120,7 +120,7 @@ public class VoiceHandler : MonoBehaviour
 		return false;
 	}
 	
-	void ChangeWeaponName(string name)
+	void ChangeWeapon(string name)
 	{
 		Weapon.Type weapon = Weapon.StringToType(name);
 		if (this.HasWeapon(weapon))
@@ -134,7 +134,7 @@ public class VoiceHandler : MonoBehaviour
 		}
 	}
 
-	void ChangeWeaponIndex(int index)
+	void ChangeWeapon(int index)
 	{
 		if (index < this.inventory.Count)
 		{
@@ -153,7 +153,7 @@ public class VoiceHandler : MonoBehaviour
 		{
 			case Weapon.Type.Rifle:
 				Debug.Log("pew pew pew pew pew");
-			this.GetComponent<Spaceship>().Fire();
+				this.GetComponent<Spaceship>().Fire();
 				break;
 			case Weapon.Type.Rocket:
 				Debug.Log("pew... BOOM");
