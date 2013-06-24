@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400000}
+  - 114: {fileID: 11400000}
+  m_Layer: 0
+  m_Name: SpiderPath4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400000
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e518fd11b63ac7145ac4df7f74feeeac, type: 3}
+  m_Name: 
+  pathName: SpiderPath4
+  pathColor: {r: .355495185, g: .291044772, b: 1, a: 1}
+  nodes:
+  - {x: 0, y: 4.5, z: -50}
+  - {x: 0, y: 4.5, z: -40}
+  - {x: 0, y: 4.5, z: -30}
+  - {x: 0, y: 4.5, z: -20}
+  - {x: -2.38080549, y: 4.5, z: -11.8016891}
+  - {x: .128401995, y: 4.5, z: -5.80242062}
+  - {x: 4.79579306, y: 4.5, z: -1.81126583}
+  - {x: 9.05871773, y: 4.5, z: 5.76613426}
+  - {x: 13.0906134, y: 4.5, z: -5.94547081}
+  - {x: 17.2278385, y: 4.5, z: 3.61248732}
+  - {x: 22.4355316, y: 4.5, z: -6.37282372}
+  - {x: 27.3538265, y: 4.5, z: -1.33820295}
+  - {x: 33.8904877, y: 4.5, z: 1.36057043}
+  - {x: 54.270134, y: 4.5, z: -1.18042278}
+  nodeCount: 14
+  initialized: 1
+  initialName: New Path 1
+  pathVisible: 1
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 100000}
+  m_IsPrefabParent: 1
+  m_IsExploded: 1
