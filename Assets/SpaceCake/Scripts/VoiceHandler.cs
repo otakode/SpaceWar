@@ -46,6 +46,7 @@ public class VoiceHandler : MonoBehaviour
 		commandList.Add(Weapon.TypeToString(Weapon.Type.Repair));
 		commandList.Add("Fire");
 		commandList.Add("Activate");
+		commandList.Add("Launch");
 		for (int i = 0; i <= 100; i++)
 		{
 			commandList.Add("Speed at " + i + " percent");
@@ -70,11 +71,11 @@ public class VoiceHandler : MonoBehaviour
 		if (this.pp != null && this.pp.AcquireFrame(false))
 		{
 			PXCMVoiceRecognition.Recognition voice;
-			if (this.pp.QueryVoiceRecognized(out voice) && voice.confidence > 30 && voice.label <= this.commands.Length)
+			if (this.pp.QueryVoiceRecognized(out voice) && voice.confidence > 20 && voice.label <= this.commands.Length)
 			{
 				string command = this.commands[voice.label];
 				Debug.Log("Command: " + command);
-				if (command == "Fire" || command == "Activate")
+				if (command == "Fire" || command == "Activate" || command == "Launch")
 				{
 					this.Fire();	
 				}
