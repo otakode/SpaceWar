@@ -47,6 +47,7 @@ public class VoiceHandler : MonoBehaviour
 		commandList.Add("Stop");
 		commandList.Add("Half speed");
 		commandList.Add("Maximum speed");
+		commandList.Add("Max speed");
 		this.commands = commandList.ToArray();
 
 	//	this.pp = new PXCUPipeline();
@@ -82,7 +83,7 @@ public class VoiceHandler : MonoBehaviour
 				{
 					this.ChangeSpeed(50);
 				}
-				else if (command == "Maximum speed")
+				else if (command == "Maximum speed" || command == "Max speed")
 				{
 					this.ChangeSpeed(100);
 				}
