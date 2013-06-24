@@ -21,13 +21,6 @@ public class VoiceHandler : MonoBehaviour
 		this.inventory.Add(Weapon.Type.Rifle);
 		this.speed = 0;
 
-		this.pp = new PXCUPipeline();
-
-		if (this.pp.Init(PXCUPipeline.Mode.VOICE_RECOGNITION))
-			Debug.Log("initialized Voice Recognition");
-		else
-			Debug.Log("initialize Voice Recognition FAILED");
-
 		List<string> commandList = new List<string>();
 		for (int i = 1; i <= 5; i++)
 		{
@@ -53,13 +46,11 @@ public class VoiceHandler : MonoBehaviour
 		}
 		commandList.Add("Maximum speed");
 		this.commands = commandList.ToArray();
-		this.pp.SetVoiceCommands(this.commands);
-	}
-	
-	void OnDisable()
-	{
-		this.pp.Close();
-		this.pp.Dispose();
+
+	//	this.pp = new PXCUPipeline();
+		this.pp = PerCPipeline.GetPipeline();
+		if (this.pp != null)
+			this.pp.SetVoiceCommands(this.commands);
 	}
 
 	void Update()
