@@ -44,6 +44,8 @@ public class VoiceHandler : MonoBehaviour
 		{
 			commandList.Add("Speed at " + i + " percent");
 		}
+		commandList.Add("Stop");
+		commandList.Add("Half speed");
 		commandList.Add("Maximum speed");
 		this.commands = commandList.ToArray();
 
@@ -71,6 +73,14 @@ public class VoiceHandler : MonoBehaviour
 				if (command == "Fire" || command == "Activate" || command == "Launch")
 				{
 					this.Fire();	
+				}
+				else if (command == "Stop")
+				{
+					this.ChangeSpeed(0);
+				}
+				else if (command == "Half speed")
+				{
+					this.ChangeSpeed(50);
 				}
 				else if (command == "Maximum speed")
 				{
@@ -210,6 +220,7 @@ public class VoiceHandler : MonoBehaviour
 	void ChangeSpeed(int percent)
 	{
 		this.speed = percent;
+		this.GetComponent<Spaceship>().thrusters[0].SetThrusterPower(percent);
 		Debug.Log("Speed at " + percent + " percent.");
 	}
 }

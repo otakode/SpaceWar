@@ -3,7 +3,8 @@ using System.Collections;
 
 public class Thruster : MonoBehaviour 
 {
-	public float			thrusterForce = 10000;
+	public float			thrusterForce = 30000;
+	public float			percent = 0;
 	public bool				addForceAtPosition = false;
 	public float			soundEffectVolume = 1.0f;
 	
@@ -21,6 +22,15 @@ public class Thruster : MonoBehaviour
 	public void StopThruster() 
 	{		
 		_isActive = false; 
+	}
+
+	public void SetThrusterPower(int power)
+	{
+		this.percent = power / 100.0f;
+		if (power == 0)
+			StopThruster();
+		else
+			StartThruster();
 	}
 	
 	void Start () 
@@ -72,9 +82,9 @@ public class Thruster : MonoBehaviour
 		if (_isActive) 
 		{
 			if (addForceAtPosition)
-				_cacheParentRigidbody.AddForceAtPosition (_cacheTransform.up * thrusterForce, _cacheTransform.position);
+				_cacheParentRigidbody.AddForceAtPosition (_cacheTransform.up * thrusterForce * percent, _cacheTransform.position);
 			else 
-				_cacheParentRigidbody.AddRelativeForce (Vector3.forward * thrusterForce);				
+				_cacheParentRigidbody.AddRelativeForce (Vector3.forward * thrusterForce * percent);				
 		}		
 	}
 }
