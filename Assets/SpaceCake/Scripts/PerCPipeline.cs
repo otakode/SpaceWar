@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PerCPipeline : MonoBehaviour
 {
-	static private PXCUPipeline pipeline;
+	static private PXCUPipeline pipeline = null;
 
 	void Start()
 	{
@@ -26,17 +26,6 @@ public class PerCPipeline : MonoBehaviour
 
 	static public PXCUPipeline GetPipeline()
 	{
-		if (PerCPipeline.pipeline == null)
-		{
-			GameObject singleton = new GameObject("PerCPipeline");
-			singleton.AddComponent<PerCPipeline>();
-			for (int i = 0; i < 20; i++)
-			{
-				if (PerCPipeline.pipeline != null)
-					break;
-				System.Threading.Thread.Sleep(50);
-			}
-		}
 		return PerCPipeline.pipeline;
 	}
 }

@@ -51,6 +51,8 @@ public class VoiceHandler : MonoBehaviour
 		this.pp = PerCPipeline.GetPipeline();
 		if (this.pp != null)
 			this.pp.SetVoiceCommands(this.commands);
+		else
+			Debug.Log("Voice Handler Init Failed");
 	}
 
 	void Update()
@@ -194,7 +196,14 @@ public class VoiceHandler : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("Inventory full.");
+			if (weapon == Weapon.Type.Repair)
+			{
+				Debug.Log("Repair");
+			}
+			else
+			{
+				Debug.Log("Inventory full.");
+			}
 		}
 	}
 
