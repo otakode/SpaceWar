@@ -17,15 +17,11 @@ public class Spaceship : MonoBehaviour
 	//GESTURE TRACK
 	private PXCUPipeline		pp;
 	private int[] 				size=new int[2]{0,0};
-	private PXCUPipeline.Mode 	mode=PXCUPipeline.Mode.GESTURE;
+
 
 	void Start ()
 	{
-		pp=new PXCUPipeline();
-		Debug.Log(pp);
-		if (!pp.Init(mode)) {
-			print("Unable to initialize the PXCUPipeline");
-		}
+		pp = PerCPipeline.GetPipeline();
 		//peut etre pas utile
 		/*if (pp.QueryLabelMapSize(size))
 	        print("LabelMap: width=" + size[0] + ", height=" + size[1]);
