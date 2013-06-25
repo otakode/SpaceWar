@@ -15,17 +15,17 @@ public class Spaceship : MonoBehaviour
 	private Rigidbody cacheRigidbody;
 	
 	//GESTURE TRACK
-	private PXCUPipeline		pp;
-	private int[] 				size=new int[2]{0,0};
-	private PXCUPipeline.Mode 	mode=PXCUPipeline.Mode.GESTURE;
+//	private PXCUPipeline		pp;
+//	private int[] 				size=new int[2]{0,0};
+//	private PXCUPipeline.Mode 	mode=PXCUPipeline.Mode.GESTURE;
 
 	void Start ()
 	{
-		pp=new PXCUPipeline();
-		Debug.Log(pp);
-		if (!pp.Init(mode)) {
-			print("Unable to initialize the PXCUPipeline");
-		}
+//		pp=new PXCUPipeline();
+//		Debug.Log(pp);
+//		if (!pp.Init(mode)) {
+//			print("Unable to initialize the PXCUPipeline");
+//		}
 		//peut etre pas utile
 		/*if (pp.QueryLabelMapSize(size))
 	        print("LabelMap: width=" + size[0] + ", height=" + size[1]);
@@ -47,17 +47,17 @@ public class Spaceship : MonoBehaviour
 		}
 	}
 	
-	void OnDisable()
-	{
-		this.pp.Close();
-		this.pp.Dispose();
-	}
+//	void OnDisable()
+//	{
+//		this.pp.Close();
+//		this.pp.Dispose();
+//	}
 	
 	void Update () 
 	{
 		
 		
-		if (!pp.AcquireFrame(false))
+/*		if (!pp.AcquireFrame(false))
 		{
 			Debug.Log("AcquireFrame failed");
 		}
@@ -76,19 +76,19 @@ public class Spaceship : MonoBehaviour
 			}
 		
 	
-			/*PXCMGesture.Gesture gdata;
+*/			/*PXCMGesture.Gesture gdata;
 			if (pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_ANY, out gdata))
 				print ("gesture (label="+gdata.label+")");*/
-		
+/*		
 			pp.ReleaseFrame();
 		}
-		
+			 */
 		
 		if (Input.GetButtonDown("Fire1")) 
 		{		
 			foreach (Thruster thruster in thrusters) 
 			{
-				thruster.StartThruster();
+				thruster.SetThrusterPower(50);
 			}
 		}
 		
@@ -96,7 +96,7 @@ public class Spaceship : MonoBehaviour
 		{		
 			foreach (Thruster thruster in thrusters) 
 			{
-				thruster.StopThruster();
+				thruster.SetThrusterPower(0);
 			}
 		}
 		
