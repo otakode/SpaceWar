@@ -15,12 +15,13 @@ public class Spaceship : MonoBehaviour
 	private Rigidbody cacheRigidbody;
 	
 	//GESTURE TRACK
-//	private PXCUPipeline		pp;
+	private PXCUPipeline		pp;
 //	private int[] 				size=new int[2]{0,0};
 //	private PXCUPipeline.Mode 	mode=PXCUPipeline.Mode.GESTURE;
 
 	void Start ()
 	{
+		pp = PerCPipeline.GetPipeline();
 //		pp=new PXCUPipeline();
 //		Debug.Log(pp);
 //		if (!pp.Init(mode)) {
@@ -47,42 +48,36 @@ public class Spaceship : MonoBehaviour
 		}
 	}
 	
-//	void OnDisable()
-//	{
-//		this.pp.Close();
-//		this.pp.Dispose();
-//	}
+	void OnDisable()
+	{
+		this.pp.Close();
+		this.pp.Dispose();
+	}
 	
 	void Update () 
 	{
 		
-		
-/*		if (!pp.AcquireFrame(false))
-		{
-			Debug.Log("AcquireFrame failed");
-		}
-		else
-		{
-			Debug.Log("win");
-			
-			PXCMGesture.GeoNode ndata;
-			if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_LEFT|PXCMGesture.GeoNode.Label.LABEL_HAND_MIDDLE,out ndata))
-			{
-				print ("test");
-				if (ndata.side == PXCMGesture.GeoNode.Side.LABEL_LEFT)
-					print ("geonode handLEFT (x="+ndata.positionWorld.x+", y="+ndata.positionWorld.y+") z="+ndata.positionWorld.z+")");
-				if (ndata.side == PXCMGesture.GeoNode.Side.LABEL_RIGHT)
-					print ("geonode handRIGHT (x="+ndata.positionWorld.x+", y="+ndata.positionWorld.y+") z="+ndata.positionWorld.z+")");
-			}
-		
-	
-*/			/*PXCMGesture.Gesture gdata;
+ 		if (!pp.AcquireFrame(false))
+ 		{
+ 		}
+ 		else
+ 		{
+			PXCMGesture.Gesture gdata;
 			if (pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_ANY, out gdata))
-				print ("gesture (label="+gdata.label+")");*/
-/*		
+				if (gdata.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP)
+					print ("gesture (label="+gdata.label+")");
+ 			
+ 			PXCMGesture.GeoNode ndata;
+			if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY,out ndata))
+ 			{
+ 				if (ndata.side == PXCMGesture.GeoNode.Side.LABEL_LEFT)
+ 					print ("geonode handLEFT (x="+ndata.positionWorld.x+", y="+ndata.positionWorld.y+") z="+ndata.positionWorld.z+")");
+ 				if (ndata.side == PXCMGesture.GeoNode.Side.LABEL_RIGHT)
+ 					print ("geonode handRIGHT (x="+ndata.positionWorld.x+", y="+ndata.positionWorld.y+") z="+ndata.positionWorld.z+")");
+ 			}
+	
 			pp.ReleaseFrame();
 		}
-			 */
 		
 		if (Input.GetButtonDown("Fire1")) 
 		{		
