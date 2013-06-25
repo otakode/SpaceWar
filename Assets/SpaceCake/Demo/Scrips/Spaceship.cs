@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 public class Spaceship : MonoBehaviour 
 {
@@ -11,9 +13,26 @@ public class Spaceship : MonoBehaviour
 	public Transform laserShotPrefab;
 	public AudioClip soundEffectFire;
 	private Rigidbody cacheRigidbody;
+	
+	//GESTURE TRACK
+	private PXCUPipeline		pp;
+	private int[] 				size=new int[2]{0,0};
+	private PXCUPipeline.Mode 	mode=PXCUPipeline.Mode.GESTURE;
 
 	void Start ()
-	{		
+	{
+		pp=new PXCUPipeline();
+		Debug.Log(pp);
+		if (!pp.Init(mode)) {
+			print("Unable to initialize the PXCUPipeline");
+		}
+		//peut etre pas utile
+		/*if (pp.QueryLabelMapSize(size))
+	        print("LabelMap: width=" + size[0] + ", height=" + size[1]);
+		else if (pp.QueryRGBSize(size))
+			print("RGB: width="+size[0]+", height="+size[1]);*/
+		
+		
 		foreach (Thruster thruster in thrusters)
 		{
 			if (thruster == null) 
@@ -28,8 +47,43 @@ public class Spaceship : MonoBehaviour
 		}
 	}
 	
+	void OnDisable()
+	{
+		this.pp.Close();
+		this.pp.Dispose();
+	}
+	
 	void Update () 
 	{
+		
+		
+		if (!pp.AcquireFrame(false))
+		{
+			Debug.Log("AcquireFrame failed");
+		}
+		else
+		{
+			Debug.Log("win");
+			
+			PXCMGesture.GeoNode ndata;
+			if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_LEFT|PXCMGesture.GeoNode.Label.LABEL_HAND_MIDDLE,out ndata))
+			{
+				print ("test");
+				if (ndata.side == PXCMGesture.GeoNode.Side.LABEL_LEFT)
+					print ("geonode handLEFT (x="+ndata.positionWorld.x+", y="+ndata.positionWorld.y+") z="+ndata.positionWorld.z+")");
+				if (ndata.side == PXCMGesture.GeoNode.Side.LABEL_RIGHT)
+					print ("geonode handRIGHT (x="+ndata.positionWorld.x+", y="+ndata.positionWorld.y+") z="+ndata.positionWorld.z+")");
+			}
+		
+	
+			/*PXCMGesture.Gesture gdata;
+			if (pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_ANY, out gdata))
+				print ("gesture (label="+gdata.label+")");*/
+		
+			pp.ReleaseFrame();
+		}
+		
+		
 		if (Input.GetButtonDown("Fire1")) 
 		{		
 			foreach (Thruster thruster in thrusters) 
@@ -37,6 +91,7 @@ public class Spaceship : MonoBehaviour
 				thruster.StartThruster();
 			}
 		}
+		
 		if (Input.GetButtonUp("Fire1")) 
 		{		
 			foreach (Thruster thruster in thrusters) 
