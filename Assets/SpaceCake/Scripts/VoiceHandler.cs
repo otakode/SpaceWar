@@ -67,7 +67,7 @@ public class VoiceHandler : MonoBehaviour
 		if (this.pp != null && this.pp.AcquireFrame(false))
 		{
 			PXCMVoiceRecognition.Recognition voice;
-			if (this.pp.QueryVoiceRecognized(out voice) && voice.confidence > 20 && voice.label <= this.commands.Length)
+			if (this.pp.QueryVoiceRecognized(out voice) && voice.confidence > 30 && voice.label <= this.commands.Length)
 			{
 				string command = this.commands[voice.label];
 				Debug.Log("Command: " + command);
