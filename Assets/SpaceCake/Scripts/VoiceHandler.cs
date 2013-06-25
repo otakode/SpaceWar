@@ -40,14 +40,14 @@ public class VoiceHandler : MonoBehaviour
 		commandList.Add("Fire");
 		commandList.Add("Activate");
 		commandList.Add("Launch");
-		for (int i = 0; i <= 100; i++)
-		{
-			commandList.Add("Speed at " + i + " percent");
-		}
 		commandList.Add("Stop");
 		commandList.Add("Half speed");
 		commandList.Add("Maximum speed");
 		commandList.Add("Max speed");
+		commandList.Add("Slower");
+		commandList.Add("Speed down");
+		commandList.Add("Faster");
+		commandList.Add("Speed up");
 		this.commands = commandList.ToArray();
 
 	//	this.pp = new PXCUPipeline();
@@ -86,6 +86,14 @@ public class VoiceHandler : MonoBehaviour
 				else if (command == "Maximum speed" || command == "Max speed")
 				{
 					this.ChangeSpeed(100);
+				}
+				else if (command == "Slower" || command == "Speed down")
+				{
+					this.Slower();
+				}
+				else if (command == "Faster" || command == "Speed up")
+				{
+					this.Faster();
 				}
 				else if (command.StartsWith("Speed at "))
 				{
@@ -223,5 +231,19 @@ public class VoiceHandler : MonoBehaviour
 		this.speed = percent;
 		this.GetComponent<Spaceship>().thrusters[0].SetThrusterPower(percent);
 		Debug.Log("Speed at " + percent + " percent.");
+	}
+
+	void Slower()
+	{
+		Thruster thruster = this.GetComponent<Spaceship>().thrusters[0];
+		thruster.SetThrusterPower(Mathf.Max((int)0, (int)(thruster.percent * 100 - 10)));
+		Debug.Log("Speed at " + thruster.percent * 100 + " percent.");
+	}
+
+	void Faster()
+	{
+		Thruster thruster = this.GetComponent<Spaceship>().thrusters[0];
+		thruster.SetThrusterPower(Mathf.Min((int)100, (int)(thruster.percent * 100 + 10)));
+		Debug.Log("Speed at " + thruster.percent * 100 + " percent.");
 	}
 }
