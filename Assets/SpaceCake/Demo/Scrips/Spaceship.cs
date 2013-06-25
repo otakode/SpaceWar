@@ -55,31 +55,26 @@ public class Spaceship : MonoBehaviour
 	
 	void Update () 
 	{
-		
-		
+
 		if (!pp.AcquireFrame(false))
 		{
-			Debug.Log("AcquireFrame failed");
 		}
 		else
 		{
-			Debug.Log("win");
+			PXCMGesture.Gesture gdata;
+			if (pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_ANY, out gdata))
+				if (gdata.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP)
+					print ("gesture (label="+gdata.label+")");
 			
 			PXCMGesture.GeoNode ndata;
-			if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_LEFT|PXCMGesture.GeoNode.Label.LABEL_HAND_MIDDLE,out ndata))
+			if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY,out ndata))
 			{
-				print ("test");
 				if (ndata.side == PXCMGesture.GeoNode.Side.LABEL_LEFT)
 					print ("geonode handLEFT (x="+ndata.positionWorld.x+", y="+ndata.positionWorld.y+") z="+ndata.positionWorld.z+")");
 				if (ndata.side == PXCMGesture.GeoNode.Side.LABEL_RIGHT)
 					print ("geonode handRIGHT (x="+ndata.positionWorld.x+", y="+ndata.positionWorld.y+") z="+ndata.positionWorld.z+")");
 			}
-		
-	
-			/*PXCMGesture.Gesture gdata;
-			if (pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_ANY, out gdata))
-				print ("gesture (label="+gdata.label+")");*/
-		
+
 			pp.ReleaseFrame();
 		}
 		
