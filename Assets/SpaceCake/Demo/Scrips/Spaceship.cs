@@ -64,11 +64,20 @@ public class Spaceship : MonoBehaviour
  		{
 			PXCMGesture.Gesture gdata;
 			if (pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_ANY, out gdata))
+			{
 				if (gdata.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP)
 					print ("gesture (label="+gdata.label+")");
+			}
  			
  			PXCMGesture.GeoNode ndata;
 			if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY,out ndata))
+ 			{
+ 				if (ndata.side == PXCMGesture.GeoNode.Side.LABEL_LEFT)
+ 					print ("geonode handLEFT (x="+ndata.positionWorld.x+", y="+ndata.positionWorld.y+") z="+ndata.positionWorld.z+")");
+ 				if (ndata.side == PXCMGesture.GeoNode.Side.LABEL_RIGHT)
+ 					print ("geonode handRIGHT (x="+ndata.positionWorld.x+", y="+ndata.positionWorld.y+") z="+ndata.positionWorld.z+")");
+ 			}
+			if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_SECONDARY,out ndata))
  			{
  				if (ndata.side == PXCMGesture.GeoNode.Side.LABEL_LEFT)
  					print ("geonode handLEFT (x="+ndata.positionWorld.x+", y="+ndata.positionWorld.y+") z="+ndata.positionWorld.z+")");
