@@ -46,6 +46,8 @@ public class	MainMenu : MonoBehaviour
 				this.options.GetComponent<TextController>().SetColor(this.selectColor);
 				this.actualText = TextMenu.OPTIONS;
 			}
+			else if (Input.GetKeyDown(KeyCode.Return))
+				nav.MoveToPlay();
 		}
 		else if (this.actualText == TextMenu.OPTIONS)
 		{
