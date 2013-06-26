@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 
 public class Spaceship : MonoBehaviour 
 {
+	public int	life = 15;
 	public Thruster[] thrusters;
 	public float rollRate = 100.0f;
 	public float yawRate = 30.0f;
@@ -13,7 +14,12 @@ public class Spaceship : MonoBehaviour
 	public Transform laserShotPrefab;
 	public AudioClip soundEffectFire;
 	private Rigidbody cacheRigidbody;
-
+	
+	public void set_life(int dif)
+	{
+		life += dif;
+	}
+	
 	void Start ()
 	{	
 		
@@ -54,6 +60,8 @@ public class Spaceship : MonoBehaviour
 		{
 			this.Fire();
 		}		
+		if ( life <= 0)
+			Destroy(this.gameObject);
 	}
 	
 	void FixedUpdate ()
