@@ -21,6 +21,7 @@ public class Spaceship : MonoBehaviour
 
 	void Start ()
 	{
+//		OculusMode.on = true;
 		pp = PerCPipeline.GetPipeline();
 //		pp=new PXCUPipeline();
 //		Debug.Log(pp);
