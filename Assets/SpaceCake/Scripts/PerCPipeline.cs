@@ -10,7 +10,7 @@ public class PerCPipeline : MonoBehaviour
 		if (PerCPipeline.pipeline == null)
 		{
 			PerCPipeline.pipeline = new PXCUPipeline();
-			if (PerCPipeline.pipeline.Init(PXCUPipeline.Mode.VOICE_RECOGNITION|PXCUPipeline.Mode.GESTURE))
+			if (PerCPipeline.pipeline.Init(/*PXCUPipeline.Mode.VOICE_RECOGNITION|*/PXCUPipeline.Mode.GESTURE))
 				Debug.Log("initialized Voice Recognition");
 			else
 				Debug.Log("initialize Voice Recognition FAILED");

@@ -94,14 +94,18 @@ public class SpaceChipsController : MonoBehaviour
     void Update()
     {
 		if (pp == null)
+		{
+			print ("test 1");
+			pp = PerCPipeline.GetPipeline();
 			return;
+		}
         float speedFactor;
 		PXCMGesture.GeoNode mainHand;
    		PXCMGesture.GeoNode secondaryHand;
 		
 		checkSpeedFactor(out speedFactor);
 		//Compute the rotation with the hand position
-		print ("test 1");
+		
         if (!pp.AcquireFrame(false)) 
 			return;
 		print ("test 2");
