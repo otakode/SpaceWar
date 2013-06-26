@@ -95,7 +95,6 @@ public class SpaceChipsController : MonoBehaviour
     {
 		if (pp == null)
 		{
-			print ("test 1");
 			pp = PerCPipeline.GetPipeline();
 			return;
 		}
@@ -108,10 +107,7 @@ public class SpaceChipsController : MonoBehaviour
 		
         if (!pp.AcquireFrame(false)) 
 			return;
-		print ("test 2");
-      
-		
-		
+			
         if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY | PXCMGesture.GeoNode.Label.LABEL_HAND_MIDDLE, out mainHand) &&
             pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_SECONDARY | PXCMGesture.GeoNode.Label.LABEL_HAND_MIDDLE, out secondaryHand))
 		{
