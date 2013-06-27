@@ -7,12 +7,13 @@ public class VoiceHandler : MonoBehaviour
 {
 	private PXCUPipeline pp;
 	private string[] commands;
-	private delegate void actions(string param);
+//	private delegate void actions(string param);
 
 	private Weapon.Type activeWeapon;
 	private List<Weapon.Type> inventory;
 
 	private int speed;
+	private string command;
 
 	void Start()
 	{
@@ -50,15 +51,73 @@ public class VoiceHandler : MonoBehaviour
 		commandList.Add("Speed up");
 		this.commands = commandList.ToArray();
 
-	//	this.pp = new PXCUPipeline();
 		this.pp = PerCPipeline.GetPipeline();
 		if (this.pp != null)
+		{
 			this.pp.SetVoiceCommands(this.commands);
+			Debug.Log("Voice Handler Init SUCCESS");
+		}
 		else
 			Debug.Log("Voice Handler Init Failed");
+		PerCPipeline.pipelineUpdate += this.pipelineUpdate;
 	}
 
-	void Update()
+	void OnDisable()
+	{
+		PerCPipeline.pipelineUpdate -= this.pipelineUpdate;
+	}
+
+	void pipelineUpdate()
+	{
+		Debug.Log("a");
+		if (Input.GetKeyUp(KeyCode.Space))
+		{
+			this.DropWeapon((Weapon.Type)Random.Range((int)Weapon.Type.Rocket, (int)Weapon.Type.Repair));
+		}
+		PXCMVoiceRecognition.Recognition voice;
+		if (this.pp.QueryVoiceRecognized(out voice) && voice.confidence > 30 && voice.label <= this.commands.Length)
+		{
+			this.command = this.commands[voice.label];
+			if (command == "Fire" || command == "Activate" || command == "Launch")
+			{
+				this.Fire();	
+			}
+			else if (command == "Stop")
+			{
+				this.ChangeSpeed(0);
+			}
+			else if (command == "Half speed")
+			{
+				this.ChangeSpeed(50);
+			}
+			else if (command == "Maximum speed" || command == "Max speed")
+			{
+				this.ChangeSpeed(100);
+			}
+			else if (command == "Slower" || command == "Speed down")
+			{
+				this.Slower();
+			}
+			else if (command == "Faster" || command == "Speed up")
+			{
+				this.Faster();
+			}
+			else if (command.StartsWith("Speed at "))
+			{
+				this.ChangeSpeed(int.Parse(command.Split(new char[]{' '})[2]));
+			}
+			else if (command.StartsWith("Weapon "))
+			{
+				this.ChangeWeapon(int.Parse(command.Substring(command.IndexOf(" ") + 1)));
+			}
+			else
+			{
+				this.ChangeWeapon(command);
+			}
+		}
+	}
+
+/*	void FixedUpdate()
 	{
 		if (Input.GetKeyUp(KeyCode.Space))
 		{
@@ -111,7 +170,7 @@ public class VoiceHandler : MonoBehaviour
 
 			this.pp.ReleaseFrame();
 		}
-	}
+	}*/
 
 	void OnGUI()
 	{

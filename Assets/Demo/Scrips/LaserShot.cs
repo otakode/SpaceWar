@@ -35,7 +35,10 @@ public class LaserShot : MonoBehaviour
 				{		
 					Quaternion _rotation = Quaternion.FromToRotation(Vector3.up, _hit.normal);
 					Instantiate(impactEffect, _hit.point, _rotation);
-					if (Random.Range(0, 20) < 2)
+					if (_hit.transform.tag == "Player")
+						_hit.transform.GetComponent<Spaceship>().set_life(-1);
+					
+					else if (Random.Range(0, 20) < 2)
 					{
 						Instantiate(explosionEffect, _hit.transform.position, _rotation);
 						Destroy(_hit.transform.gameObject);

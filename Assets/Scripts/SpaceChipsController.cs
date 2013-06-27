@@ -30,12 +30,20 @@ public class SpaceChipsController : MonoBehaviour
     void Start()
     {
         pp = PerCPipeline.GetPipeline();
-		if (this.pp == null)
+		if (this.pp != null)
+		{
+			Debug.Log("Control Chips Init Success");
+		}
+		else
+		{
 			Debug.Log("Control Chips Init Failed");
+		}
         currentSpeedFactor = speed;
+		PerCPipeline.pipelineUpdate += this.pipelineUpdate;
     }
 	
-	public float getSpeed(){
+	public float getSpeed()
+	{
 		return currentSpeedFactor;	
 	}
 
@@ -47,12 +55,9 @@ public class SpaceChipsController : MonoBehaviour
             currentSpeedFactor += (currentSpeedFactor * secondAccelerationRate);
     }
 
-    void OnDisable()
+	void OnDisable()
 	{
-		if (pp == null)
-			return;
-		this.pp.Close();
-		//this.pp.Dispose();
+		PerCPipeline.pipelineUpdate -= this.pipelineUpdate;
 	}
 
     public void resetSpeed()
@@ -91,14 +96,9 @@ public class SpaceChipsController : MonoBehaviour
 	}
 	
     // Update is called once per frame
-    void Update()
+    void pipelineUpdate()
     {
-		if (pp == null)
-		{
-			print ("test 1");
-			pp = PerCPipeline.GetPipeline();
-			return;
-		}
+		Debug.Log("b");
         float speedFactor;
 		PXCMGesture.GeoNode mainHand;
    		PXCMGesture.GeoNode secondaryHand;
@@ -106,12 +106,9 @@ public class SpaceChipsController : MonoBehaviour
 		checkSpeedFactor(out speedFactor);
 		//Compute the rotation with the hand position
 		
-        if (!pp.AcquireFrame(false)) 
-			return;
-		print ("test 2");
-      
-		
-		
+    //    if (!pp.AcquireFrame(false)) 
+	//		return;
+			
         if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY | PXCMGesture.GeoNode.Label.LABEL_HAND_MIDDLE, out mainHand) &&
             pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_SECONDARY | PXCMGesture.GeoNode.Label.LABEL_HAND_MIDDLE, out secondaryHand))
 		{
@@ -120,9 +117,10 @@ public class SpaceChipsController : MonoBehaviour
 			if (!calibrated)
 			{
 				calibrate(ref mainHand);
-				pp.ReleaseFrame();
 				return;
-			}else{
+			}
+			else
+			{
 				calibrate(ref mainHand);
 			}
 
@@ -136,33 +134,41 @@ public class SpaceChipsController : MonoBehaviour
 			controlYaw(mainHandY, secondaryHandY);
 			controlPitch(mainHandY, secondaryHandY);
 
-        }else{ calibrated = false; }
-		
-        pp.ReleaseFrame();
+        }
+		else
+		{
+			calibrated = false;
+		}
 
         if (!calibrated) return;
 		
-		checkCollisions(speedFactor);
+		//checkCollisions(speedFactor);
     }
 	
-	void calibrate(ref PXCMGesture.GeoNode mainHand){
+	void calibrate(ref PXCMGesture.GeoNode mainHand)
+	{
 		PXCMGesture.Gesture dataMain;
 		PXCMGesture.Gesture dataSecondary;
-		if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataMain)){
-			if(dataMain.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP){
+		if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataMain))
+		{
+			if(dataMain.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP)
+			{
 				calibrated = true;
 		  			calibrationY = mainHand.positionWorld.y;
 			}
 		}
-		else if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataSecondary)){
-			if(dataSecondary.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP){
+		else if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataSecondary))
+		{
+			if(dataSecondary.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP)
+			{
 				calibrated = true;
-		  			calibrationY = mainHand.positionWorld.y;
+		  		calibrationY = mainHand.positionWorld.y;
 			}
 		}	
 	}
 	
-	bool checkCollide(ref Ray ray, out RaycastHit hit, float distance){
+	bool checkCollide(ref Ray ray, out RaycastHit hit, float distance)
+	{
 		if (Physics.Raycast(ray, out hit, distance))
         {
             return hit.collider.gameObject.tag != "Ring";
@@ -170,45 +176,59 @@ public class SpaceChipsController : MonoBehaviour
 		return false;
 	}
 	
-	bool checkCollisionDown(float speedFactor, out RaycastHit hit){
+	bool checkCollisionDown(float speedFactor, out RaycastHit hit)
+	{
 		Ray rayDown = new Ray(transform.position, -transform.up);
 		return checkCollide(ref rayDown, out hit, DEFAULT_COLLISION_DISTANCE);
 	}
 	
-	bool checkCollisionForward(float speedFactor, out RaycastHit hit){
+	bool checkCollisionForward(float speedFactor, out RaycastHit hit)
+	{
 		Ray rayForward = new Ray(transform.position, transform.forward);
 		return checkCollide(ref rayForward, out hit, FORWARD_COLLISION_DISTANCE);
 	}
 	
-	bool checkCollisionUp(float speedFactor, out RaycastHit hit){
+	bool checkCollisionUp(float speedFactor, out RaycastHit hit)
+	{
 		Ray rayUp = new Ray(transform.position, transform.up);
 		return checkCollide(ref rayUp, out hit, DEFAULT_COLLISION_DISTANCE);
 	}
 	
-	void checkCollisions(float speedFactor){
+	void checkCollisions(float speedFactor)
+	{
 		RaycastHit hit;
-		if(checkCollisionForward(speedFactor, out hit)){
+		if(checkCollisionForward(speedFactor, out hit))
+		{
 			Quaternion target = Quaternion.LookRotation((transform.position + transform.up*3 + transform.forward) - transform.position);
 			transform.rotation = Quaternion.Slerp(transform.rotation, target, speedFactor * (FORWARD_COLLISION_DISTANCE/hit.distance) * Time.deltaTime);
 			transform.position = transform.position + transform.forward * speedFactor/3;
-		}else if(checkCollisionDown(speedFactor, out hit)){
+		}
+		else if(checkCollisionDown(speedFactor, out hit))
+		{
             transform.position = transform.position + transform.forward * speedFactor + Vector3.up * (DEFAULT_COLLISION_DISTANCE - hit.distance) * 0.5f;
-		}else if(checkCollisionUp(speedFactor, out hit)){
+		}
+		else if(checkCollisionUp(speedFactor, out hit))
+		{
             transform.position = transform.position + transform.forward * speedFactor + Vector3.down * (DEFAULT_COLLISION_DISTANCE - hit.distance) * 0.5f;
-		}else{
+		}
+		else
+		{
 			transform.position = transform.position + transform.forward * speedFactor;
 		}
 	}
 
-	void checkHands(ref PXCMGesture.GeoNode mainHand, ref PXCMGesture.GeoNode secondaryHand){
-		if(mainHand.positionWorld.x > secondaryHand.positionWorld.x){
+	void checkHands(ref PXCMGesture.GeoNode mainHand, ref PXCMGesture.GeoNode secondaryHand)
+	{
+		if(mainHand.positionWorld.x > secondaryHand.positionWorld.x)
+		{
 			PXCMGesture.GeoNode temp = mainHand;
 			mainHand = secondaryHand;
 			secondaryHand = temp;
 		}
 	}
 	
-    void controlRoll(float mainHandZ, float secondaryHandZ){
+    void controlRoll(float mainHandZ, float secondaryHandZ)
+	{
 		float speedFactor;
 		checkSpeedFactor(out speedFactor);
 		float roll = mainHandZ - secondaryHandZ;
@@ -218,7 +238,8 @@ public class SpaceChipsController : MonoBehaviour
 		transform.RotateAroundLocal(transform.forward, roll);
 	}
 	
-	void controlYaw(float mainHandY, float secondaryHandY){
+	void controlYaw(float mainHandY, float secondaryHandY)
+	{
 		float speedFactor;
 		checkSpeedFactor(out speedFactor);
 		float yaw = mainHandY - secondaryHandY;
@@ -228,7 +249,8 @@ public class SpaceChipsController : MonoBehaviour
 		transform.RotateAroundLocal(transform.up, yaw);
 	}
 	
-	void controlPitch(float mainHandY, float secondaryHandY){
+	void controlPitch(float mainHandY, float secondaryHandY)
+	{
 		float speedFactor;
 		checkSpeedFactor(out speedFactor);
 		float positionY = (mainHandY<secondaryHandY) ? mainHandY : secondaryHandY;

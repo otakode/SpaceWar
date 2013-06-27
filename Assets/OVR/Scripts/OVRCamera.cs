@@ -231,8 +231,11 @@ public class OVRCamera : OVRComponent
 		// targets are enabled in future Unity 4x release
 		Blit(SourceTexture, null, material, flipImage);
 #else
-		Blit(SourceTexture, destination, material, flipImage);
-		//Graphics.Blit(SourceTexture, destination, material);
+		//Blit(SourceTexture, destination, material, flipImage);
+		if (material != null)
+			Graphics.Blit(SourceTexture, destination, material);
+		else
+			Graphics.Blit(SourceTexture, destination);
 #endif
 		// Run latency test by drawing out quads to the destination buffer
 		LatencyTest(destination);
