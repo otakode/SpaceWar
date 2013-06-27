@@ -33,6 +33,7 @@ public class StartNetwork : MonoBehaviour
 		GameObject		spawn = spawners[rand];
 
 		this.playerInst = Network.Instantiate(this.player, spawn.transform.position, Quaternion.identity, 0) as GameObject;
+		this.playerInst.Truc();
 		camera.GetComponent<CameraInitialiser>().Init(this.playerInst);
 		Debug.LogError("out OnConnectedToServer");
 	}
