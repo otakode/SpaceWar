@@ -12,7 +12,7 @@ public class StartNetwork : MonoBehaviour
 
 	public void	Init()
 	{
-		Application.LoadLevel("game");
+		Application.LoadLevel("Game");
 	}
 
 	void	Update()
@@ -24,7 +24,7 @@ public class StartNetwork : MonoBehaviour
 		DontDestroyOnLoad(this);
 	}
 
-	void	OnConnectedToServer()
+	/*void	OnConnectedToServer()	// Appelé par le joueur JOIN après s'être connecté au serveur avec succès.
 	{
 		GameObject[]	spawners = GameObject.FindGameObjectsWithTag("Spawn");
 		int				rand = Random.Range(0, spawners.Length);
@@ -32,25 +32,25 @@ public class StartNetwork : MonoBehaviour
 
 		this.playerInst = Network.Instantiate(this.player, spawn.transform.position, Quaternion.identity, 0) as GameObject;
 		Camera.mainCamera.GetComponent<CameraController>().Init(playerInst);
-	}
+	}*/
 
-	void	OnServerInitialized()
+	void	OnServerInitialized()	// Appelé par le joueur HOST après s'être connecté au serveur avec succès.
 	{
 		GameObject[]	spawners = GameObject.FindGameObjectsWithTag("Spawn");
 		int				rand = Random.Range(0, spawners.Length);
 		GameObject		spawn = spawners[rand];
 
 		this.playerInst = Network.Instantiate(this.player, spawn.transform.position, Quaternion.identity, 0) as GameObject;
-		this.playerInst.networkView.RPC("CheckPacMan", RPCMode.All);
-		Camera.mainCamera.GetComponent<CameraController>().Init(playerInst);
+		//this.playerInst.networkView.RPC("CheckPacMan", RPCMode.All);
+		//Camera.mainCamera.GetComponent<CameraController>().Init(playerInst);
 	}
 
-	void	OnDisconnectedFromServer(NetworkDisconnection info)
+	/*void	OnDisconnectedFromServer(NetworkDisconnection info)	// Appelé par le joueur JOIN lorsque (la connexion a été perdue/il s'est déconnecté du serveur).
 	{
 		Application.LoadLevel("Menu");
-	}
+	}*/
 
-	void	OnPlayerDisconnected(NetworkPlayer player)
+	void	OnPlayerDisconnected(NetworkPlayer player) // Appelé par le joueur HOST lorsque qu'un joueur s'est déconnecté du serveur).
 	{
 		Network.RemoveRPCs(player);
 		Network.DestroyPlayerObjects(player);
@@ -66,12 +66,12 @@ public class StartNetwork : MonoBehaviour
 			foreach (GameObject go in FindObjectsOfType(typeof(GameObject)))
 				go.SendMessage("OnNetworkLoadedLevel", SendMessageOptions.DontRequireReceiver);
 		}
-		else
+	/*	else
 		{
 			Network.Connect(this.remoteIp, this.listenPort);
-		}
+		}*/
 
-		if (Application.loadedLevelName == "mainMenu")
+		if (Application.loadedLevelName == "Menu")
 			Destroy(this.gameObject);
 
 		foreach (GameObject go in FindObjectsOfType(typeof(GameObject)))
