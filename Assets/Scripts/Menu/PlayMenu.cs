@@ -6,11 +6,17 @@ public class	PlayMenu : MonoBehaviour
 	public GameObject	host = null;
 	public GameObject	join = null;
 	public GameObject[]	rooms = null;
-	/*public GameObject	about = null;
-	public GameObject	quit = null;*/
+	
 	public Color		normalColor = Color.white;
 	public Color		roomSelectColor = Color.red;
 	public Color		selectColor = Color.blue;
+
+	public GameObject	networkMaster;
+
+	private GameObject		instantiatedMaster;
+	private StartNetwork	scriptStartNet;
+	private string			serverIp = "127.0.0.1";
+	private int				serverPort = 4242;
 
 	private TextMenu	actualText;
 	private bool		scrollRoom;
@@ -40,6 +46,25 @@ public class	PlayMenu : MonoBehaviour
 	
 	}
 
+	private void	JoinServer()
+	{
+		this.instantiatedMaster = Instantiate(this.networkMaster, Vector3.zero, Quaternion.identity) as GameObject;
+		this.scriptStartNet = this.instantiatedMaster.GetComponent<StartNetwork>();
+		this.scriptStartNet.server = false;
+		this.scriptStartNet.remoteIp = this.serverIp;
+		this.scriptStartNet.listenPort = this.serverPort;
+		this.scriptStartNet.Init();
+	}
+
+	private void	HostServer()
+	{
+		this.instantiatedMaster = Instantiate(this.networkMaster, Vector3.zero, Quaternion.identity) as GameObject;
+		this.scriptStartNet = this.instantiatedMaster.GetComponent<StartNetwork>();
+		this.scriptStartNet.server = true;
+		this.scriptStartNet.listenPort = this.serverPort;
+		this.scriptStartNet.Init();
+	}
+
 	public void	SelectMenu(NavigatorMenu nav)
 	{
 		//print("this.actualText = " + this.actualText);
@@ -53,6 +78,7 @@ public class	PlayMenu : MonoBehaviour
 			}
 			else if (Input.GetKeyDown(KeyCode.Return))
 			{
+				this.HostServer();
 			}
 			else if (Input.GetKeyDown(KeyCode.Escape))
 				nav.MoveToMain();
