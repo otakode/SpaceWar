@@ -59,12 +59,12 @@ public class VoiceHandler : MonoBehaviour
 		}
 		else
 			Debug.Log("Voice Handler Init Failed");
-		PerCPipeline.pipelineUpdate += this.pipelineUpdate;
+		//PerCPipeline.pipelineUpdate += this.pipelineUpdate;
 	}
 
 	void OnDisable()
 	{
-		PerCPipeline.pipelineUpdate -= this.pipelineUpdate;
+		//PerCPipeline.pipelineUpdate -= this.pipelineUpdate;
 	}
 
 	void pipelineUpdate(PerCPipeline.PipelineData data)

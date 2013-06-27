@@ -31,7 +31,7 @@ public class PerCPipeline : MonoBehaviour
 		if (PerCPipeline.pipeline == null)
 		{
 			PerCPipeline.pipeline = new PXCUPipeline();
-			if (PerCPipeline.pipeline.Init(PXCUPipeline.Mode.VOICE_RECOGNITION | PXCUPipeline.Mode.GESTURE))
+			if (PerCPipeline.pipeline.Init(/*PXCUPipeline.Mode.VOICE_RECOGNITION | */PXCUPipeline.Mode.GESTURE))
 				Debug.Log("Pipeline initialized");
 			else
 				Debug.Log("initialize Pipeline FAILED");
@@ -60,7 +60,7 @@ public class PerCPipeline : MonoBehaviour
 		data.hasSecondaryHand = PerCPipeline.pipeline.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_SECONDARY | PXCMGesture.GeoNode.Label.LABEL_HAND_MIDDLE, out data.secondaryHand);
 		data.hasMainGesture = PerCPipeline.pipeline.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out data.mainGesture);
 		data.hasSecondaryGesture = PerCPipeline.pipeline.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out data.secondaryGesture);
-		data.hasVoice = PerCPipeline.pipeline.QueryVoiceRecognized(out data.voice);
+		//data.hasVoice = PerCPipeline.pipeline.QueryVoiceRecognized(out data.voice);
 
 		PerCPipeline.pipeline.ReleaseFrame();
 
