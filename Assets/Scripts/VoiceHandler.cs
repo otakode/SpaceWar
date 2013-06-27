@@ -59,25 +59,24 @@ public class VoiceHandler : MonoBehaviour
 		}
 		else
 			Debug.Log("Voice Handler Init Failed");
-		PerCPipeline.pipelineUpdate += this.pipelineUpdate;
+		//PerCPipeline.pipelineUpdate += this.pipelineUpdate;
 	}
 
 	void OnDisable()
 	{
-		PerCPipeline.pipelineUpdate -= this.pipelineUpdate;
+		//PerCPipeline.pipelineUpdate -= this.pipelineUpdate;
 	}
 
-	void pipelineUpdate()
+	void pipelineUpdate(PerCPipeline.PipelineData data)
 	{
 		Debug.Log("a");
 		if (Input.GetKeyUp(KeyCode.Space))
 		{
 			this.DropWeapon((Weapon.Type)Random.Range((int)Weapon.Type.Rocket, (int)Weapon.Type.Repair));
 		}
-		PXCMVoiceRecognition.Recognition voice;
-		if (this.pp.QueryVoiceRecognized(out voice) && voice.confidence > 30 && voice.label <= this.commands.Length)
+		if (data.hasVoice && data.voice.confidence > 30 && data.voice.label <= this.commands.Length)
 		{
-			this.command = this.commands[voice.label];
+			this.command = this.commands[data.voice.label];
 			if (command == "Fire" || command == "Activate" || command == "Launch")
 			{
 				this.Fire();	

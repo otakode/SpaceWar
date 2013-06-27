@@ -96,7 +96,7 @@ public class SpaceChipsController : MonoBehaviour
 	}
 	
     // Update is called once per frame
-    void pipelineUpdate()
+    void pipelineUpdate(PerCPipeline.PipelineData data)
     {
 		Debug.Log("b");
         float speedFactor;
@@ -109,26 +109,25 @@ public class SpaceChipsController : MonoBehaviour
     //    if (!pp.AcquireFrame(false)) 
 	//		return;
 			
-        if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY | PXCMGesture.GeoNode.Label.LABEL_HAND_MIDDLE, out mainHand) &&
-            pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_SECONDARY | PXCMGesture.GeoNode.Label.LABEL_HAND_MIDDLE, out secondaryHand))
+        if (data.hasMainHand && data.hasSecondaryHand)
 		{
-            checkHands(ref mainHand, ref secondaryHand);
+            checkHands(ref data.mainHand, ref data.secondaryHand);
 						
 			if (!calibrated)
 			{
-				calibrate(ref mainHand);
+				calibrate(ref data);
 				return;
 			}
 			else
 			{
-				calibrate(ref mainHand);
+				calibrate(ref data);
 			}
 
-			float mainHandY = mainHand.positionWorld.y;
-			float mainHandZ = mainHand.positionWorld.z;
+			float mainHandY = data.mainHand.positionWorld.y;
+			float mainHandZ = data.mainHand.positionWorld.z;
 			
-			float secondaryHandY = secondaryHand.positionWorld.y;
-			float secondaryHandZ = secondaryHand.positionWorld.z;
+			float secondaryHandY = data.secondaryHand.positionWorld.y;
+			float secondaryHandZ = data.secondaryHand.positionWorld.z;
 			
 			controlRoll(mainHandZ, secondaryHandZ);
 			controlYaw(mainHandY, secondaryHandY);
@@ -145,24 +144,22 @@ public class SpaceChipsController : MonoBehaviour
 		//checkCollisions(speedFactor);
     }
 	
-	void calibrate(ref PXCMGesture.GeoNode mainHand)
+	void calibrate(ref PerCPipeline.PipelineData data)
 	{
-		PXCMGesture.Gesture dataMain;
-		PXCMGesture.Gesture dataSecondary;
-		if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataMain))
+		if(data.hasMainGesture)
 		{
-			if(dataMain.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP)
+			if(data.mainGesture.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP)
 			{
 				calibrated = true;
-		  			calibrationY = mainHand.positionWorld.y;
+		  			calibrationY = data.mainHand.positionWorld.y;
 			}
 		}
-		else if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataSecondary))
+		else if(data.hasSecondaryGesture)
 		{
-			if(dataSecondary.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP)
+			if(data.secondaryGesture.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP)
 			{
 				calibrated = true;
-		  		calibrationY = mainHand.positionWorld.y;
+		  		calibrationY = data.mainHand.positionWorld.y;
 			}
 		}	
 	}
