@@ -48,6 +48,7 @@ public class	PlayMenu : MonoBehaviour
 
 	private void	JoinServer()
 	{
+		Debug.LogError("inJoinSever");
 		this.instantiatedMaster = Instantiate(this.networkMaster, Vector3.zero, Quaternion.identity) as GameObject;
 		this.scriptStartNet = this.instantiatedMaster.GetComponent<StartNetwork>();
 		this.scriptStartNet.server = false;
@@ -61,6 +62,7 @@ public class	PlayMenu : MonoBehaviour
 		this.instantiatedMaster = Instantiate(this.networkMaster, Vector3.zero, Quaternion.identity) as GameObject;
 		this.scriptStartNet = this.instantiatedMaster.GetComponent<StartNetwork>();
 		this.scriptStartNet.server = true;
+		this.scriptStartNet.remoteIp = this.serverIp;
 		this.scriptStartNet.listenPort = this.serverPort;
 		this.scriptStartNet.Init();
 	}
@@ -129,6 +131,10 @@ public class	PlayMenu : MonoBehaviour
 						++this.actualRoom;
 					this.rooms[this.actualRoom].GetComponent<TextController>().SetColor(this.roomSelectColor);
 					//this.scrollRoom = false;
+				}
+				else if (Input.GetKeyDown(KeyCode.Return))
+				{
+					this.JoinServer();
 				}
 				else if (Input.GetKeyDown(KeyCode.Escape))
 				{
