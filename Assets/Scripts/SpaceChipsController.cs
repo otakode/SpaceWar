@@ -29,21 +29,21 @@ public class SpaceChipsController : MonoBehaviour
 
 	public float nonPlayingSpeed = 5f;
 	
+    private PXCUPipeline.Mode mode = PXCUPipeline.Mode.GESTURE;
     private PXCUPipeline pp;
 
     // Use this for initialization
     void Start()
     {
-        pp = PerCPipeline.GetPipeline();
-		if (this.pp != null)
+        pp = new PXCUPipeline();
+        if (this.pp != null && this.pp.Init(mode))
 		{
-			Debug.Log("Control Chips Init Success");
+			Debug.Log("Space Chips Init SUCCESS");
 		}
 		else
-		{
-			Debug.Log("Control Chips Init Failed");
-		}
+			Debug.Log("Space Chips Init Failed");
         currentSpeedFactor = speed;
+<<<<<<< HEAD
 		PerCPipeline.pipelineUpdate += this.pipelineUpdate;
 
 		cacheRigidbody = rigidbody;
@@ -51,10 +51,11 @@ public class SpaceChipsController : MonoBehaviour
 		{
 			Debug.LogError("Spaceship has no rigidbody - the thruster scripts will fail. Add rigidbody component to the spaceship.");
 		}
+=======
+>>>>>>> 63880da3c95fd4a0cd86dcb2341cde56010ad9ac
     }
 	
-	public float getSpeed()
-	{
+	public float getSpeed(){
 		return currentSpeedFactor;	
 	}
 
@@ -66,10 +67,10 @@ public class SpaceChipsController : MonoBehaviour
             currentSpeedFactor += (currentSpeedFactor * secondAccelerationRate);
     }
 
-	void OnDisable()
-	{
-		PerCPipeline.pipelineUpdate -= this.pipelineUpdate;
-	}
+    void OnDisable()
+    {
+        pp.Close();
+    }
 
     public void resetSpeed()
     {
@@ -105,6 +106,7 @@ public class SpaceChipsController : MonoBehaviour
 		if(speed <=1f)
 			speed = 1f;
 	}
+<<<<<<< HEAD
 
 	void Update()
 	{
@@ -137,78 +139,71 @@ public class SpaceChipsController : MonoBehaviour
 		cacheRigidbody.AddRelativeTorque(new Vector3(0, Input.GetAxis("Horizontal") * yawRate * cacheRigidbody.mass, 0));
 		cacheRigidbody.AddRelativeTorque(new Vector3(Input.GetAxis("Vertical") * pitchRate * cacheRigidbody.mass, 0, 0));
 	}
+=======
+>>>>>>> 63880da3c95fd4a0cd86dcb2341cde56010ad9ac
 	
     // Update is called once per frame
-    void pipelineUpdate(PerCPipeline.PipelineData data)
+    void Update()
     {
-		Debug.Log("b");
         float speedFactor;
 		PXCMGesture.GeoNode mainHand;
    		PXCMGesture.GeoNode secondaryHand;
 		
 		checkSpeedFactor(out speedFactor);
 		//Compute the rotation with the hand position
+        if (!pp.AcquireFrame(false)) return;
 		
-    //    if (!pp.AcquireFrame(false)) 
-	//		return;
-			
-        if (data.hasMainHand && data.hasSecondaryHand)
+        if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out mainHand) &&
+            pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_SECONDARY, out secondaryHand))
 		{
-            checkHands(ref data.mainHand, ref data.secondaryHand);
+            checkHands(ref mainHand, ref secondaryHand);
 						
 			if (!calibrated)
 			{
-				calibrate(ref data);
+				calibrate(ref mainHand);
+				pp.ReleaseFrame();
 				return;
-			}
-			else
-			{
-				calibrate(ref data);
+			}else{
+				calibrate(ref mainHand);
 			}
 
-			float mainHandY = data.mainHand.positionWorld.y;
-			float mainHandZ = data.mainHand.positionWorld.z;
+			float mainHandY = mainHand.positionWorld.y;
+			float mainHandZ = mainHand.positionWorld.z;
 			
-			float secondaryHandY = data.secondaryHand.positionWorld.y;
-			float secondaryHandZ = data.secondaryHand.positionWorld.z;
+			float secondaryHandY = secondaryHand.positionWorld.y;
+			float secondaryHandZ = secondaryHand.positionWorld.z;
 			
 			controlRoll(mainHandZ, secondaryHandZ);
 			controlYaw(mainHandY, secondaryHandY);
 			controlPitch(mainHandY, secondaryHandY);
 
-        }
-		else
-		{
-			calibrated = false;
-		}
+        }else{ calibrated = false; }
+		
+        pp.ReleaseFrame();
 
         if (!calibrated) return;
 		
 		//checkCollisions(speedFactor);
     }
 	
-	void calibrate(ref PerCPipeline.PipelineData data)
-	{
-		if(data.hasMainGesture)
-		{
-			if(data.mainGesture.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP)
-			{
+	void calibrate(ref PXCMGesture.GeoNode mainHand){
+		PXCMGesture.Gesture dataMain;
+		PXCMGesture.Gesture dataSecondary;
+		if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataMain)){
+			if(dataMain.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP){
 				calibrated = true;
-		  			calibrationY = data.mainHand.positionWorld.y;
+		  			calibrationY = mainHand.positionWorld.y;
 			}
 		}
-		else if(data.hasSecondaryGesture)
-		{
-			if(data.secondaryGesture.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP)
-			{
+		else if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataSecondary)){
+			if(dataSecondary.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP){
 				calibrated = true;
-		  		calibrationY = data.mainHand.positionWorld.y;
+		  			calibrationY = mainHand.positionWorld.y;
 			}
 		}	
 	}
 	
-	bool checkCollide(ref Ray ray, out RaycastHit hit, float distance)
-	{
+	bool checkCollide(ref Ray ray, out RaycastHit hit, float distance){
 		if (Physics.Raycast(ray, out hit, distance))
         {
             return hit.collider.gameObject.tag != "Ring";
@@ -216,59 +211,45 @@ public class SpaceChipsController : MonoBehaviour
 		return false;
 	}
 	
-	bool checkCollisionDown(float speedFactor, out RaycastHit hit)
-	{
+	bool checkCollisionDown(float speedFactor, out RaycastHit hit){
 		Ray rayDown = new Ray(transform.position, -transform.up);
 		return checkCollide(ref rayDown, out hit, DEFAULT_COLLISION_DISTANCE);
 	}
 	
-	bool checkCollisionForward(float speedFactor, out RaycastHit hit)
-	{
+	bool checkCollisionForward(float speedFactor, out RaycastHit hit){
 		Ray rayForward = new Ray(transform.position, transform.forward);
 		return checkCollide(ref rayForward, out hit, FORWARD_COLLISION_DISTANCE);
 	}
 	
-	bool checkCollisionUp(float speedFactor, out RaycastHit hit)
-	{
+	bool checkCollisionUp(float speedFactor, out RaycastHit hit){
 		Ray rayUp = new Ray(transform.position, transform.up);
 		return checkCollide(ref rayUp, out hit, DEFAULT_COLLISION_DISTANCE);
 	}
 	
-	void checkCollisions(float speedFactor)
-	{
+	void checkCollisions(float speedFactor){
 		RaycastHit hit;
-		if(checkCollisionForward(speedFactor, out hit))
-		{
+		if(checkCollisionForward(speedFactor, out hit)){
 			Quaternion target = Quaternion.LookRotation((transform.position + transform.up*3 + transform.forward) - transform.position);
 			transform.rotation = Quaternion.Slerp(transform.rotation, target, speedFactor * (FORWARD_COLLISION_DISTANCE/hit.distance) * Time.deltaTime);
 			transform.position = transform.position + transform.forward * speedFactor/3;
-		}
-		else if(checkCollisionDown(speedFactor, out hit))
-		{
+		}else if(checkCollisionDown(speedFactor, out hit)){
             transform.position = transform.position + transform.forward * speedFactor + Vector3.up * (DEFAULT_COLLISION_DISTANCE - hit.distance) * 0.5f;
-		}
-		else if(checkCollisionUp(speedFactor, out hit))
-		{
+		}else if(checkCollisionUp(speedFactor, out hit)){
             transform.position = transform.position + transform.forward * speedFactor + Vector3.down * (DEFAULT_COLLISION_DISTANCE - hit.distance) * 0.5f;
-		}
-		else
-		{
+		}else{
 			transform.position = transform.position + transform.forward * speedFactor;
 		}
 	}
 
-	void checkHands(ref PXCMGesture.GeoNode mainHand, ref PXCMGesture.GeoNode secondaryHand)
-	{
-		if(mainHand.positionWorld.x > secondaryHand.positionWorld.x)
-		{
+	void checkHands(ref PXCMGesture.GeoNode mainHand, ref PXCMGesture.GeoNode secondaryHand){
+		if(mainHand.positionWorld.x > secondaryHand.positionWorld.x){
 			PXCMGesture.GeoNode temp = mainHand;
 			mainHand = secondaryHand;
 			secondaryHand = temp;
 		}
 	}
 	
-    void controlRoll(float mainHandZ, float secondaryHandZ)
-	{
+    void controlRoll(float mainHandZ, float secondaryHandZ){
 		float speedFactor;
 		checkSpeedFactor(out speedFactor);
 		float roll = mainHandZ - secondaryHandZ;
@@ -278,8 +259,7 @@ public class SpaceChipsController : MonoBehaviour
 		transform.RotateAroundLocal(transform.forward, roll);
 	}
 	
-	void controlYaw(float mainHandY, float secondaryHandY)
-	{
+	void controlYaw(float mainHandY, float secondaryHandY){
 		float speedFactor;
 		checkSpeedFactor(out speedFactor);
 		float yaw = mainHandY - secondaryHandY;
@@ -289,8 +269,7 @@ public class SpaceChipsController : MonoBehaviour
 		transform.RotateAroundLocal(transform.up, yaw);
 	}
 	
-	void controlPitch(float mainHandY, float secondaryHandY)
-	{
+	void controlPitch(float mainHandY, float secondaryHandY){
 		float speedFactor;
 		checkSpeedFactor(out speedFactor);
 		float positionY = (mainHandY<secondaryHandY) ? mainHandY : secondaryHandY;
