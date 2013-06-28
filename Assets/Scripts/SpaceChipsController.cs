@@ -43,16 +43,12 @@ public class SpaceChipsController : MonoBehaviour
 		else
 			Debug.Log("Space Chips Init Failed");
         currentSpeedFactor = speed;
-<<<<<<< HEAD
-		PerCPipeline.pipelineUpdate += this.pipelineUpdate;
 
 		cacheRigidbody = rigidbody;
 		if (cacheRigidbody == null)
 		{
 			Debug.LogError("Spaceship has no rigidbody - the thruster scripts will fail. Add rigidbody component to the spaceship.");
 		}
-=======
->>>>>>> 63880da3c95fd4a0cd86dcb2341cde56010ad9ac
     }
 	
 	public float getSpeed(){
@@ -106,32 +102,6 @@ public class SpaceChipsController : MonoBehaviour
 		if(speed <=1f)
 			speed = 1f;
 	}
-<<<<<<< HEAD
-
-	void Update()
-	{
-		Thruster[] thrusters = this.transform.GetComponent<Spaceship>().thrusters;
-		if (Input.GetButtonDown("Fire1")) 
-		{		
-			foreach (Thruster thruster in thrusters) 
-			{
-				thruster.SetThrusterPower(50);
-			}
-		}
-		
-		if (Input.GetButtonUp("Fire1")) 
-		{		
-			foreach (Thruster thruster in thrusters) 
-			{
-				thruster.SetThrusterPower(0);
-			}
-		}
-		
-		if (Input.GetButtonDown("Fire2")) 
-		{
-			this.transform.GetComponent<Spaceship>().Fire();
-		}
-	}
 
 	void FixedUpdate()
 	{
@@ -139,8 +109,6 @@ public class SpaceChipsController : MonoBehaviour
 		cacheRigidbody.AddRelativeTorque(new Vector3(0, Input.GetAxis("Horizontal") * yawRate * cacheRigidbody.mass, 0));
 		cacheRigidbody.AddRelativeTorque(new Vector3(Input.GetAxis("Vertical") * pitchRate * cacheRigidbody.mass, 0, 0));
 	}
-=======
->>>>>>> 63880da3c95fd4a0cd86dcb2341cde56010ad9ac
 	
     // Update is called once per frame
     void Update()
@@ -148,7 +116,29 @@ public class SpaceChipsController : MonoBehaviour
         float speedFactor;
 		PXCMGesture.GeoNode mainHand;
    		PXCMGesture.GeoNode secondaryHand;
-		
+
+		Thruster[] thrusters = this.transform.GetComponent<Spaceship>().thrusters;
+		if (Input.GetButtonDown("Fire1"))
+		{
+			foreach (Thruster thruster in thrusters)
+			{
+				thruster.SetThrusterPower(50);
+			}
+		}
+
+		if (Input.GetButtonUp("Fire1"))
+		{
+			foreach (Thruster thruster in thrusters)
+			{
+				thruster.SetThrusterPower(0);
+			}
+		}
+
+		if (Input.GetButtonDown("Fire2"))
+		{
+			this.transform.GetComponent<Spaceship>().Fire();
+		}
+
 		checkSpeedFactor(out speedFactor);
 		//Compute the rotation with the hand position
         if (!pp.AcquireFrame(false)) return;
