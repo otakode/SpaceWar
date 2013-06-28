@@ -180,13 +180,13 @@ public class SpaceChipsController : MonoBehaviour
 		PXCMGesture.Gesture dataMain;
 		PXCMGesture.Gesture dataSecondary;
 		if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataMain)){
-			if(dataMain.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP){
+			if(dataMain.label == PXCMGesture.Gesture.Label.LABEL_POSE_BIG5){
 				calibrated = true;
 		  			calibrationY = mainHand.positionWorld.y;
 			}
 		}
 		else if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataSecondary)){
-			if(dataSecondary.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP){
+			if(dataSecondary.label == PXCMGesture.Gesture.Label.LABEL_POSE_BIG5){
 				calibrated = true;
 		  			calibrationY = mainHand.positionWorld.y;
 			}
