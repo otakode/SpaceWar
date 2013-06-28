@@ -21,7 +21,12 @@ public class SpaceChipsController : MonoBehaviour
     private float currentSpeedFactor;
     private bool calibrated = false;
     private float calibrationY;
-	
+
+	public float rollRate = 100.0f;
+	public float yawRate = 30.0f;
+	public float pitchRate = 100.0f;
+	private Rigidbody cacheRigidbody;
+
 	public float nonPlayingSpeed = 5f;
 	
     private PXCUPipeline pp;
@@ -40,6 +45,12 @@ public class SpaceChipsController : MonoBehaviour
 		}
         currentSpeedFactor = speed;
 		PerCPipeline.pipelineUpdate += this.pipelineUpdate;
+
+		cacheRigidbody = rigidbody;
+		if (cacheRigidbody == null)
+		{
+			Debug.LogError("Spaceship has no rigidbody - the thruster scripts will fail. Add rigidbody component to the spaceship.");
+		}
     }
 	
 	public float getSpeed()
@@ -97,7 +108,7 @@ public class SpaceChipsController : MonoBehaviour
 
 	void Update()
 	{
-		Thruster[] thrusters = this.transform.parent.GetComponent<Spaceship>().thrusters;
+		Thruster[] thrusters = this.transform.GetComponent<Spaceship>().thrusters;
 		if (Input.GetButtonDown("Fire1")) 
 		{		
 			foreach (Thruster thruster in thrusters) 
@@ -116,8 +127,15 @@ public class SpaceChipsController : MonoBehaviour
 		
 		if (Input.GetButtonDown("Fire2")) 
 		{
-			this.transform.parent.GetComponent<Spaceship>().Fire();
+			this.transform.GetComponent<Spaceship>().Fire();
 		}
+	}
+
+	void FixedUpdate()
+	{
+		cacheRigidbody.AddRelativeTorque(new Vector3(0, 0, -Input.GetAxis("Horizontal") * rollRate * cacheRigidbody.mass));
+		cacheRigidbody.AddRelativeTorque(new Vector3(0, Input.GetAxis("Horizontal") * yawRate * cacheRigidbody.mass, 0));
+		cacheRigidbody.AddRelativeTorque(new Vector3(Input.GetAxis("Vertical") * pitchRate * cacheRigidbody.mass, 0, 0));
 	}
 	
     // Update is called once per frame

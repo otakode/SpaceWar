@@ -6,11 +6,11 @@ public class StartNetwork : MonoBehaviour
 	public bool			server;
 	public int			listenPort = 4141;
 	public string		remoteIp;
-	public GameObject	ship;
 	public GameObject	player;
+	public GameObject	meteor;
 
-	private GameObject	shipInst = null;
 	private GameObject	playerInst = null;
+	private GameObject	meteorInst = null;
 
 	public void	Init()
 	{
@@ -41,11 +41,13 @@ public class StartNetwork : MonoBehaviour
 		int				rand = Random.Range(0, spawners.Length);
 		GameObject		spawn = spawners[rand];
 
-		this.shipInst = Network.Instantiate(this.ship, spawn.transform.position, Quaternion.identity, 0) as GameObject;
-		this.playerInst = Instantiate(this.player) as GameObject;
-		this.playerInst.transform.parent = this.shipInst.transform;
-		this.playerInst.transform.position = this.shipInst.transform.position;
-		this.shipInst.transform.FindChild("model3D noCockpit noThruster").gameObject.SetActive(false);
+		this.playerInst = Network.Instantiate(this.player, spawn.transform.position, Quaternion.identity, 0) as GameObject;
+
+		this.playerInst.transform.FindChild("model3D noCockpit noThruster").gameObject.SetActive(false);
+		this.playerInst.transform.GetComponent<SpaceChipsController>().enabled = true;
+		this.playerInst.transform.GetComponent<VoiceHandler>().enabled = true;
+		this.playerInst.transform.FindChild("Camera").gameObject.SetActive(true);
+		this.playerInst.transform.FindChild("Cockpit").gameObject.SetActive(true);
 	}
 
 	void	OnServerInitialized()	// Appelé par le joueur HOST après s'être connecté au serveur avec succès.
@@ -53,6 +55,7 @@ public class StartNetwork : MonoBehaviour
 		Debug.LogError(" in OnServerInitialized");
 
 		this.InitPlayer();
+//		this.meteorInst = Instantiate(this.meteor) as GameObject; 
 
 		//this.playerInst = Network.Instantiate(this.player, spawn.transform.position, Quaternion.identity, 0) as GameObject;
 		//this.playerInst.networkView.RPC("CheckPacMan", RPCMode.All);

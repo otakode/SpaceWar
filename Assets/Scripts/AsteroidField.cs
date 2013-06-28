@@ -160,7 +160,8 @@ public class AsteroidField : MonoBehaviour
 				_newPosition = _cacheTransform.position + Random.onUnitSphere * _distanceToSpawn;
 			else
 				_newPosition = _cacheTransform.position + Random.insideUnitSphere * _distanceToSpawn;
-			Transform _newAsteroid = (Transform) Instantiate(_newAsteroidPrefab, _newPosition, _cacheTransform.rotation);			
+			Transform _newAsteroid = (Transform) Network.Instantiate(_newAsteroidPrefab, _newPosition, _cacheTransform.rotation, 0);
+			//Transform _newAsteroid = (Transform) Instantiate(_newAsteroidPrefab, _newPosition, _cacheTransform.rotation);			
 			switch (WeightedRandom(_materialList)) 
 			{
 				case "VeryCommon":
