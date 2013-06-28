@@ -31,7 +31,12 @@ public class SpaceChipsController : MonoBehaviour
     void Start()
     {
         pp = new PXCUPipeline();
-        pp.Init(mode);
+        if (this.pp != null && this.pp.Init(mode))
+		{
+			Debug.Log("Space Chips Init SUCCESS");
+		}
+		else
+			Debug.Log("Space Chips Init Failed");
         currentSpeedFactor = speed;
     }
 	
