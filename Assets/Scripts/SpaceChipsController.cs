@@ -102,8 +102,6 @@ public class SpaceChipsController : MonoBehaviour
 		checkSpeedFactor(out speedFactor);
 		//Compute the rotation with the hand position
         if (!pp.AcquireFrame(false)) return;
-      
-		
 		
         if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY | PXCMGesture.GeoNode.Label.LABEL_HAND_MIDDLE, out mainHand) &&
             pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_SECONDARY | PXCMGesture.GeoNode.Label.LABEL_HAND_MIDDLE, out secondaryHand))
@@ -135,7 +133,7 @@ public class SpaceChipsController : MonoBehaviour
 
         if (!calibrated) return;
 		
-		checkCollisions(speedFactor);
+		//checkCollisions(speedFactor);
     }
 	
 	void calibrate(ref PXCMGesture.GeoNode mainHand){
