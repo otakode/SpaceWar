@@ -40,26 +40,6 @@ public class Spaceship : MonoBehaviour
 	void Update () 
 	{
 		
-		if (Input.GetButtonDown("Fire1")) 
-		{		
-			foreach (Thruster thruster in thrusters) 
-			{
-				thruster.SetThrusterPower(50);
-			}
-		}
-		
-		if (Input.GetButtonUp("Fire1")) 
-		{		
-			foreach (Thruster thruster in thrusters) 
-			{
-				thruster.SetThrusterPower(0);
-			}
-		}
-		
-		if (Input.GetButtonDown("Fire2")) 
-		{
-			this.Fire();
-		}		
 		if ( life <= 0)
 			Destroy(this.gameObject);
 	}

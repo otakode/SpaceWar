@@ -94,6 +94,31 @@ public class SpaceChipsController : MonoBehaviour
 		if(speed <=1f)
 			speed = 1f;
 	}
+
+	void Update()
+	{
+		Thruster[] thrusters = this.transform.parent.GetComponent<Spaceship>().thrusters;
+		if (Input.GetButtonDown("Fire1")) 
+		{		
+			foreach (Thruster thruster in thrusters) 
+			{
+				thruster.SetThrusterPower(50);
+			}
+		}
+		
+		if (Input.GetButtonUp("Fire1")) 
+		{		
+			foreach (Thruster thruster in thrusters) 
+			{
+				thruster.SetThrusterPower(0);
+			}
+		}
+		
+		if (Input.GetButtonDown("Fire2")) 
+		{
+			this.transform.parent.GetComponent<Spaceship>().Fire();
+		}
+	}
 	
     // Update is called once per frame
     void pipelineUpdate(PerCPipeline.PipelineData data)

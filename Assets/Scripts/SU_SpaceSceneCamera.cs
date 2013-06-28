@@ -33,7 +33,7 @@ using System.Collections;
 
 public class SU_SpaceSceneCamera : MonoBehaviour {
 	// Reference to parent camera to sync rotation and FOV (field of view)
-	public Camera parentCamera;
+	public Transform parentCamera;
 	// Whether or not SpaceCamera should change FOV if parent camera FOV is changed
 	public bool inheritFOV = true;
 	// Relative speed if you wish to move within the space scene, 
@@ -56,7 +56,7 @@ public class SU_SpaceSceneCamera : MonoBehaviour {
 			// No parent camera has been set, assume that main camera is used
 			if (Camera.mainCamera != null) {
 				// Set parent camera to main camera.
-				parentCamera = Camera.mainCamera;							
+				parentCamera = Camera.mainCamera.transform;							
 			} else {				
 				// No main camera found - throw a fit...
 				Debug.LogWarning ("You have not specified a parent camera to the space background camera and there is no main camera in your scene. " +
@@ -66,7 +66,7 @@ public class SU_SpaceSceneCamera : MonoBehaviour {
 		
 		if (parentCamera != null) {
 			// Cache the transform to the parent camera to increase performance
-			_transformCacheParentCamera = parentCamera.transform;							
+			_transformCacheParentCamera = parentCamera;							
 		}
 		
 		// Set the original position of the transform which is used for relative movement
