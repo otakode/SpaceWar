@@ -11,9 +11,9 @@ public class LaserShot : MonoBehaviour
 	
 	private Vector3		_velocity;
 	private Vector3		_newPos;
-	private Vector3		_oldPos;	
-	
-	void Start () 
+	private Vector3		_oldPos;
+
+	void Start ()
 	{
 		_newPos = transform.position;
 		_oldPos = _newPos;			
