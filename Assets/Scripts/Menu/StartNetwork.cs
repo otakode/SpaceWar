@@ -6,8 +6,10 @@ public class StartNetwork : MonoBehaviour
 	public bool			server;
 	public int			listenPort = 4141;
 	public string		remoteIp;
+	public GameObject	ship;
 	public GameObject	player;
-	
+
+	private GameObject	shipInst = null;
 	private GameObject	playerInst = null;
 
 	public void	Init()
@@ -27,27 +29,35 @@ public class StartNetwork : MonoBehaviour
 	void	OnConnectedToServer()	// Appelé par le joueur JOIN après s'être connecté au serveur avec succès.
 	{
 		Debug.LogError("in OnConnectedToServer");
+
+		this.InitPlayer();
+		Debug.LogError("out OnConnectedToServer");
+	}
+
+	private void	InitPlayer()
+	{
 		GameObject[]	spawners = GameObject.FindGameObjectsWithTag("Spawn");
 		GameObject		camera = GameObject.FindGameObjectWithTag("Camera");
 		int				rand = Random.Range(0, spawners.Length);
 		GameObject		spawn = spawners[rand];
 
-		this.playerInst = Network.Instantiate(this.player, spawn.transform.position, Quaternion.identity, 0) as GameObject;
-		camera.GetComponent<CameraInitialiser>().Init(this.playerInst);
-		Debug.LogError("out OnConnectedToServer");
+		this.shipInst = Network.Instantiate(this.ship, spawn.transform.position, Quaternion.identity, 0) as GameObject;
+		this.playerInst = Instantiate(this.player) as GameObject;
+		this.playerInst.transform.parent = this.shipInst.transform;
+		this.playerInst.transform.position = this.shipInst.transform.position;
+		this.shipInst.transform.FindChild("model3D noCockpit noThruster").gameObject.SetActive(false);
 	}
 
 	void	OnServerInitialized()	// Appelé par le joueur HOST après s'être connecté au serveur avec succès.
 	{
-		Debug.LogError("OnServerInitialized");
-		GameObject[]	spawners = GameObject.FindGameObjectsWithTag("Spawn");
-		GameObject		camera = GameObject.FindGameObjectWithTag("Camera");
-		int				rand = Random.Range(0, spawners.Length);
-		GameObject		spawn = spawners[rand];
+		Debug.LogError(" in OnServerInitialized");
 
-		this.playerInst = Network.Instantiate(this.player, spawn.transform.position, Quaternion.identity, 0) as GameObject;
-		camera.GetComponent<CameraInitialiser>().Init(this.playerInst);
+		this.InitPlayer();
+
+		//this.playerInst = Network.Instantiate(this.player, spawn.transform.position, Quaternion.identity, 0) as GameObject;
 		//this.playerInst.networkView.RPC("CheckPacMan", RPCMode.All);
+
+		Debug.LogError(" out OnServerInitialized");
 	}
 
 	void	OnDisconnectedFromServer(NetworkDisconnection info)	// Appelé par le joueur JOIN lorsque (la connexion a été perdue/il s'est déconnecté du serveur).
