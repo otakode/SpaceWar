@@ -37,59 +37,51 @@ public class VoiceHandler : MonoBehaviour
 		this.commands = commandList.ToArray();
 
 		//this.pp = PerCPipeline.GetPipeline();
-		//this.pp = new PXCUPipeline();
-	//	if (this.pp != null && this.pp.Init(PXCUPipeline.Mode.VOICE_RECOGNITION))
-	//	{
-	//		this.pp.SetVoiceCommands(this.commands);
-	//		Debug.Log("Voice Handler Init SUCCESS");
-	//	}
-	//	else
-	//		Debug.Log("Voice Handler Init Failed");
+		this.pp = new PXCUPipeline();
+		if (this.pp != null && this.pp.Init(PXCUPipeline.Mode.VOICE_RECOGNITION))
+		{
+			this.pp.SetVoiceCommands(this.commands);
+			Debug.Log("Voice Handler Init SUCCESS");
+		}
+		else
+			Debug.Log("Voice Handler Init Failed");
 		//PerCPipeline.pipelineUpdate += this.pipelineUpdate;
 	}
 
 	void OnDisable()
 	{
+		this.pp.Close();
+		this.pp.Dispose();
 		//PerCPipeline.pipelineUpdate -= this.pipelineUpdate;
 	}
 
 	//void pipelineUpdate(PerCPipeline.PipelineData data)
-	void Update2()
+	void Update()
 	{
-		PerCPipeline.PipelineData data;
+		if (!this.pp.AcquireFrame(false))
+			return;
+		PerCPipeline.PipelineData data = new PerCPipeline.PipelineData();
 		data.hasVoice = this.pp.QueryVoiceRecognized(out data.voice);
 
-		Debug.Log("a");
-		if (data.hasVoice && data.voice.confidence > 30 && data.voice.label <= this.commands.Length)
+		if (data.hasVoice && data.voice.confidence > 20/* && data.voice.label < this.commands.Length*/)
 		{
 			this.command = this.commands[data.voice.label];
+			Debug.Log(this.command);
 			if (command == "Fire" || command == "Activate" || command == "Launch")
 			{
-				this.GetComponent<Inventory>().Fire();	
+				this.transform.parent.GetComponent<Spaceship>().Fire();	
 			}
 			else if (command == "Stop")
 			{
 				this.ChangeSpeed(0);
 			}
-			else if (command == "Half speed")
+			else if (command == "Slow")
 			{
 				this.ChangeSpeed(50);
 			}
-			else if (command == "Maximum speed" || command == "Max speed")
+			else if (command == "Fast")
 			{
 				this.ChangeSpeed(100);
-			}
-			else if (command == "Slower" || command == "Speed down")
-			{
-				this.Slower();
-			}
-			else if (command == "Faster" || command == "Speed up")
-			{
-				this.Faster();
-			}
-			else if (command.StartsWith("Speed at "))
-			{
-				this.ChangeSpeed(int.Parse(command.Split(new char[]{' '})[2]));
 			}
 			else if (command.StartsWith("Weapon "))
 			{
@@ -100,6 +92,7 @@ public class VoiceHandler : MonoBehaviour
 				this.GetComponent<Inventory>().ChangeWeapon(command);
 			}
 		}
+		this.pp.ReleaseFrame();
 	}
 
 /*	void FixedUpdate()
