@@ -103,8 +103,8 @@ public class SpaceChipsController : MonoBehaviour
 		//Compute the rotation with the hand position
         if (!pp.AcquireFrame(false)) return;
 		
-        if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY | PXCMGesture.GeoNode.Label.LABEL_HAND_MIDDLE, out mainHand) &&
-            pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_SECONDARY | PXCMGesture.GeoNode.Label.LABEL_HAND_MIDDLE, out secondaryHand))
+        if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out mainHand) &&
+            pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_SECONDARY, out secondaryHand))
 		{
             checkHands(ref mainHand, ref secondaryHand);
 						
