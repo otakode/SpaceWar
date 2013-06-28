@@ -55,7 +55,7 @@ public class StartNetwork : MonoBehaviour
 		Debug.LogError(" in OnServerInitialized");
 
 		this.InitPlayer();
-//		this.meteorInst = Instantiate(this.meteor) as GameObject; 
+		this.meteorInst = Instantiate(this.meteor) as GameObject; 
 
 		//this.playerInst = Network.Instantiate(this.player, spawn.transform.position, Quaternion.identity, 0) as GameObject;
 		//this.playerInst.networkView.RPC("CheckPacMan", RPCMode.All);
