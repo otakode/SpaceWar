@@ -7,21 +7,11 @@ public class VoiceHandler : MonoBehaviour
 {
 	private PXCUPipeline pp;
 	private string[] commands;
-//	private delegate void actions(string param);
 
-	private Weapon.Type activeWeapon;
-	private List<Weapon.Type> inventory;
-
-	private int speed;
 	private string command;
 
 	void Start()
 	{
-		this.activeWeapon = Weapon.Type.Rifle;
-		this.inventory = new List<Weapon.Type>();
-		this.inventory.Add(Weapon.Type.Rifle);
-		this.speed = 0;
-
 		List<string> commandList = new List<string>();
 		for (int i = 1; i <= 5; i++)
 		{
@@ -42,23 +32,19 @@ public class VoiceHandler : MonoBehaviour
 		commandList.Add("Activate");
 		commandList.Add("Launch");
 		commandList.Add("Stop");
-		commandList.Add("Half speed");
-		commandList.Add("Maximum speed");
-		commandList.Add("Max speed");
-		commandList.Add("Slower");
-		commandList.Add("Speed down");
-		commandList.Add("Faster");
-		commandList.Add("Speed up");
+		commandList.Add("Slow");
+		commandList.Add("Fast");
 		this.commands = commandList.ToArray();
 
-		this.pp = PerCPipeline.GetPipeline();
-		if (this.pp != null)
-		{
-			this.pp.SetVoiceCommands(this.commands);
-			Debug.Log("Voice Handler Init SUCCESS");
-		}
-		else
-			Debug.Log("Voice Handler Init Failed");
+		//this.pp = PerCPipeline.GetPipeline();
+		//this.pp = new PXCUPipeline();
+	//	if (this.pp != null && this.pp.Init(PXCUPipeline.Mode.VOICE_RECOGNITION))
+	//	{
+	//		this.pp.SetVoiceCommands(this.commands);
+	//		Debug.Log("Voice Handler Init SUCCESS");
+	//	}
+	//	else
+	//		Debug.Log("Voice Handler Init Failed");
 		//PerCPipeline.pipelineUpdate += this.pipelineUpdate;
 	}
 
@@ -67,19 +53,19 @@ public class VoiceHandler : MonoBehaviour
 		//PerCPipeline.pipelineUpdate -= this.pipelineUpdate;
 	}
 
-	void pipelineUpdate(PerCPipeline.PipelineData data)
+	//void pipelineUpdate(PerCPipeline.PipelineData data)
+	void Update2()
 	{
+		PerCPipeline.PipelineData data;
+		data.hasVoice = this.pp.QueryVoiceRecognized(out data.voice);
+
 		Debug.Log("a");
-		if (Input.GetKeyUp(KeyCode.Space))
-		{
-			this.DropWeapon((Weapon.Type)Random.Range((int)Weapon.Type.Rocket, (int)Weapon.Type.Repair));
-		}
 		if (data.hasVoice && data.voice.confidence > 30 && data.voice.label <= this.commands.Length)
 		{
 			this.command = this.commands[data.voice.label];
 			if (command == "Fire" || command == "Activate" || command == "Launch")
 			{
-				this.Fire();	
+				this.GetComponent<Inventory>().Fire();	
 			}
 			else if (command == "Stop")
 			{
@@ -107,11 +93,11 @@ public class VoiceHandler : MonoBehaviour
 			}
 			else if (command.StartsWith("Weapon "))
 			{
-				this.ChangeWeapon(int.Parse(command.Substring(command.IndexOf(" ") + 1)));
+				this.GetComponent<Inventory>().ChangeWeapon(int.Parse(command.Substring(command.IndexOf(" ") + 1)));
 			}
 			else
 			{
-				this.ChangeWeapon(command);
+				this.GetComponent<Inventory>().ChangeWeapon(command);
 			}
 		}
 	}
@@ -171,122 +157,9 @@ public class VoiceHandler : MonoBehaviour
 		}
 	}*/
 
-	void OnGUI()
-	{
-		GUILayout.BeginVertical();
-		foreach (Weapon.Type weapon in this.inventory)
-		{
-			GUILayout.Label(new GUIContent(Weapon.TypeToString(weapon)));
-		}
-		GUILayout.EndVertical();
-	}
-
-	bool HasWeapon(Weapon.Type test)
-	{
-		foreach (Weapon.Type weapon in this.inventory)
-		{
-			if (weapon == test)
-				return true;
-		}
-		return false;
-	}
-	
-	void ChangeWeapon(string name)
-	{
-		Weapon.Type weapon = Weapon.StringToType(name);
-		if (this.HasWeapon(weapon))
-		{
-			this.activeWeapon = weapon;
-			Debug.Log(name + " ready.");
-		}
-		else
-		{
-			Debug.Log(name + " not found...");
-		}
-	}
-
-	void ChangeWeapon(int index)
-	{
-		if (index < this.inventory.Count)
-		{
-			this.activeWeapon = this.inventory[index];
-			Debug.Log(Weapon.TypeToString(this.activeWeapon) + " ready.");
-		}
-		else
-		{
-			Debug.Log("Weapon " + index + " not found...");
-		}
-	}
-
-	void Fire()
-	{
-		switch (this.activeWeapon)
-		{
-			case Weapon.Type.Rifle:
-				Debug.Log("pew pew pew pew pew");
-				this.GetComponent<Spaceship>().Fire();
-				break;
-			case Weapon.Type.Rocket:
-				Debug.Log("pew... BOOM");
-				this.inventory.Remove(Weapon.Type.Rocket);
-				break;
-		//	case Weapon.Type.:
-		//		Debug.Log("");
-		//		break;
-		//	case Weapon.Type.:
-		//		Debug.Log("");
-		//		break;
-		//	case Weapon.Type.:
-		//		Debug.Log("");
-		//		break;
-			case Weapon.Type.Shield:
-				Debug.Log("Bouclier anti-mourant, empechant la mort de passer");
-				this.inventory.Remove(Weapon.Type.Shield);
-				break;
-		//	case Weapon.Type.:
-		//		Debug.Log("");
-		//		break;
-			case Weapon.Type.Stealth:
-				Debug.Log("NINJA");
-				this.inventory.Remove(Weapon.Type.Stealth);
-				break;
-			case Weapon.Type.Bomb:
-				Debug.Log("bomb");
-				this.inventory.Remove(Weapon.Type.Bomb);
-				break;
-			case Weapon.Type.Nova:
-				Debug.Log("Nova");
-				this.inventory.Remove(Weapon.Type.Nova);
-				break;
-			case Weapon.Type.Repair:
-				Debug.Log("Repair");
-				break;
-		}
-	}
-
-	void DropWeapon(Weapon.Type weapon)
-	{
-		if (this.inventory.Count < 5)
-		{
-			Debug.Log(Weapon.TypeToString(weapon) + " dropped.");
-			this.inventory.Add(weapon);
-		}
-		else
-		{
-			if (weapon == Weapon.Type.Repair)
-			{
-				Debug.Log("Repair");
-			}
-			else
-			{
-				Debug.Log("Inventory full.");
-			}
-		}
-	}
 
 	void ChangeSpeed(int percent)
 	{
-		this.speed = percent;
 		this.GetComponent<Spaceship>().thrusters[0].SetThrusterPower(percent);
 		Debug.Log("Speed at " + percent + " percent.");
 	}
