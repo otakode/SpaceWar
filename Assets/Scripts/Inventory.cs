@@ -32,8 +32,9 @@ public class Inventory : MonoBehaviour
 		{
 			this.DropWeapon((Weapon.Type)Random.Range((int)Weapon.Type.Rocket, (int)Weapon.Type.Repair + 1));
 		}
+		Ray ray = new Ray(this.transform.position, this.transform.forward);
 		RaycastHit hit = new RaycastHit();
-		if (Physics.Raycast(this.transform.position, this.transform.forward, out hit, 50000, LayerMask.NameToLayer("Default")))
+		if (Physics.Raycast(ray, out hit, 50000))
 		{
 			Debug.Log("Raycasted");
 			if (this.target == null)
