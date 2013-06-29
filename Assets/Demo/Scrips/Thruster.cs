@@ -13,6 +13,8 @@ public class Thruster : MonoBehaviour
 	private Rigidbody		_cacheParentRigidbody;
 	private Light			_cacheLight;
 	private ParticleSystem	_cacheParticleSystem;
+
+	private TextMesh[]		speeds;
 	
 	public void StartThruster() 
 	{
@@ -50,7 +52,17 @@ public class Thruster : MonoBehaviour
 		audio.loop = true;
 		audio.volume = soundEffectVolume;
 		audio.mute = true;
-		audio.Play();		
+		audio.Play();
+		
+		Transform cockpit = this.transform.parent.FindChild("Cockpit");
+		this.speeds = new TextMesh[]{
+			cockpit.FindChild("Max").GetComponent<TextMesh>(),
+			cockpit.FindChild("Min").GetComponent<TextMesh>(),
+			cockpit.FindChild("Stop").GetComponent<TextMesh>()
+		};
+		this.speeds[0].text = "Max";
+		this.speeds[1].text = "Min";
+		this.speeds[2].text = "Zero";
 	}	
 	
 	void Update () 
@@ -86,5 +98,27 @@ public class Thruster : MonoBehaviour
 			else 
 				_cacheParentRigidbody.AddRelativeForce (Vector3.forward * thrusterForce * percent);				
 		}		
+	}
+
+	void OnGUI()
+	{
+		if (this.percent < 0.2)
+		{
+			this.speeds[0].GetComponent<TextController>().SetColor(Color.white);
+			this.speeds[1].GetComponent<TextController>().SetColor(Color.white);
+			this.speeds[2].GetComponent<TextController>().SetColor(Color.green);
+		}
+		else if (this.percent < 0.6)
+		{
+			this.speeds[0].GetComponent<TextController>().SetColor(Color.white);
+			this.speeds[1].GetComponent<TextController>().SetColor(Color.green);
+			this.speeds[2].GetComponent<TextController>().SetColor(Color.white);
+		}
+		else
+		{
+			this.speeds[0].GetComponent<TextController>().SetColor(Color.green);
+			this.speeds[1].GetComponent<TextController>().SetColor(Color.white);
+			this.speeds[2].GetComponent<TextController>().SetColor(Color.white);
+		}
 	}
 }
