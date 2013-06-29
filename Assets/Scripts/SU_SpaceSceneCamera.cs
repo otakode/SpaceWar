@@ -48,15 +48,15 @@ public class SU_SpaceSceneCamera : MonoBehaviour {
 	// The space camera must have a reference to a parent camera so it knows how to rotate the background
 	// This script allows you to specify a parent camera (parentCamera) which will act as reference
 	// If you do not specify a camera, the script will assume you are using the main camera and select that as reference	
-	void Start () {
-/*		// Cache the transform to increase performance
+	public void Init (Transform target) {
+		// Cache the transform to increase performance
 		_transformCache = transform;
 		
 		if (parentCamera == null) {
 			// No parent camera has been set, assume that main camera is used
-			if (Camera.mainCamera != null) {
+			if (target != null) {
 				// Set parent camera to main camera.
-				parentCamera = Camera.mainCamera.transform;							
+				parentCamera = target;							
 			} else {				
 				// No main camera found - throw a fit...
 				Debug.LogWarning ("You have not specified a parent camera to the space background camera and there is no main camera in your scene. " +
@@ -70,12 +70,11 @@ public class SU_SpaceSceneCamera : MonoBehaviour {
 		}
 		
 		// Set the original position of the transform which is used for relative movement
-		_originalPosition = _transformCache.position;*/
+		_originalPosition = _transformCache.position;
 	}
 	
-	void Update () {
-		
-	/*	if (_transformCacheParentCamera != null) {
+	void Update () {		
+		if (_transformCacheParentCamera != null) {
 			// Update the rotation of the space camera so the background rotates		
 			_transformCache.rotation = _transformCacheParentCamera.rotation;
 			//if (inheritFOV) camera.fov = parentCamera.fov;
@@ -83,10 +82,6 @@ public class SU_SpaceSceneCamera : MonoBehaviour {
 			// Update the relative position of the space camera so you can travel in the space scene if necessary
 			// Note! You will fly out of bounds of the space scene if your relative speed is high unless you restrict the movement in your own code.
 			_transformCache.position = _originalPosition + (_transformCacheParentCamera.position * relativeSpeed);
-		}*/
-		if (Camera.mainCamera != null)
-		{
-			this.transform.rotation = Camera.mainCamera.transform.rotation;
 		}
 	}
 }

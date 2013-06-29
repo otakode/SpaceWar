@@ -69,7 +69,8 @@ public class VoiceHandler : MonoBehaviour
 			Debug.Log(this.command);
 			if (command == "Fire" || command == "Activate" || command == "Launch")
 			{
-				this.transform.parent.GetComponent<Spaceship>().Fire();
+			//	this.GetComponent<Inventory>().Fire();
+				this.GetComponent<Spaceship>().Fire();
                 Spaceship.nb_fire = 5;
                 Spaceship.boucle = true;
 			}
@@ -97,79 +98,9 @@ public class VoiceHandler : MonoBehaviour
 		this.pp.ReleaseFrame();
 	}
 
-/*	void FixedUpdate()
-	{
-		if (Input.GetKeyUp(KeyCode.Space))
-		{
-			this.DropWeapon((Weapon.Type)Random.Range((int)Weapon.Type.Rocket, (int)Weapon.Type.Repair));
-		}
-		if (this.pp != null && this.pp.AcquireFrame(false))
-		{
-			PXCMVoiceRecognition.Recognition voice;
-			if (this.pp.QueryVoiceRecognized(out voice) && voice.confidence > 30 && voice.label <= this.commands.Length)
-			{
-				string command = this.commands[voice.label];
-				Debug.Log("Command: " + command);
-				if (command == "Fire" || command == "Activate" || command == "Launch")
-				{
-					this.Fire();	
-				}
-				else if (command == "Stop")
-				{
-					this.ChangeSpeed(0);
-				}
-				else if (command == "Half speed")
-				{
-					this.ChangeSpeed(50);
-				}
-				else if (command == "Maximum speed" || command == "Max speed")
-				{
-					this.ChangeSpeed(100);
-				}
-				else if (command == "Slower" || command == "Speed down")
-				{
-					this.Slower();
-				}
-				else if (command == "Faster" || command == "Speed up")
-				{
-					this.Faster();
-				}
-				else if (command.StartsWith("Speed at "))
-				{
-					this.ChangeSpeed(int.Parse(command.Split(new char[]{' '})[2]));
-				}
-				else if (command.StartsWith("Weapon "))
-				{
-					this.ChangeWeapon(int.Parse(command.Substring(command.IndexOf(" ") + 1)));
-				}
-				else
-				{
-					this.ChangeWeapon(command);
-				}
-			}
-
-			this.pp.ReleaseFrame();
-		}
-	}*/
-
-
 	void ChangeSpeed(int percent)
 	{
 		this.GetComponent<Spaceship>().thrusters[0].SetThrusterPower(percent);
 		Debug.Log("Speed at " + percent + " percent.");
-	}
-
-	void Slower()
-	{
-		Thruster thruster = this.GetComponent<Spaceship>().thrusters[0];
-		thruster.SetThrusterPower(Mathf.Max((int)0, (int)(thruster.percent * 100 - 10)));
-		Debug.Log("Speed at " + thruster.percent * 100 + " percent.");
-	}
-
-	void Faster()
-	{
-		Thruster thruster = this.GetComponent<Spaceship>().thrusters[0];
-		thruster.SetThrusterPower(Mathf.Min((int)100, (int)(thruster.percent * 100 + 10)));
-		Debug.Log("Speed at " + thruster.percent * 100 + " percent.");
 	}
 }

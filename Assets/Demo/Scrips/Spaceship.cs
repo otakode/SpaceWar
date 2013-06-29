@@ -13,7 +13,6 @@ public class Spaceship : MonoBehaviour
 	public float timeToRespawn = 10.0f;
     public static bool boucle = false;
     public static int nb_fire = 5;
-    public float timeToRespawn = 10.0f;
     float timer = 0.1f;
 	
 	public void set_life(int dif)
