@@ -6,7 +6,7 @@ public delegate void ChangeOculusMode();
 public class OculusMode : MonoBehaviour
 {
 	public static ChangeOculusMode changeOculusMode;
-	private static bool _on = true;
+	private static bool _on = false;
 	public static bool on
 	{
 		get
