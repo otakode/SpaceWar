@@ -6,12 +6,19 @@ public class Inventory : MonoBehaviour
 {
 	private List<Weapon> inventory;
 	private Weapon activeWeapon;
+	private GameObject target;
+	private float timeSeen;
+	public float lockTime = 3f;
+	public float angleLost = 15f;
+	private GameObject targetLock;
 
 	void Start()
 	{
 		this.inventory = new List<Weapon>();
 		this.inventory.Add(Weapon.GetWeapon(Weapon.Type.Rifle));
 		this.activeWeapon = this.inventory[0];
+		this.target = null;
+		this.targetLock = null;
 	}
 
 	void Update()
@@ -19,6 +26,39 @@ public class Inventory : MonoBehaviour
 		if (Input.GetKeyUp(KeyCode.Space))
 		{
 			this.DropWeapon((Weapon.Type)Random.Range((int)Weapon.Type.Rocket, (int)Weapon.Type.Repair + 1));
+		}
+		RaycastHit hit;
+		if (Physics.Raycast(this.transform.position, this.transform.forward, out hit, 400))
+		{
+			if (this.target != null && this.target != hit.collider.gameObject)
+			{
+				this.target = hit.collider.gameObject;
+				this.timeSeen = Time.time;
+				Debug.Log("Seen");
+			}
+		}
+		else
+		{
+			if (this.targetLock != null)
+			{
+				if (Vector3.Angle(this.transform.forward, this.targetLock.transform.position - this.transform.position) > this.angleLost)
+				{
+					this.targetLock = null;
+				}
+			}
+			if (this.targetLock == null && this.target != null)
+			{
+				if (Vector3.Angle(this.transform.forward, this.target.transform.position - this.transform.position) > this.angleLost)
+				{
+					this.target = null;
+				}
+				else if (Time.time - this.timeSeen > this.lockTime)
+				{
+					this.targetLock = this.target;
+					this.target = null;
+					Debug.Log("Locked " + this.targetLock.name);
+				}
+			}
 		}
 	}
 
@@ -77,49 +117,7 @@ public class Inventory : MonoBehaviour
 	}
 
 	public void Fire(GameObject target = null)
-	{/*
-		switch (this.activeWeapon)
-		{
-			case Weapon.Type.Rifle:
-				Debug.Log("pew pew pew pew pew");
-				this.GetComponent<Spaceship>().Fire();
-				break;
-			case Weapon.Type.Rocket:
-				Debug.Log("pew... BOOM");
-				this.inventory.Remove(Weapon.Type.Rocket);
-				break;
-		//	case Weapon.Type.:
-		//		Debug.Log("");
-		//		break;
-		//	case Weapon.Type.:
-		//		Debug.Log("");
-		//		break;
-		//	case Weapon.Type.:
-		//		Debug.Log("");
-		//		break;
-			case Weapon.Type.Shield:
-				Debug.Log("Bouclier anti-mourant, empechant la mort de passer");
-				this.inventory.Remove(Weapon.Type.Shield);
-				break;
-		//	case Weapon.Type.:
-		//		Debug.Log("");
-		//		break;
-			case Weapon.Type.Stealth:
-				Debug.Log("NINJA");
-				this.inventory.Remove(Weapon.Type.Stealth);
-				break;
-			case Weapon.Type.Bomb:
-				Debug.Log("bomb");
-				this.inventory.Remove(Weapon.Type.Bomb);
-				break;
-			case Weapon.Type.Nova:
-				Debug.Log("Nova");
-				this.inventory.Remove(Weapon.Type.Nova);
-				break;
-			case Weapon.Type.Repair:
-				Debug.Log("Repair");
-				break;
-		}*/
+	{
 		this.activeWeapon.Fire(this.transform.position, this.transform.rotation, this.gameObject, target);
 	}
 
