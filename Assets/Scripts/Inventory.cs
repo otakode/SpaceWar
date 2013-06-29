@@ -84,15 +84,18 @@ public class Inventory : MonoBehaviour
 	{
 		if (this.targetLock != null)
 		{
-
-			Vector3 test = this.transform.FindChild("Camera").transform.FindChild("Main Camera").camera.WorldToScreenPoint(this.targetLock.transform.position);
-			//lockAngle += 5.0f;
-            //if (lockAngle > 360.0f) { lockAngle = 0.0f; }
-			//Vector2 CIBLE_pivot = new Vector2(test.x,/* Screen.height - */test.y);
-            //Matrix4x4 MATRIX_backup = GUI.matrix;
-			//GUIUtility.RotateAroundPivot(lockAngle, CIBLE_pivot);
-			GUI.DrawTexture(new Rect(test.x - (locker.width * 0.5f), (Screen.height - test.y) - (locker.height * 0.5f), locker.width, locker.height), locker);
-			//GUI.matrix = MATRIX_backup;
+			if (!OculusMode.on)
+			{
+				Vector3 test = this.transform.FindChild("Camera").transform.FindChild("Main Camera").camera.WorldToScreenPoint(this.targetLock.transform.position);
+				GUI.DrawTexture(new Rect(test.x - (locker.width * 0.5f), (Screen.height - test.y) - (locker.height * 0.5f), locker.width, locker.height), locker);
+			}
+			else
+			{
+				Vector3 test = this.transform.FindChild("Camera").transform.FindChild("OVRCameraController").FindChild("CameraLeft").camera.WorldToScreenPoint(this.targetLock.transform.position);
+				GUI.DrawTexture(new Rect(test.x - (locker.width * 0.5f), (Screen.height - test.y) - (locker.height * 0.5f), locker.width, locker.height), locker);
+				Vector3 test2 = this.transform.FindChild("Camera").transform.FindChild("OVRCameraController").FindChild("CameraRight").camera.WorldToScreenPoint(this.targetLock.transform.position);
+				GUI.DrawTexture(new Rect(test2.x - (locker.width * 0.5f), (Screen.height - test2.y) - (locker.height * 0.5f), locker.width, locker.height), locker);
+			}
 		}
 		GUILayout.BeginVertical();
 		int i = 0;
