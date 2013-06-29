@@ -283,6 +283,7 @@ public class Stealth : Weapon
 public class Bomb : Weapon
 {
 	static public GameObject prefab;
+	private GameObject tmp;
 	public Bomb() : base(Weapon.Type.Bomb, 5)
 	{
 	}
@@ -292,7 +293,8 @@ public class Bomb : Weapon
 		
 		if (this.ammo == 0)
 			return false;
-		GameObject.Instantiate(prefab, pos, rot);
+		tmp = GameObject.Instantiate(prefab, pos, rot)as GameObject;
+		tmp.GetComponent<weapon_box>().set_source(source);
 		this.ammo--;
 		Debug.Log("bomb");
 		return true;
