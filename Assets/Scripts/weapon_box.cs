@@ -17,6 +17,7 @@ public class weapon_box : MonoBehaviour
 	}
 	void OnTriggerEnter(Collider other)
 	{
+		
 		other.gameObject.GetComponent<Spaceship>().set_life(-dmg);
 		Destroy(this.gameObject);
     }

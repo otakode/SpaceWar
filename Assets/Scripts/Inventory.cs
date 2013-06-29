@@ -10,7 +10,7 @@ public class Inventory : MonoBehaviour
 	private float			timeSeen;
 	public float			lockTime = 3f;
 	public float			angleLost = 15f;
-	private GameObject		targetLock;
+	public GameObject		targetLock;
 	public GameObject		rocket_prefab;
 	public GameObject		caisse_prefab;
 
