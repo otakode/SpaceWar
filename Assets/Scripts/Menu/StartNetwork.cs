@@ -48,7 +48,7 @@ public class StartNetwork : MonoBehaviour
 		this.playerInst.transform.GetComponent<VoiceHandler>().enabled = true;
 		this.playerInst.transform.FindChild("Camera").gameObject.SetActive(true);
 		this.playerInst.transform.FindChild("Cockpit").gameObject.SetActive(true);
-		GameObject.Find("SpaceCamera").GetComponent<SU_SpaceSceneCamera>().Init(GameObject.Find("Camera").transform);
+		GameObject.Find("SpaceCamera").GetComponent<SU_SpaceSceneCamera>().Init(this.playerInst.transform.FindChild("Camera").transform);
 	}
 
 	void	OnServerInitialized()	// Appelé par le joueur HOST après s'être connecté au serveur avec succès.
