@@ -13,6 +13,7 @@ public class Inventory : MonoBehaviour
 	public GameObject		targetLock;
 	public GameObject		rocket_prefab;
 	public GameObject		caisse_prefab;
+	public GameObject		bouclier_prefab;
 
 	void Start()
 	{
@@ -24,6 +25,7 @@ public class Inventory : MonoBehaviour
 		Rocket.prefab = rocket_prefab;
 		Bomb.prefab = caisse_prefab;
 		Boost.prefab = this.gameObject;
+		Shield.prefab = bouclier_prefab;
 	}
 
 	void Update()
@@ -36,7 +38,7 @@ public class Inventory : MonoBehaviour
 		RaycastHit hit = new RaycastHit();
 		if (Physics.Raycast(ray, out hit, 50000))
 		{
-			Debug.Log("Raycasted");
+		//	Debug.Log("Raycasted");
 			if (this.target == null)
 			{
 				this.target = hit.collider.gameObject;

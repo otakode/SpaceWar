@@ -1,18 +1,18 @@
 using UnityEngine;
 using System.Collections;
 
-public class weapon_box : MonoBehaviour
+public class bouclier : MonoBehaviour 
 {
-	public int dmg;
+	float	timer = 4;
 	public GameObject source;
 	
-	public void set_source(GameObject n_source)
+	public void set_source(GameObject new_source)
 	{
-		source = n_source;
+		source = new_source;
 	}
 	
 	// Use this for initialization
-	void Start ()
+	void Start () 
 	{
 	
 	}
@@ -20,14 +20,14 @@ public class weapon_box : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-	
+		timer-= Time.deltaTime;
+		if (timer <= 0)
+			Destroy(this.gameObject);
 	}
+	
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.networkView.viewID != source.networkView.viewID)
-		{
-			other.gameObject.GetComponent<Spaceship>().set_life(-dmg);
-			Destroy(this.gameObject);
-		}
+			Destroy(other.gameObject);
     }
 }
