@@ -94,13 +94,15 @@ public class StartNetwork : MonoBehaviour
 		else
 		{
 			Network.Connect(this.remoteIp, this.listenPort);
-			Debug.LogError("OnLevelWasLoaded JOIN");
+			Debug.Log("OnLevelWasLoaded JOIN");
 		}
 
 		if (Application.loadedLevelName == "Menu")
 			Destroy(this.gameObject);
+		Debug.Log("destroy Menu");
 
 		foreach (GameObject go in FindObjectsOfType(typeof(GameObject)))
 			go.SendMessage("OnNetworkLoadedLevel", SendMessageOptions.DontRequireReceiver);
+		Debug.Log("send message ok");
 	}
 }
