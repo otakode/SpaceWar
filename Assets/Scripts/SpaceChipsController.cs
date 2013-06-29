@@ -157,8 +157,8 @@ public class SpaceChipsController : MonoBehaviour
             checkHands(ref mainHand, ref secondaryHand);
 			Transform	handRight = pilotHands.transform.GetChild(0).transform;
 			Transform	handLeft = pilotHands.transform.GetChild(1).transform;
-			handRight.localPosition = new Vector3(-secondaryHand.positionWorld.x,secondaryHand.positionWorld.z,secondaryHand.positionWorld.y);
-			handLeft.localPosition = new Vector3(-mainHand.positionWorld.x,mainHand.positionWorld.z,mainHand.positionWorld.y);
+			handRight.localPosition = new Vector3(-secondaryHand.positionWorld.x-0.2f,secondaryHand.positionWorld.z,-secondaryHand.positionWorld.y+0.5f);
+			handLeft.localPosition = new Vector3(-mainHand.positionWorld.x+0.2f,mainHand.positionWorld.z,-mainHand.positionWorld.y+0.5f);
 			if (!calibrated)
 			{
 				calibrate(ref mainHand);
