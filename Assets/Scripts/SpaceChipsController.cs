@@ -35,6 +35,7 @@ public class SpaceChipsController : MonoBehaviour
 	public GameObject	manche;
 
 	public float nonPlayingSpeed = 5f;
+	public float	cooldown = 0.15f;
 	
     private PXCUPipeline.Mode mode = PXCUPipeline.Mode.GESTURE;
     private PXCUPipeline pp;
@@ -153,8 +154,15 @@ public class SpaceChipsController : MonoBehaviour
 		}
 		PXCMGesture.Gesture dataMain;
 		if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataMain)){
-			if(dataMain.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP){
-				this.transform.GetComponent<Spaceship>().Fire();
+			if (dataMain.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP)
+			{
+				cooldown -= Time.deltaTime;
+				
+				if (cooldown <= 0)
+				{
+					cooldown = 0.15f;
+					this.transform.GetComponent<Spaceship>().Fire();
+				}
 			}
 		}
 
