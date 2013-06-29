@@ -55,13 +55,16 @@ public class	PlayMenu : MonoBehaviour
 
 	private void	JoinServer()
 	{
-		Debug.LogError("inJoinSever");
+		Debug.Log("enter JoinSever");
 		this.instantiatedMaster = Instantiate(this.networkMaster, Vector3.zero, Quaternion.identity) as GameObject;
 		this.scriptStartNet = this.instantiatedMaster.GetComponent<StartNetwork>();
+		Debug.Log("network instantiated");
 		this.scriptStartNet.server = false;
 		this.scriptStartNet.remoteIp = this.strIp;
 		this.scriptStartNet.listenPort = int.Parse(this.strPort);
+		Debug.Log("post init network");
 		this.scriptStartNet.Init();
+		Debug.Log("JoinSever OK");
 	}
 
 	private void	HostServer()
