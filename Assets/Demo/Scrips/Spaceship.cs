@@ -64,21 +64,21 @@ public class Spaceship : MonoBehaviour
 		this.GetComponent<BoxCollider>().enabled = false;
 		this.GetComponent<SpaceChipsController>().enabled = false;
 		this.GetComponent<VoiceHandler>().enabled = false;
-		this.transform.FindChild("model3D noCockpit noThruster").gameObject.SetActive(false);
+		this.GetComponent<Inventory>().enabled = false;
+		this.transform.FindChild("Model3D").gameObject.SetActive(false);
 		this.transform.position = spawn.transform.position;
 
 		yield return new WaitForSeconds(this.timeToRespawn);
 
 		this.GetComponent<BoxCollider>().enabled = true;
-		this.GetComponent<SpaceChipsController>().enabled = true;
-		this.GetComponent<VoiceHandler>().enabled = true;
-		this.transform.FindChild("model3D noCockpit noThruster").gameObject.SetActive(true);
+		this.transform.FindChild("Model3D").gameObject.SetActive(true);
 	}
 
 	private void	Respawn()
 	{
-		this.transform.FindChild("model3D noCockpit noThruster").gameObject.SetActive(false);
-
+		this.GetComponent<SpaceChipsController>().enabled = true;
+		this.GetComponent<VoiceHandler>().enabled = true;
+		this.GetComponent<Inventory>().enabled = true;
 	}
 
 	public void Fire()
