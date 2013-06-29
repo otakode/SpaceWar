@@ -31,9 +31,9 @@ public class VoiceHandler : MonoBehaviour
 		commandList.Add("Fire");
 		commandList.Add("Activate");
 		commandList.Add("Launch");
-		commandList.Add("Stop");
-		commandList.Add("Slow");
-		commandList.Add("Fast");
+		commandList.Add("Zero");
+		commandList.Add("Min");
+		commandList.Add("Max");
 		this.commands = commandList.ToArray();
 
 		//this.pp = PerCPipeline.GetPipeline();
@@ -71,15 +71,15 @@ public class VoiceHandler : MonoBehaviour
 			{
 				this.GetComponent<Inventory>().Fire();
 			}
-			else if (command == "Stop")
+			else if (command == "Zero")
 			{
 				this.ChangeSpeed(0);
 			}
-			else if (command == "Slow")
+			else if (command == "Min")
 			{
 				this.ChangeSpeed(50);
 			}
-			else if (command == "Fast")
+			else if (command == "Max")
 			{
 				this.ChangeSpeed(100);
 			}
