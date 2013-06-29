@@ -220,6 +220,7 @@ public class Hack : Weapon
 	{
 		if (this.ammo == 0)
 			return false;
+
 		this.ammo--;
 		Debug.Log("Hack");
 		return true;
@@ -228,6 +229,8 @@ public class Hack : Weapon
 
 public class Shield : Weapon
 {
+	static public GameObject prefab;
+	private GameObject tmp;
 	public Shield() : base(Weapon.Type.Shield, 1)
 	{
 	}
@@ -237,6 +240,9 @@ public class Shield : Weapon
 		if (this.ammo == 0)
 			return false;
 		this.ammo--;
+			tmp = GameObject.Instantiate(prefab, pos, rot) as GameObject;
+		tmp.GetComponent<bouclier>().set_source(source);
+
 		Debug.Log("shield");
 		return true;
 	}
