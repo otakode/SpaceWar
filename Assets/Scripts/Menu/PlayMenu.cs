@@ -12,15 +12,21 @@ public class	PlayMenu : MonoBehaviour
 	public Color		selectColor = Color.blue;
 
 	public GameObject	networkMaster;
+	public TextMesh		ip;
+	public TextMesh		port;
 
 	private GameObject		instantiatedMaster;
 	private StartNetwork	scriptStartNet;
 	private string			serverIp = "127.0.0.1";
+	private string			strIp = "";
+	private string			strPort = "";
 	private int				serverPort = 4242;
 
 	private TextMenu	actualText;
 	private bool		scrollRoom;
 	private int			actualRoom;
+
+	private bool		ipReady;
 
 	enum	TextMenu
 	{
@@ -39,6 +45,7 @@ public class	PlayMenu : MonoBehaviour
 		this.host.GetComponent<TextController>().SetColor(this.selectColor);
 		this.actualText = TextMenu.HOST;
 		this.actualRoom = 0;
+		this.ipReady = false;
 	}
 	
 	void	Update()
@@ -52,8 +59,8 @@ public class	PlayMenu : MonoBehaviour
 		this.instantiatedMaster = Instantiate(this.networkMaster, Vector3.zero, Quaternion.identity) as GameObject;
 		this.scriptStartNet = this.instantiatedMaster.GetComponent<StartNetwork>();
 		this.scriptStartNet.server = false;
-		this.scriptStartNet.remoteIp = this.serverIp;
-		this.scriptStartNet.listenPort = this.serverPort;
+		this.scriptStartNet.remoteIp = this.strIp;
+		this.scriptStartNet.listenPort = int.Parse(this.strPort);
 		this.scriptStartNet.Init();
 	}
 
@@ -111,7 +118,7 @@ public class	PlayMenu : MonoBehaviour
 			}
 			else
 			{
-				if (Input.GetKeyDown(KeyCode.UpArrow))
+				/*if (Input.GetKeyDown(KeyCode.UpArrow))
 				{
 					this.rooms[this.actualRoom].GetComponent<TextController>().SetColor(this.normalColor);
 					if (this.actualRoom == 0)
@@ -131,17 +138,83 @@ public class	PlayMenu : MonoBehaviour
 						++this.actualRoom;
 					this.rooms[this.actualRoom].GetComponent<TextController>().SetColor(this.roomSelectColor);
 					//this.scrollRoom = false;
+				}*/
+				if (this.ipReady == true)
+				{
+					this.checkAreaKeyBoardPORT();
+					if (Input.GetKeyDown(KeyCode.Escape))
+						this.ipReady = false;
+					else if (Input.GetKeyDown(KeyCode.Return))
+						this.JoinServer();
+					this.port.text = this.strPort;
 				}
 				else if (Input.GetKeyDown(KeyCode.Return))
 				{
-					this.JoinServer();
+					this.ipReady = true;
 				}
 				else if (Input.GetKeyDown(KeyCode.Escape))
 				{
 					this.rooms[this.actualRoom].GetComponent<TextController>().SetColor(this.normalColor);
 					this.scrollRoom = false;
 				}
+				if (this.ipReady != true)
+					this.checkAreaKeyBoardIP();
+				this.ip.text = this.strIp;
 			}
 		}
+	}
+
+	private void	checkAreaKeyBoardIP()
+	{
+		if (Input.GetKeyDown(KeyCode.Alpha0))
+			this.strIp = this.strIp + '0';
+		else if (Input.GetKeyDown(KeyCode.Alpha1))
+			this.strIp = this.strIp + '1';
+		else if (Input.GetKeyDown(KeyCode.Alpha2))
+			this.strIp = this.strIp + '2';
+		else if (Input.GetKeyDown(KeyCode.Alpha3))
+			this.strIp = this.strIp + '3';
+		else if (Input.GetKeyDown(KeyCode.Alpha4))
+			this.strIp = this.strIp + '4';
+		else if (Input.GetKeyDown(KeyCode.Alpha5))
+			this.strIp = this.strIp + '5';
+		else if (Input.GetKeyDown(KeyCode.Alpha6))
+			this.strIp = this.strIp + '6';
+		else if (Input.GetKeyDown(KeyCode.Alpha7))
+			this.strIp = this.strIp + '7';
+		else if (Input.GetKeyDown(KeyCode.Alpha8))
+			this.strIp = this.strIp + '8';
+		else if (Input.GetKeyDown(KeyCode.Alpha7))
+			this.strIp = this.strIp + '9';
+		else if (Input.GetKeyDown(KeyCode.Period))
+			this.strIp = this.strIp + '.';
+		else if (Input.GetKeyDown(KeyCode.Backspace))
+			this.strIp = this.strIp.Remove(this.strIp.Length - 1);
+	}
+
+	private void checkAreaKeyBoardPORT()
+	{
+		if (Input.GetKeyDown(KeyCode.Alpha0))
+			this.strPort = this.strPort + '0';
+		else if (Input.GetKeyDown(KeyCode.Alpha1))
+			this.strPort = this.strPort + '1';
+		else if (Input.GetKeyDown(KeyCode.Alpha2))
+			this.strPort = this.strPort + '2';
+		else if (Input.GetKeyDown(KeyCode.Alpha3))
+			this.strPort = this.strPort + '3';
+		else if (Input.GetKeyDown(KeyCode.Alpha4))
+			this.strPort = this.strPort + '4';
+		else if (Input.GetKeyDown(KeyCode.Alpha5))
+			this.strPort = this.strPort + '5';
+		else if (Input.GetKeyDown(KeyCode.Alpha6))
+			this.strPort = this.strPort + '6';
+		else if (Input.GetKeyDown(KeyCode.Alpha7))
+			this.strPort = this.strPort + '7';
+		else if (Input.GetKeyDown(KeyCode.Alpha8))
+			this.strPort = this.strPort + '8';
+		else if (Input.GetKeyDown(KeyCode.Alpha7))
+			this.strPort = this.strPort + '9';
+		else if (Input.GetKeyDown(KeyCode.Backspace))
+			this.strPort = this.strPort.Remove(this.strPort.Length - 1);
 	}
 }

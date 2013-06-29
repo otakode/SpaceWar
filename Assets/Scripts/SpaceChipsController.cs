@@ -27,6 +27,7 @@ public class SpaceChipsController : MonoBehaviour
 	public float pitchRate = 100.0f;
 	private Rigidbody cacheRigidbody;
 	public GameObject	pilotHands;
+	public GameObject	manche;
 
 	public float nonPlayingSpeed = 5f;
 	
@@ -157,8 +158,8 @@ public class SpaceChipsController : MonoBehaviour
             checkHands(ref mainHand, ref secondaryHand);
 			Transform	handRight = pilotHands.transform.GetChild(0).transform;
 			Transform	handLeft = pilotHands.transform.GetChild(1).transform;
-			handRight.localPosition = new Vector3(-secondaryHand.positionWorld.x-0.2f,secondaryHand.positionWorld.z,-secondaryHand.positionWorld.y+0.5f);
-			handLeft.localPosition = new Vector3(-mainHand.positionWorld.x+0.2f,mainHand.positionWorld.z,-mainHand.positionWorld.y+0.5f);
+			handRight.localPosition = new Vector3(-secondaryHand.positionWorld.x-0.15f,secondaryHand.positionWorld.z+0.2f,-secondaryHand.positionWorld.y+0.65f);
+			handLeft.localPosition = new Vector3(-mainHand.positionWorld.x+0.15f,mainHand.positionWorld.z+0.2f,-mainHand.positionWorld.y+0.65f);
 			if (!calibrated)
 			{
 				calibrate(ref mainHand);
