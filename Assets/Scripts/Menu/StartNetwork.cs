@@ -8,6 +8,7 @@ public class StartNetwork : MonoBehaviour
 	public string		remoteIp;
 	public GameObject	player;
 	public GameObject	meteor;
+	public Texture	lockerPNG;
 
 	private GameObject	playerInst = null;
 	private GameObject	meteorInst = null;
@@ -47,7 +48,7 @@ public class StartNetwork : MonoBehaviour
 		this.playerInst.transform.GetComponent<SpaceChipsController>().enabled = true;
 		this.playerInst.transform.GetComponent<VoiceHandler>().enabled = true;
 		this.playerInst.transform.GetComponent<Inventory>().enabled = true;
-		Debug.Log("1");
+		this.playerInst.transform.GetComponent<Inventory>().locker = lockerPNG;
 		this.playerInst.transform.FindChild("Camera").gameObject.SetActive(true);
 		Debug.Log("2");
 		this.playerInst.transform.FindChild("Model3D").FindChild("Cockpit").gameObject.SetActive(true);
