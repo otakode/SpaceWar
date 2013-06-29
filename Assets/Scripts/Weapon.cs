@@ -141,7 +141,7 @@ public class Weapon
 
 public class Rifle : Weapon
 {
-	public Rifle() : base(Weapon.Type.Rifle, 0)
+	public Rifle() : base(Weapon.Type.Rifle, 1)
 	{
 	}
 
@@ -166,7 +166,7 @@ public class Rocket : Weapon
 	{
 		if (this.ammo == 0)
 			return false;
-		tmp = GameObject.Instantiate(prefab, pos, rot) as GameObject;
+		tmp = GameObject.Instantiate(prefab, pos + source.transform.forward * 350, rot) as GameObject;
 		tmp.GetComponent<tete_chercheuse>().set_target(target.transform);
 		this.ammo--;
 		Debug.Log("bang... BOOM");

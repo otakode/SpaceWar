@@ -77,13 +77,13 @@ public class Inventory : MonoBehaviour
 		{
 
 			Vector3 test = this.transform.FindChild("Camera").transform.FindChild("Main Camera").camera.WorldToScreenPoint(this.targetLock.transform.position);
-			lockAngle += 5.0f;
-            if (lockAngle > 360.0f) { lockAngle = 0.0f; }
-			Vector2 CIBLE_pivot = new Vector2(test.x, Screen.height - test.y);
-            Matrix4x4 MATRIX_backup = GUI.matrix;
-           // GUIUtility.RotateAroundPivot(lockAngle, CIBLE_pivot);
-			GUI.DrawTexture(new Rect(test.x - (locker.width * 0.5f),test.y - (locker.height * 0.5f), locker.width, locker.height), locker);
-			GUI.matrix = MATRIX_backup;
+			//lockAngle += 5.0f;
+            //if (lockAngle > 360.0f) { lockAngle = 0.0f; }
+			//Vector2 CIBLE_pivot = new Vector2(test.x,/* Screen.height - */test.y);
+            //Matrix4x4 MATRIX_backup = GUI.matrix;
+			//GUIUtility.RotateAroundPivot(lockAngle, CIBLE_pivot);
+			GUI.DrawTexture(new Rect(test.x - (locker.width * 0.5f), (Screen.height - test.y) - (locker.height * 0.5f), locker.width, locker.height), locker);
+			//GUI.matrix = MATRIX_backup;
 		}
 		GUILayout.BeginVertical();
 		foreach (Weapon weapon in this.inventory)
@@ -140,6 +140,11 @@ public class Inventory : MonoBehaviour
 	public void Fire(GameObject target = null)
 	{
 		this.activeWeapon.Fire(this.transform.position, this.transform.rotation, this.gameObject, this.targetLock);
+		if (this.activeWeapon.ammo == 0)
+		{
+			this.inventory.Remove(this.activeWeapon);
+			this.activeWeapon = this.inventory[0];
+		}
 	}
 
 	public void DropWeapon(Weapon.Type type)

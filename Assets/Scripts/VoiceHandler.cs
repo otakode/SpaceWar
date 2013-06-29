@@ -85,7 +85,7 @@ public class VoiceHandler : MonoBehaviour
 			}
 			else if (command.StartsWith("Weapon "))
 			{
-				this.GetComponent<Inventory>().ChangeWeapon(int.Parse(command.Substring(command.IndexOf(" ") + 1)));
+				this.GetComponent<Inventory>().ChangeWeapon(int.Parse(command.Substring(command.IndexOf(" ") + 1)) - 1);
 			}
 			else
 			{
