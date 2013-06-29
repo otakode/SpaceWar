@@ -55,7 +55,15 @@ public class SpaceChipsController : MonoBehaviour
 			Debug.LogError("Spaceship has no rigidbody - the thruster scripts will fail. Add rigidbody component to the spaceship.");
 		}
     }
-	
+	public void set_thrusters(int power)
+	{
+		Thruster[] thrusters = this.transform.GetComponent<Spaceship>().thrusters;
+		foreach (Thruster thruster in thrusters)
+		{
+			thruster.SetThrusterPower(power);
+		}
+
+	}
 	public float getSpeed(){
 		return currentSpeedFactor;	
 	}
@@ -166,11 +174,26 @@ public class SpaceChipsController : MonoBehaviour
 			if (!calibrated)
 			{
 				calibrate(ref mainHand);
+				handLeft.GetChild(1).gameObject.renderer.enabled = true;
+				handLeft.GetChild(2).gameObject.renderer.enabled = true;
+				handLeft.GetChild(4).gameObject.renderer.enabled = true;
+				handRight.GetChild(1).gameObject.renderer.enabled = true;
+				handRight.GetChild(2).gameObject.renderer.enabled = true;
+				handRight.GetChild(3).gameObject.renderer.enabled = true;
 				pp.ReleaseFrame();
 				return;
 			}else{
 				calibrate(ref mainHand);
-				//handLeft.GetChild(1).gameObject.renderer.enabled = false;
+				if (handLeft.GetChild(1).gameObject.renderer.enabled)
+				{
+					handLeft.GetChild(1).gameObject.renderer.enabled = false;
+					handLeft.GetChild(2).gameObject.renderer.enabled = false;
+					handLeft.GetChild(4).gameObject.renderer.enabled = false;
+					handRight.GetChild(1).gameObject.renderer.enabled = false;
+					handRight.GetChild(2).gameObject.renderer.enabled = false;
+					handRight.GetChild(3).gameObject.renderer.enabled = false;
+					
+				}
 			}
 
 			float mainHandY = mainHand.positionWorld.y;

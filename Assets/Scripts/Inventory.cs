@@ -4,13 +4,15 @@ using System.Collections.Generic;
 
 public class Inventory : MonoBehaviour
 {
-	private List<Weapon> inventory;
-	private Weapon activeWeapon;
-	private GameObject target;
-	private float timeSeen;
-	public float lockTime = 3f;
-	public float angleLost = 15f;
-	private GameObject targetLock;
+	private List<Weapon>	inventory;
+	private Weapon			activeWeapon;
+	private GameObject		target;
+	private float			timeSeen;
+	public float			lockTime = 3f;
+	public float			angleLost = 15f;
+	private GameObject		targetLock;
+	public GameObject		rocket_prefab;
+	public GameObject		caisse_prefab;
 
 	void Start()
 	{
@@ -19,6 +21,9 @@ public class Inventory : MonoBehaviour
 		this.activeWeapon = this.inventory[0];
 		this.target = null;
 		this.targetLock = null;
+		Rocket.prefab = rocket_prefab;
+		Bomb.prefab = caisse_prefab;
+		Boost.prefab = this.gameObject;
 	}
 
 	void Update()
