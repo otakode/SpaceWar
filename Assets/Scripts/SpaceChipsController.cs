@@ -41,8 +41,8 @@ public class SpaceChipsController : MonoBehaviour
     private PXCUPipeline.Mode mode = PXCUPipeline.Mode.GESTURE;
     private PXCUPipeline pp;
 
-	public float limite1 = 1500f;
-	public float death_limite = 2000f;
+	public float limite1 = 2000f;
+	public float death_limite = 3000f;
 	public GameObject warning;
 
     // Use this for initialization
