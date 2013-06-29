@@ -137,11 +137,8 @@ public class SpaceChipsController : MonoBehaviour
 			}
 		}
 		PXCMGesture.Gesture dataMain;
-		PXCMGesture.Gesture dataSecondary;
-		if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataMain) &&
-			pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataSecondary)){
-			if(dataMain.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP && 
-				dataSecondary.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP){
+		if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataMain)){
+			if(dataMain.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP){
 				this.transform.GetComponent<Spaceship>().Fire();
 			}
 		}
