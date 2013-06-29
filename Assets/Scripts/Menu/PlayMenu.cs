@@ -142,7 +142,7 @@ public class	PlayMenu : MonoBehaviour
 					this.rooms[this.actualRoom].GetComponent<TextController>().SetColor(this.roomSelectColor);
 					//this.scrollRoom = false;
 				}*/
-				Debug.Log("this.ipReady = " + this.ipReady);
+				//Debug.Log("this.ipReady = " + this.ipReady);
 				if (this.ipReady == true)
 				{
 					this.checkAreaKeyBoardPORT();
