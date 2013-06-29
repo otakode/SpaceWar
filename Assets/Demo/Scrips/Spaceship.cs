@@ -10,6 +10,11 @@ public class Spaceship : MonoBehaviour
 	public Vector3[] weaponMountPoints;	
 	public Transform laserShotPrefab;
 	public AudioClip soundEffectFire;
+	public float timeToRespawn = 10.0f;
+    public static bool boucle = false;
+    public static int nb_fire = 5;
+    public float timeToRespawn = 10.0f;
+    float timer = 0.1f;
 	
 	public void set_life(int dif)
 	{
@@ -30,9 +35,51 @@ public class Spaceship : MonoBehaviour
 	
 	void Update () 
 	{
-		
-		if ( life <= 0)
-			Network.Destroy(this.gameObject);
+        if (boucle && nb_fire > 0)
+        {
+            timer -= Time.deltaTime;
+            if (timer < 0)
+            {
+                Fire();
+                nb_fire--;
+                timer = 0.1f;
+                Debug.Log("Timer");
+            }
+        }
+        else
+            boucle = false;
+		if (life <= 0)
+		{
+			this.RPCRespawn();
+			this.Respawn();
+		}
+	}
+
+	[RPC]
+	IEnumerable	RPCRespawn()
+	{
+		GameObject[]	spawners = GameObject.FindGameObjectsWithTag("Spawn");
+		int				rand = Random.Range(0, spawners.Length);
+		GameObject		spawn = spawners[rand];
+
+		this.GetComponent<BoxCollider>().enabled = false;
+		this.GetComponent<SpaceChipsController>().enabled = false;
+		this.GetComponent<VoiceHandler>().enabled = false;
+		this.transform.FindChild("model3D noCockpit noThruster").gameObject.SetActive(false);
+		this.transform.position = spawn.transform.position;
+
+		yield return new WaitForSeconds(this.timeToRespawn);
+
+		this.GetComponent<BoxCollider>().enabled = true;
+		this.GetComponent<SpaceChipsController>().enabled = true;
+		this.GetComponent<VoiceHandler>().enabled = true;
+		this.transform.FindChild("model3D noCockpit noThruster").gameObject.SetActive(true);
+	}
+
+	private void	Respawn()
+	{
+		this.transform.FindChild("model3D noCockpit noThruster").gameObject.SetActive(false);
+
 	}
 
 	public void Fire()
