@@ -116,6 +116,9 @@ public class SpaceChipsController : MonoBehaviour
         float speedFactor;
 		PXCMGesture.GeoNode mainHand;
    		PXCMGesture.GeoNode secondaryHand;
+		checkSpeedFactor(out speedFactor);
+		//Compute the rotation with the hand position
+        if (!pp.AcquireFrame(false)) return;
 
 		Thruster[] thrusters = this.transform.GetComponent<Spaceship>().thrusters;
 		if (Input.GetButtonDown("Fire1"))
@@ -133,15 +136,22 @@ public class SpaceChipsController : MonoBehaviour
 				thruster.SetThrusterPower(0);
 			}
 		}
+		PXCMGesture.Gesture dataMain;
+		PXCMGesture.Gesture dataSecondary;
+		if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataMain) &&
+			pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataSecondary)){
+			if(dataMain.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP && 
+				dataSecondary.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP){
+				this.transform.GetComponent<Spaceship>().Fire();
+			}
+		}
 
 		if (Input.GetButtonDown("Fire2"))
 		{
 			this.transform.GetComponent<Spaceship>().Fire();
 		}
 
-		checkSpeedFactor(out speedFactor);
-		//Compute the rotation with the hand position
-        if (!pp.AcquireFrame(false)) return;
+		
 		
         if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out mainHand) &&
             pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_SECONDARY, out secondaryHand))
