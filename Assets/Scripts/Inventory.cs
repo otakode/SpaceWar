@@ -124,7 +124,7 @@ public class Inventory : MonoBehaviour
 
 	public void Fire(GameObject target = null)
 	{
-		this.activeWeapon.Fire(this.transform.position, this.transform.rotation, this.gameObject, target);
+		this.activeWeapon.Fire(this.transform.position, this.transform.rotation, this.gameObject, this.targetLock);
 	}
 
 	public void DropWeapon(Weapon.Type type)

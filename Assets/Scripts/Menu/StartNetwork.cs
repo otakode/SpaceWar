@@ -36,6 +36,7 @@ public class StartNetwork : MonoBehaviour
 
 	private void	InitPlayer()
 	{
+		Debug.Log("init player");
 		GameObject[]	spawners = GameObject.FindGameObjectsWithTag("Spawn");
 		GameObject		camera = GameObject.FindGameObjectWithTag("Camera");
 		int				rand = Random.Range(0, spawners.Length);
@@ -46,10 +47,14 @@ public class StartNetwork : MonoBehaviour
 		this.playerInst.transform.GetComponent<SpaceChipsController>().enabled = true;
 		this.playerInst.transform.GetComponent<VoiceHandler>().enabled = true;
 		this.playerInst.transform.GetComponent<Inventory>().enabled = true;
+		Debug.Log("1");
 		this.playerInst.transform.FindChild("Camera").gameObject.SetActive(true);
+		Debug.Log("2");
 		this.playerInst.transform.FindChild("Model3D").FindChild("Cockpit").gameObject.SetActive(true);
 		this.playerInst.transform.FindChild("Model3D").FindChild("External").gameObject.SetActive(false);
+		Debug.Log("3");
 		GameObject.Find("SpaceCamera").GetComponent<SU_SpaceSceneCamera>().Init(this.playerInst.transform.FindChild("Camera").transform);
+		Debug.Log(" out init player");
 	}
 
 	void	OnServerInitialized()	// Appelé par le joueur HOST après s'être connecté au serveur avec succès.
@@ -89,13 +94,15 @@ public class StartNetwork : MonoBehaviour
 		else
 		{
 			Network.Connect(this.remoteIp, this.listenPort);
-			Debug.LogError("OnLevelWasLoaded JOIN");
+			Debug.Log("OnLevelWasLoaded JOIN");
 		}
 
 		if (Application.loadedLevelName == "Menu")
 			Destroy(this.gameObject);
+		Debug.Log("destroy Menu");
 
 		foreach (GameObject go in FindObjectsOfType(typeof(GameObject)))
 			go.SendMessage("OnNetworkLoadedLevel", SendMessageOptions.DontRequireReceiver);
+		Debug.Log("send message ok");
 	}
 }
