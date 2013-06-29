@@ -37,8 +37,8 @@ public class Thruster : MonoBehaviour
 	{
 		_cacheTransform = transform;
 		
-		if (transform.parent.rigidbody != null)
-			_cacheParentRigidbody = transform.parent.rigidbody;
+		if (transform.parent.parent.rigidbody != null)
+			_cacheParentRigidbody = transform.parent.parent.rigidbody;
 		else 
 			Debug.LogError("Thruster has no parent with rigidbody that it can apply the force to.");
 		_cacheLight = transform.GetComponent<Light>().light;

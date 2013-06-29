@@ -43,11 +43,12 @@ public class StartNetwork : MonoBehaviour
 
 		this.playerInst = Network.Instantiate(this.player, spawn.transform.position, Quaternion.identity, 0) as GameObject;
 
-		this.playerInst.transform.FindChild("model3D noCockpit noThruster").gameObject.SetActive(false);
 		this.playerInst.transform.GetComponent<SpaceChipsController>().enabled = true;
 		this.playerInst.transform.GetComponent<VoiceHandler>().enabled = true;
+		this.playerInst.transform.GetComponent<Inventory>().enabled = true;
 		this.playerInst.transform.FindChild("Camera").gameObject.SetActive(true);
-		this.playerInst.transform.FindChild("Cockpit").gameObject.SetActive(true);
+		this.playerInst.transform.FindChild("Model3D").FindChild("Cockpit").gameObject.SetActive(true);
+		this.playerInst.transform.FindChild("Model3D").FindChild("External").gameObject.SetActive(false);
 		GameObject.Find("SpaceCamera").GetComponent<SU_SpaceSceneCamera>().Init(this.playerInst.transform.FindChild("Camera").transform);
 	}
 
