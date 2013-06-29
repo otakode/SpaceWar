@@ -8,11 +8,11 @@ public class Weapon
 		None,
 		Rifle,
 		Rocket,
-	//	,
-	//	,
-	//	,
+		Boost,
+		Alien,
+		Hack,
 		Shield,
-	//	,
+		Return,
 		Stealth,
 		Bomb,
 		Nova,
@@ -27,16 +27,16 @@ public class Weapon
 				return "Rifle";
 			case Type.Rocket:
 				return "Rocket";
-	//		case Type.:
-	//			return "";
-	//		case Type.:
-	//			return "";
-	//		case Type.:
-	//			return "";
+			case Type.Boost:
+				return "Boost";
+			case Type.Alien:
+				return "Alien";
+			case Type.Hack:
+				return "Hack";
 			case Type.Shield:
 				return "Shield";
-	//		case Type.:
-	//			return "";
+			case Type.Return:
+				return "Return";
 			case Type.Stealth:
 				return "Stealth";
 			case Type.Bomb:
@@ -57,16 +57,16 @@ public class Weapon
 				return Type.Rifle;
 			case "Rocket":
 				return Type.Rocket;
-	//		case "":
-	//			return Type.;
-	//		case "":
-	//			return Type.;
-	//		case "":
-	//			return Type.;
+			case "Boost":
+				return Type.Boost;
+			case "Alien":
+				return Type.Alien;
+			case "Hack":
+				return Type.Hack;
 			case "Shield":
 				return Type.Shield;
-	//		case "":
-	//			return Type.;
+			case "Return":
+				return Type.Return;
 			case "Stealth":
 				return Type.Stealth;
 			case "Bomb":
@@ -90,21 +90,21 @@ public class Weapon
 			case Weapon.Type.Rocket:
 				weapon = new Rocket();
 				break;
-/*			case Weapon.Type.:
-				weapon = new ();
-				break;*/
-/*			case Weapon.Type.:
-				weapon = new ();
-				break;*/
-/*			case Weapon.Type.:
-				weapon = new ();
-				break;*/
+			case Weapon.Type.Boost:
+				weapon = new Boost();
+				break;
+			case Weapon.Type.Alien:
+				weapon = new Alien();
+				break;
+			case Weapon.Type.Hack:
+				weapon = new Hack();
+				break;
 			case Weapon.Type.Shield:
 				weapon = new Shield();
 				break;
-/*			case Weapon.Type.:
-				weapon = new ();
-				break;*/
+			case Weapon.Type.Return:
+				weapon = new Return();
+				break;
 			case Weapon.Type.Stealth:
 				weapon = new Stealth();
 				break;
@@ -133,7 +133,7 @@ public class Weapon
 		this.ammo = a;
 	}
 
-	public virtual bool Fire(Vector3 pos, Quaternion rot, GameObject target)
+	public virtual bool Fire(Vector3 pos, Quaternion rot, GameObject source, GameObject target)
 	{
 		return false;
 	}
@@ -145,8 +145,10 @@ public class Rifle : Weapon
 	{
 	}
 
-	public override bool Fire (Vector3 pos, Quaternion rot, GameObject target)
+	public override bool Fire (Vector3 pos, Quaternion rot, GameObject source, GameObject target)
 	{
+		Spaceship.nb_fire = 5;
+		Spaceship.boucle = true;
 		Debug.Log("pew pew pew pew pew");
 		return true;
 	}
@@ -158,7 +160,7 @@ public class Rocket : Weapon
 	{
 	}
 
-	public override bool Fire (Vector3 pos, Quaternion rot, GameObject target)
+	public override bool Fire (Vector3 pos, Quaternion rot, GameObject source, GameObject target)
 	{
 		if (this.ammo == 0)
 			return false;
@@ -167,54 +169,54 @@ public class Rocket : Weapon
 		return true;
 	}
 }
-/*
-public class  : Weapon
+
+public class Boost : Weapon
 {
-	public () : base(Weapon.Type.)
+	public Boost() : base(Weapon.Type.Boost, 1)
 	{
 	}
 
-	public override bool Fire (Vector3 pos, Quaternion rot, GameObject target)
+	public override bool Fire (Vector3 pos, Quaternion rot, GameObject source, GameObject target)
 	{
 		if (this.ammo == 0)
 			return false;
 		this.ammo--;
-		Debug.Log("");
+		Debug.Log("Boost");
 		return true;
 	}
-}*/
-/*
-public class  : Weapon
+}
+
+public class Alien : Weapon
 {
-	public () : base(Weapon.Type.)
+	public Alien() : base(Weapon.Type.Alien, 1)
 	{
 	}
 
-	public override bool Fire (Vector3 pos, Quaternion rot, GameObject target)
+	public override bool Fire (Vector3 pos, Quaternion rot, GameObject source, GameObject target)
 	{
 		if (this.ammo == 0)
 			return false;
 		this.ammo--;
-		Debug.Log("");
+		Debug.Log("Alien");
 		return true;
 	}
-}*/
-/*
-public class  : Weapon
+}
+
+public class Hack : Weapon
 {
-	public () : base(Weapon.Type.)
+	public Hack() : base(Weapon.Type.Hack, 1)
 	{
 	}
 
-	public override bool Fire (Vector3 pos, Quaternion rot, GameObject target)
+	public override bool Fire (Vector3 pos, Quaternion rot, GameObject source, GameObject target)
 	{
 		if (this.ammo == 0)
 			return false;
 		this.ammo--;
-		Debug.Log("");
+		Debug.Log("Hack");
 		return true;
 	}
-}*/
+}
 
 public class Shield : Weapon
 {
@@ -222,7 +224,7 @@ public class Shield : Weapon
 	{
 	}
 
-	public override bool Fire (Vector3 pos, Quaternion rot, GameObject target)
+	public override bool Fire (Vector3 pos, Quaternion rot, GameObject source, GameObject target)
 	{
 		if (this.ammo == 0)
 			return false;
@@ -231,22 +233,22 @@ public class Shield : Weapon
 		return true;
 	}
 }
-/*
-public class  : Weapon
+
+public class Return : Weapon
 {
-	public () : base(Weapon.Type.)
+	public Return() : base(Weapon.Type.Return, 1)
 	{
 	}
 
-	public override bool Fire (Vector3 pos, Quaternion rot, GameObject target)
+	public override bool Fire (Vector3 pos, Quaternion rot, GameObject source, GameObject target)
 	{
 		if (this.ammo == 0)
 			return false;
 		this.ammo--;
-		Debug.Log("");
+		Debug.Log("Return");
 		return true;
 	}
-}*/
+}
 
 public class Stealth : Weapon
 {
@@ -254,7 +256,7 @@ public class Stealth : Weapon
 	{
 	}
 
-	public override bool Fire (Vector3 pos, Quaternion rot, GameObject target)
+	public override bool Fire (Vector3 pos, Quaternion rot, GameObject source, GameObject target)
 	{
 		if (this.ammo == 0)
 			return false;
@@ -270,7 +272,7 @@ public class Bomb : Weapon
 	{
 	}
 
-	public override bool Fire (Vector3 pos, Quaternion rot, GameObject target)
+	public override bool Fire (Vector3 pos, Quaternion rot, GameObject source, GameObject target)
 	{
 		if (this.ammo == 0)
 			return false;
@@ -286,7 +288,7 @@ public class Nova : Weapon
 	{
 	}
 
-	public override bool Fire (Vector3 pos, Quaternion rot, GameObject target)
+	public override bool Fire (Vector3 pos, Quaternion rot, GameObject source, GameObject target)
 	{
 		if (this.ammo == 0)
 			return false;
@@ -302,7 +304,7 @@ public class Repair : Weapon
 	{
 	}
 
-	public override bool Fire (Vector3 pos, Quaternion rot, GameObject target)
+	public override bool Fire (Vector3 pos, Quaternion rot, GameObject source, GameObject target)
 	{
 		if (this.ammo == 0)
 			return false;

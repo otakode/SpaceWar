@@ -19,11 +19,11 @@ public class VoiceHandler : MonoBehaviour
 		}
 		commandList.Add(Weapon.TypeToString(Weapon.Type.Rifle));
 		commandList.Add(Weapon.TypeToString(Weapon.Type.Rocket));
-	//	commandList.Add(Weapon.TypeToString(Weapon.Type.);
-	//	commandList.Add(Weapon.TypeToString(Weapon.Type.);
-	//	commandList.Add(Weapon.TypeToString(Weapon.Type.);
+		commandList.Add(Weapon.TypeToString(Weapon.Type.Boost));
+		commandList.Add(Weapon.TypeToString(Weapon.Type.Alien));
+		commandList.Add(Weapon.TypeToString(Weapon.Type.Hack));
 		commandList.Add(Weapon.TypeToString(Weapon.Type.Shield));
-	//	commandList.Add(Weapon.TypeToString(Weapon.Type.);
+		commandList.Add(Weapon.TypeToString(Weapon.Type.Return));
 		commandList.Add(Weapon.TypeToString(Weapon.Type.Stealth));
 		commandList.Add(Weapon.TypeToString(Weapon.Type.Bomb));
 		commandList.Add(Weapon.TypeToString(Weapon.Type.Nova));
@@ -69,10 +69,7 @@ public class VoiceHandler : MonoBehaviour
 			Debug.Log(this.command);
 			if (command == "Fire" || command == "Activate" || command == "Launch")
 			{
-			//	this.GetComponent<Inventory>().Fire();
-				this.GetComponent<Spaceship>().Fire();
-                Spaceship.nb_fire = 5;
-                Spaceship.boucle = true;
+				this.GetComponent<Inventory>().Fire();
 			}
 			else if (command == "Stop")
 			{

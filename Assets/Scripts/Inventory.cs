@@ -76,7 +76,7 @@ public class Inventory : MonoBehaviour
 		}
 	}
 
-	public void Fire()
+	public void Fire(GameObject target = null)
 	{/*
 		switch (this.activeWeapon)
 		{
@@ -120,7 +120,7 @@ public class Inventory : MonoBehaviour
 				Debug.Log("Repair");
 				break;
 		}*/
-		this.activeWeapon.Fire(this.transform.position, this.transform.rotation, this.gameObject);
+		this.activeWeapon.Fire(this.transform.position, this.transform.rotation, this.gameObject, target);
 	}
 
 	void DropWeapon(Weapon.Type type)
@@ -129,7 +129,7 @@ public class Inventory : MonoBehaviour
 		if (type == Weapon.Type.Repair)
 		{
 			weapon = new Repair();
-			weapon.Fire(this.transform.position, this.transform.rotation, this.gameObject);
+			weapon.Fire(this.transform.position, this.transform.rotation, this.gameObject, null);
 		}
 		else if (this.inventory.Count < 5)
 		{
