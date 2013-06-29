@@ -241,7 +241,6 @@ public class SpaceChipsController : MonoBehaviour
 		else if (calibrated)
 		{
 			gogoGadgeto = true;
-			Debug.Log("autre chose");
 		}
 	}
 	
