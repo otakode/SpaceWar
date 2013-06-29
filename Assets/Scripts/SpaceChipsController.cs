@@ -226,7 +226,6 @@ public class SpaceChipsController : MonoBehaviour
 
         if (!calibrated) return;
 		
-		//checkCollisions(speedFactor);
     }
 	
 	void calibrate(ref PXCMGesture.GeoNode mainHand){
@@ -249,44 +248,6 @@ public class SpaceChipsController : MonoBehaviour
 		else if (calibrated)
 		{
 			gogoGadgeto = true;
-		}
-	}
-	
-	bool checkCollide(ref Ray ray, out RaycastHit hit, float distance){
-		if (Physics.Raycast(ray, out hit, distance))
-        {
-            return hit.collider.gameObject.tag != "Ring";
-        }
-		return false;
-	}
-	
-	bool checkCollisionDown(float speedFactor, out RaycastHit hit){
-		Ray rayDown = new Ray(transform.position, -transform.up);
-		return checkCollide(ref rayDown, out hit, DEFAULT_COLLISION_DISTANCE);
-	}
-	
-	bool checkCollisionForward(float speedFactor, out RaycastHit hit){
-		Ray rayForward = new Ray(transform.position, transform.forward);
-		return checkCollide(ref rayForward, out hit, FORWARD_COLLISION_DISTANCE);
-	}
-	
-	bool checkCollisionUp(float speedFactor, out RaycastHit hit){
-		Ray rayUp = new Ray(transform.position, transform.up);
-		return checkCollide(ref rayUp, out hit, DEFAULT_COLLISION_DISTANCE);
-	}
-	
-	void checkCollisions(float speedFactor){
-		RaycastHit hit;
-		if(checkCollisionForward(speedFactor, out hit)){
-			Quaternion target = Quaternion.LookRotation((transform.position + transform.up*3 + transform.forward) - transform.position);
-			transform.rotation = Quaternion.Slerp(transform.rotation, target, speedFactor * (FORWARD_COLLISION_DISTANCE/hit.distance) * Time.deltaTime);
-			transform.position = transform.position + transform.forward * speedFactor/3;
-		}else if(checkCollisionDown(speedFactor, out hit)){
-            transform.position = transform.position + transform.forward * speedFactor + Vector3.up * (DEFAULT_COLLISION_DISTANCE - hit.distance) * 0.5f;
-		}else if(checkCollisionUp(speedFactor, out hit)){
-            transform.position = transform.position + transform.forward * speedFactor + Vector3.down * (DEFAULT_COLLISION_DISTANCE - hit.distance) * 0.5f;
-		}else{
-			transform.position = transform.position + transform.forward * speedFactor;
 		}
 	}
 
