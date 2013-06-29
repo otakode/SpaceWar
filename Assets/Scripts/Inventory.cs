@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Inventory : MonoBehaviour
 {
 	private List<Weapon>	inventory;
+	private TextMesh[]		weaponsText;
 	private Weapon			activeWeapon;
 	private GameObject		target;
 	private float			timeSeen;
@@ -24,6 +25,14 @@ public class Inventory : MonoBehaviour
 	{
 		this.inventory = new List<Weapon>();
 		this.inventory.Add(Weapon.GetWeapon(Weapon.Type.Rifle));
+		Transform cockpit = this.transform.FindChild("Model3D").FindChild("Cockpit");
+		this.weaponsText = new TextMesh[]{
+			cockpit.FindChild("Weapon1").GetComponent<TextMesh>(),
+			cockpit.FindChild("Weapon2").GetComponent<TextMesh>(),
+			cockpit.FindChild("Weapon3").GetComponent<TextMesh>(),
+			cockpit.FindChild("Weapon4").GetComponent<TextMesh>(),
+			cockpit.FindChild("Weapon5").GetComponent<TextMesh>()
+		};
 		this.activeWeapon = this.inventory[0];
 		this.target = null;
 		this.targetLock = null;
@@ -86,9 +95,17 @@ public class Inventory : MonoBehaviour
 			//GUI.matrix = MATRIX_backup;
 		}
 		GUILayout.BeginVertical();
+		int i = 0;
 		foreach (Weapon weapon in this.inventory)
 		{
-			GUILayout.Label(new GUIContent(weapon.ToString()));
+			//GUILayout.Label(new GUIContent(weapon.ToString()));
+			this.weaponsText[i].text = weapon.ToString();
+			i++;
+		}
+		while (i < 5)
+		{
+			this.weaponsText[i].text = "";
+			i++;
 		}
 		GUILayout.EndVertical();
 	}
