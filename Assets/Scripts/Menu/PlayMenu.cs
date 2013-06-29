@@ -139,6 +139,7 @@ public class	PlayMenu : MonoBehaviour
 					this.rooms[this.actualRoom].GetComponent<TextController>().SetColor(this.roomSelectColor);
 					//this.scrollRoom = false;
 				}*/
+				Debug.Log("this.ipReady = " + this.ipReady);
 				if (this.ipReady == true)
 				{
 					this.checkAreaKeyBoardPORT();
@@ -161,6 +162,7 @@ public class	PlayMenu : MonoBehaviour
 					this.strIp = "Tape IP";
 					this.scrollRoom = false;
 				}
+				
 				if (this.ipReady != true)
 					this.checkAreaKeyBoardIP();
 				this.ip.text = this.strIp;
@@ -170,6 +172,7 @@ public class	PlayMenu : MonoBehaviour
 
 	private void	checkAreaKeyBoardIP()
 	{
+		Debug.Log("in ip");
 		if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0))
 			this.strIp = this.strIp + '0';
 		else if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
@@ -192,8 +195,9 @@ public class	PlayMenu : MonoBehaviour
 			this.strIp = this.strIp + '9';
 		else if (Input.GetKeyDown(KeyCode.Period))
 			this.strIp = this.strIp + '.';
-		else if (Input.GetKeyDown(KeyCode.Backspace) && this.strIp.Length != 0)
+		else if (Input.GetKeyDown(KeyCode.Backspace) && this.strIp.Length > 0)
 			this.strIp = this.strIp.Remove(this.strIp.Length - 1);
+		Debug.Log("out ip");
 	}
 
 	private void checkAreaKeyBoardPORT()
@@ -218,7 +222,7 @@ public class	PlayMenu : MonoBehaviour
 			this.strPort = this.strPort + '8';
 		else if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
 			this.strPort = this.strPort + '9';
-		else if (Input.GetKeyDown(KeyCode.Backspace) && this.strPort.Length != 0)
+		else if (Input.GetKeyDown(KeyCode.Backspace) && this.strPort.Length > 0)
 			this.strPort = this.strPort.Remove(this.strPort.Length - 1);
 	}
 }
