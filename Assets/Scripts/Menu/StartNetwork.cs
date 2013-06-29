@@ -54,7 +54,15 @@ public class StartNetwork : MonoBehaviour
 		this.playerInst.transform.FindChild("Model3D").FindChild("Cockpit").gameObject.SetActive(true);
 		this.playerInst.transform.FindChild("Model3D").FindChild("External").gameObject.SetActive(false);
 		Debug.Log("3");
-		GameObject.Find("SpaceCamera").GetComponent<SU_SpaceSceneCamera>().Init(this.playerInst.transform.FindChild("Camera").transform);
+		if (!OculusMode.on)
+		{
+			GameObject.Find("SpaceCamera").GetComponent<SU_SpaceSceneCamera>().Init(this.playerInst.transform.FindChild("Camera").transform);
+		}
+		else
+		{
+			GameObject.Find("SpaceCameraOVR").GetComponent<OVRCameraController>().FollowOrientation = /*.transform.FindChild("CameraLeft").GetComponent<SU_SpaceSceneCamera>().Init*/(this.playerInst.transform.FindChild("Camera").transform);
+		//	GameObject.Find("SpaceCameraOVR").transform.FindChild("CameraRight").GetComponent<SU_SpaceSceneCamera>().Init(this.playerInst.transform.FindChild("Camera").transform);
+		}
 		Debug.Log(" out init player");
 	}
 
