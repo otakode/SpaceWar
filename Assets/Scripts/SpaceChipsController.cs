@@ -27,6 +27,9 @@ public class SpaceChipsController : MonoBehaviour
 	public float pitchRate = 100.0f;
 	private Rigidbody cacheRigidbody;
 	public GameObject	pilotHands;
+	private Transform	handRight;
+	private Transform	handLeft;
+	
 	public GameObject	manche;
 
 	public float nonPlayingSpeed = 5f;
@@ -156,8 +159,8 @@ public class SpaceChipsController : MonoBehaviour
             pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_SECONDARY, out secondaryHand))
 		{
             checkHands(ref mainHand, ref secondaryHand);
-			Transform	handRight = pilotHands.transform.GetChild(0).transform;
-			Transform	handLeft = pilotHands.transform.GetChild(1).transform;
+			handRight = pilotHands.transform.GetChild(0).transform;
+			handLeft = pilotHands.transform.GetChild(1).transform;
 			handRight.localPosition = new Vector3(-secondaryHand.positionWorld.x-0.15f,secondaryHand.positionWorld.z+0.2f,-secondaryHand.positionWorld.y+0.65f);
 			handLeft.localPosition = new Vector3(-mainHand.positionWorld.x+0.15f,mainHand.positionWorld.z+0.2f,-mainHand.positionWorld.y+0.65f);
 			if (!calibrated)
@@ -167,6 +170,7 @@ public class SpaceChipsController : MonoBehaviour
 				return;
 			}else{
 				calibrate(ref mainHand);
+				//handLeft.GetChild(1).gameObject.renderer.enabled = false;
 			}
 
 			float mainHandY = mainHand.positionWorld.y;
@@ -255,9 +259,11 @@ public class SpaceChipsController : MonoBehaviour
 		float speedFactor;
 		checkSpeedFactor(out speedFactor);
 		float roll = mainHandZ - secondaryHandZ;
+		//manche.transform.rotation = new Quaternion(0.0f,0.0f,roll,0.0f);
 		//Here is the trick to smooth the moves
 		roll *= Mathf.Abs (roll);
 		roll *= sensibilityFactor* 2f;
+		
 		transform.RotateAroundLocal(transform.forward, roll);
 	}
 	
