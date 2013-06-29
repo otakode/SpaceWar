@@ -4,14 +4,20 @@ using System.Collections.Generic;
 
 public class Inventory : MonoBehaviour
 {
-	private List<Weapon> inventory;
-	private Weapon activeWeapon;
+	private List<Weapon>	inventory;
+	private Weapon			activeWeapon;
+	public GameObject		rocket_prefab;
+	public GameObject		caisse_prefab;
+	
 
 	void Start()
 	{
 		this.inventory = new List<Weapon>();
 		this.inventory.Add(Weapon.GetWeapon(Weapon.Type.Rifle));
 		this.activeWeapon = this.inventory[0];
+		Rocket.prefab = rocket_prefab;
+		Bomb.prefab = caisse_prefab;
+		Boost.prefab = this.gameObject;
 	}
 
 	void Update()

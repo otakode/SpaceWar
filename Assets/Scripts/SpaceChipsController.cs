@@ -55,7 +55,15 @@ public class SpaceChipsController : MonoBehaviour
 			Debug.LogError("Spaceship has no rigidbody - the thruster scripts will fail. Add rigidbody component to the spaceship.");
 		}
     }
-	
+	public void set_thrusters(int power)
+	{
+		Thruster[] thrusters = this.transform.GetComponent<Spaceship>().thrusters;
+		foreach (Thruster thruster in thrusters)
+		{
+			thruster.SetThrusterPower(power);
+		}
+
+	}
 	public float getSpeed(){
 		return currentSpeedFactor;	
 	}

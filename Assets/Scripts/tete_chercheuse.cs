@@ -12,6 +12,11 @@ public class tete_chercheuse : MonoBehaviour
 	public	float		timer = 8;
 	private	float		p_timer;
 	
+	public void set_target(Transform _target)
+	{
+		this.target = _target;
+	}
+	
 	void	Awake()
 	{
 		myTransform = transform;

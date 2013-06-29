@@ -156,6 +156,8 @@ public class Rifle : Weapon
 
 public class Rocket : Weapon
 {
+	public static GameObject prefab;
+	private GameObject	tmp;
 	public Rocket() : base(Weapon.Type.Rocket, 3)
 	{
 	}
@@ -164,6 +166,8 @@ public class Rocket : Weapon
 	{
 		if (this.ammo == 0)
 			return false;
+		tmp = GameObject.Instantiate(prefab, pos, rot) as GameObject;
+		tmp.GetComponent<tete_chercheuse>().set_target(target.transform);
 		this.ammo--;
 		Debug.Log("bang... BOOM");
 		return true;
@@ -172,8 +176,10 @@ public class Rocket : Weapon
 
 public class Boost : Weapon
 {
+	public static GameObject prefab;
 	public Boost() : base(Weapon.Type.Boost, 1)
 	{
+		
 	}
 
 	public override bool Fire (Vector3 pos, Quaternion rot, GameObject source, GameObject target)
@@ -181,6 +187,8 @@ public class Boost : Weapon
 		if (this.ammo == 0)
 			return false;
 		this.ammo--;
+//		prefab.GetComponent<SpaceChipsController>().set_thrusters(950);
+	//	prefab.GetComponent<SpaceChipsController>().set_thrusters(100);
 		Debug.Log("Boost");
 		return true;
 	}
@@ -268,14 +276,17 @@ public class Stealth : Weapon
 
 public class Bomb : Weapon
 {
+	static public GameObject prefab;
 	public Bomb() : base(Weapon.Type.Bomb, 5)
 	{
 	}
 
 	public override bool Fire (Vector3 pos, Quaternion rot, GameObject source, GameObject target)
 	{
+		
 		if (this.ammo == 0)
 			return false;
+		GameObject.Instantiate(prefab, pos, rot);
 		this.ammo--;
 		Debug.Log("bomb");
 		return true;
