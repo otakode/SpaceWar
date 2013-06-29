@@ -7,6 +7,7 @@ public class LaserShot : MonoBehaviour
 	public float		velocity = 1000.0f;
 	public Transform	impactEffect;
 	public Transform	explosionEffect;
+	public Transform	bonus;
 	public Transform	firedBy {get; set;}
 	
 	private Vector3		_velocity;
@@ -41,7 +42,9 @@ public class LaserShot : MonoBehaviour
 					else if (Random.Range(0, 20) < 2)
 					{
 						Instantiate(explosionEffect, _hit.transform.position, _rotation);
+						Instantiate(bonus,_hit.transform.position, _rotation);
 						Destroy(_hit.transform.gameObject);
+						
 					}
 					Destroy(gameObject);
 				}
