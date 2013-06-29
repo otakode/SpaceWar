@@ -26,6 +26,7 @@ public class SpaceChipsController : MonoBehaviour
 	public float yawRate = 30.0f;
 	public float pitchRate = 100.0f;
 	private Rigidbody cacheRigidbody;
+	public GameObject	pilotHands;
 
 	public float nonPlayingSpeed = 5f;
 	
@@ -154,7 +155,10 @@ public class SpaceChipsController : MonoBehaviour
             pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_SECONDARY, out secondaryHand))
 		{
             checkHands(ref mainHand, ref secondaryHand);
-						
+			Transform	handRight = pilotHands.transform.GetChild(0).transform;
+			Transform	handLeft = pilotHands.transform.GetChild(1).transform;
+			handRight.localPosition = new Vector3(-secondaryHand.positionWorld.x,secondaryHand.positionWorld.z,secondaryHand.positionWorld.y);
+			handLeft.localPosition = new Vector3(-mainHand.positionWorld.x,mainHand.positionWorld.z,mainHand.positionWorld.y);
 			if (!calibrated)
 			{
 				calibrate(ref mainHand);
