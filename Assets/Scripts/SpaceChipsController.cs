@@ -31,6 +31,9 @@ public class SpaceChipsController : MonoBehaviour
 	public GameObject	pilotHands;
 	private Transform	handRight;
 	private Transform	handLeft;
+	public float		limite1 = 1000;
+	public float		death_limite = 1400;
+	private GameObject	spawn;
 	
 	public GameObject	manche;
 
@@ -57,6 +60,7 @@ public class SpaceChipsController : MonoBehaviour
 		{
 			Debug.LogError("Spaceship has no rigidbody - the thruster scripts will fail. Add rigidbody component to the spaceship.");
 		}
+		spawn = GameObject.FindGameObjectWithTag("Spawn");
     }
 	public void set_thrusters(int power)
 	{
@@ -173,7 +177,14 @@ public class SpaceChipsController : MonoBehaviour
 		{
 			this.transform.GetComponent<Spaceship>().Fire();
 		}
-
+		var distance = Vector3.Distance(spawn.transform.position, this.transform.position);
+		if (distance > limite1)
+		{
+			if (distance >limite1 && distance < death_limite)
+			{
+				
+			}
+		}
 		
 		
         if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out mainHand) &&
