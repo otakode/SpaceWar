@@ -143,18 +143,22 @@ public class	PlayMenu : MonoBehaviour
 				{
 					this.checkAreaKeyBoardPORT();
 					if (Input.GetKeyDown(KeyCode.Escape))
+					{
+						this.strPort = "Tape Port";
 						this.ipReady = false;
-					else if (Input.GetKeyDown(KeyCode.Return))
+					}
+					else if (Input.GetKeyDown(KeyCode.Return) && this.port.text != "")
 						this.JoinServer();
 					this.port.text = this.strPort;
 				}
-				else if (Input.GetKeyDown(KeyCode.Return))
+				else if (Input.GetKeyDown(KeyCode.Return) && this.ip.text != "")
 				{
 					this.ipReady = true;
 				}
 				else if (Input.GetKeyDown(KeyCode.Escape))
 				{
 					this.rooms[this.actualRoom].GetComponent<TextController>().SetColor(this.normalColor);
+					this.strIp = "Tape IP";
 					this.scrollRoom = false;
 				}
 				if (this.ipReady != true)
@@ -166,55 +170,55 @@ public class	PlayMenu : MonoBehaviour
 
 	private void	checkAreaKeyBoardIP()
 	{
-		if (Input.GetKeyDown(KeyCode.Alpha0))
+		if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0))
 			this.strIp = this.strIp + '0';
-		else if (Input.GetKeyDown(KeyCode.Alpha1))
+		else if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
 			this.strIp = this.strIp + '1';
-		else if (Input.GetKeyDown(KeyCode.Alpha2))
+		else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
 			this.strIp = this.strIp + '2';
-		else if (Input.GetKeyDown(KeyCode.Alpha3))
+		else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
 			this.strIp = this.strIp + '3';
-		else if (Input.GetKeyDown(KeyCode.Alpha4))
+		else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
 			this.strIp = this.strIp + '4';
-		else if (Input.GetKeyDown(KeyCode.Alpha5))
+		else if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
 			this.strIp = this.strIp + '5';
-		else if (Input.GetKeyDown(KeyCode.Alpha6))
+		else if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
 			this.strIp = this.strIp + '6';
-		else if (Input.GetKeyDown(KeyCode.Alpha7))
+		else if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
 			this.strIp = this.strIp + '7';
-		else if (Input.GetKeyDown(KeyCode.Alpha8))
+		else if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8))
 			this.strIp = this.strIp + '8';
-		else if (Input.GetKeyDown(KeyCode.Alpha7))
+		else if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
 			this.strIp = this.strIp + '9';
 		else if (Input.GetKeyDown(KeyCode.Period))
 			this.strIp = this.strIp + '.';
-		else if (Input.GetKeyDown(KeyCode.Backspace))
+		else if (Input.GetKeyDown(KeyCode.Backspace) && this.strIp.Length != 0)
 			this.strIp = this.strIp.Remove(this.strIp.Length - 1);
 	}
 
 	private void checkAreaKeyBoardPORT()
 	{
-		if (Input.GetKeyDown(KeyCode.Alpha0))
+		if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0))
 			this.strPort = this.strPort + '0';
-		else if (Input.GetKeyDown(KeyCode.Alpha1))
+		else if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
 			this.strPort = this.strPort + '1';
-		else if (Input.GetKeyDown(KeyCode.Alpha2))
+		else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
 			this.strPort = this.strPort + '2';
-		else if (Input.GetKeyDown(KeyCode.Alpha3))
+		else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
 			this.strPort = this.strPort + '3';
-		else if (Input.GetKeyDown(KeyCode.Alpha4))
+		else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
 			this.strPort = this.strPort + '4';
-		else if (Input.GetKeyDown(KeyCode.Alpha5))
+		else if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
 			this.strPort = this.strPort + '5';
-		else if (Input.GetKeyDown(KeyCode.Alpha6))
+		else if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
 			this.strPort = this.strPort + '6';
-		else if (Input.GetKeyDown(KeyCode.Alpha7))
+		else if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
 			this.strPort = this.strPort + '7';
-		else if (Input.GetKeyDown(KeyCode.Alpha8))
+		else if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8))
 			this.strPort = this.strPort + '8';
-		else if (Input.GetKeyDown(KeyCode.Alpha7))
+		else if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
 			this.strPort = this.strPort + '9';
-		else if (Input.GetKeyDown(KeyCode.Backspace))
+		else if (Input.GetKeyDown(KeyCode.Backspace) && this.strPort.Length != 0)
 			this.strPort = this.strPort.Remove(this.strPort.Length - 1);
 	}
 }
