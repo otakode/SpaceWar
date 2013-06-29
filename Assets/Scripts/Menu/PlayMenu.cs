@@ -192,7 +192,7 @@ public class	PlayMenu : MonoBehaviour
 			this.strIp = this.strIp + '9';
 		else if (Input.GetKeyDown(KeyCode.Period))
 			this.strIp = this.strIp + '.';
-		else if (Input.GetKeyDown(KeyCode.Backspace))
+		else if (Input.GetKeyDown(KeyCode.Backspace) && this.strIp.Length != 0)
 			this.strIp = this.strIp.Remove(this.strIp.Length - 1);
 	}
 
@@ -218,7 +218,7 @@ public class	PlayMenu : MonoBehaviour
 			this.strPort = this.strPort + '8';
 		else if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
 			this.strPort = this.strPort + '9';
-		else if (Input.GetKeyDown(KeyCode.Backspace))
+		else if (Input.GetKeyDown(KeyCode.Backspace) && this.strPort.Length != 0)
 			this.strPort = this.strPort.Remove(this.strPort.Length - 1);
 	}
 }
