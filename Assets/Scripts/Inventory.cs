@@ -27,37 +27,35 @@ public class Inventory : MonoBehaviour
 		{
 			this.DropWeapon((Weapon.Type)Random.Range((int)Weapon.Type.Rocket, (int)Weapon.Type.Repair + 1));
 		}
-		RaycastHit hit;
-		if (Physics.Raycast(this.transform.position, this.transform.forward, out hit, 400))
+		RaycastHit hit = new RaycastHit();
+		if (Physics.Raycast(this.transform.position, this.transform.forward, out hit, 50000, LayerMask.NameToLayer("Default")))
 		{
-			if (this.target != null && this.target != hit.collider.gameObject)
+			Debug.Log("Raycasted");
+			if (this.target == null)
 			{
 				this.target = hit.collider.gameObject;
 				this.timeSeen = Time.time;
-				Debug.Log("Seen");
+				Debug.Log("Seen " + hit.collider.gameObject.name);
 			}
 		}
-		else
+		if (this.targetLock != null)
 		{
-			if (this.targetLock != null)
+			if (Vector3.Angle(this.transform.forward, this.targetLock.transform.position - this.transform.position) > this.angleLost)
 			{
-				if (Vector3.Angle(this.transform.forward, this.targetLock.transform.position - this.transform.position) > this.angleLost)
-				{
-					this.targetLock = null;
-				}
+				this.targetLock = null;
 			}
-			if (this.targetLock == null && this.target != null)
+		}
+		if (this.targetLock == null && this.target != null)
+		{
+			if (Vector3.Angle(this.transform.forward, this.target.transform.position - this.transform.position) > this.angleLost)
 			{
-				if (Vector3.Angle(this.transform.forward, this.target.transform.position - this.transform.position) > this.angleLost)
-				{
-					this.target = null;
-				}
-				else if (Time.time - this.timeSeen > this.lockTime)
-				{
-					this.targetLock = this.target;
-					this.target = null;
-					Debug.Log("Locked " + this.targetLock.name);
-				}
+				this.target = null;
+			}
+			else if (Time.time - this.timeSeen > this.lockTime)
+			{
+				this.targetLock = this.target;
+				this.target = null;
+				Debug.Log("Locked " + this.targetLock.name);
 			}
 		}
 	}
