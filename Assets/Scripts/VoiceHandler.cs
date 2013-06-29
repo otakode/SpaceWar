@@ -69,7 +69,9 @@ public class VoiceHandler : MonoBehaviour
 			Debug.Log(this.command);
 			if (command == "Fire" || command == "Activate" || command == "Launch")
 			{
-				this.transform.parent.GetComponent<Spaceship>().Fire();	
+				this.transform.parent.GetComponent<Spaceship>().Fire();
+                Spaceship.nb_fire = 5;
+                Spaceship.boucle = true;
 			}
 			else if (command == "Stop")
 			{

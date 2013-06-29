@@ -11,6 +11,10 @@ public class Spaceship : MonoBehaviour
 	public Transform laserShotPrefab;
 	public AudioClip soundEffectFire;
 	public float timeToRespawn = 10.0f;
+    public static bool boucle = false;
+    public static int nb_fire = 5;
+    public float timeToRespawn = 10.0f;
+    float timer = 0.1f;
 	
 	public void set_life(int dif)
 	{
@@ -31,7 +35,19 @@ public class Spaceship : MonoBehaviour
 	
 	void Update () 
 	{
-
+        if (boucle && nb_fire > 0)
+        {
+            timer -= Time.deltaTime;
+            if (timer < 0)
+            {
+                Fire();
+                nb_fire--;
+                timer = 0.1f;
+                Debug.Log("Timer");
+            }
+        }
+        else
+            boucle = false;
 		if (life <= 0)
 		{
 			this.RPCRespawn();
