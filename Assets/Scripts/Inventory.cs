@@ -13,7 +13,12 @@ public class Inventory : MonoBehaviour
 	public GameObject		targetLock;
 	public GameObject		rocket_prefab;
 	public GameObject		caisse_prefab;
+
 	public GameObject		bouclier_prefab;
+
+	public Texture			locker;
+	private float			lockAngle=0.0f;
+
 
 	void Start()
 	{
@@ -38,12 +43,11 @@ public class Inventory : MonoBehaviour
 		RaycastHit hit = new RaycastHit();
 		if (Physics.Raycast(ray, out hit, 50000))
 		{
-		//	Debug.Log("Raycasted");
+
 			if (this.target == null)
 			{
 				this.target = hit.collider.gameObject;
 				this.timeSeen = Time.time;
-				Debug.Log("Seen " + hit.collider.gameObject.name);
 			}
 		}
 		if (this.targetLock != null)
@@ -63,13 +67,24 @@ public class Inventory : MonoBehaviour
 			{
 				this.targetLock = this.target;
 				this.target = null;
-				Debug.Log("Locked " + this.targetLock.name);
 			}
 		}
 	}
 
 	void OnGUI()
 	{
+		if (this.targetLock != null)
+		{
+
+			Vector3 test = this.transform.FindChild("Camera").transform.FindChild("Main Camera").camera.WorldToScreenPoint(this.targetLock.transform.position);
+			lockAngle += 5.0f;
+            if (lockAngle > 360.0f) { lockAngle = 0.0f; }
+			Vector2 CIBLE_pivot = new Vector2(test.x, Screen.height - test.y);
+            Matrix4x4 MATRIX_backup = GUI.matrix;
+           // GUIUtility.RotateAroundPivot(lockAngle, CIBLE_pivot);
+			GUI.DrawTexture(new Rect(test.x - (locker.width * 0.5f),test.y - (locker.height * 0.5f), locker.width, locker.height), locker);
+			GUI.matrix = MATRIX_backup;
+		}
 		GUILayout.BeginVertical();
 		foreach (Weapon weapon in this.inventory)
 		{
