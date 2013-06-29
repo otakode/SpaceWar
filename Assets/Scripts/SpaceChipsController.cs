@@ -20,6 +20,8 @@ public class SpaceChipsController : MonoBehaviour
 	
     private float currentSpeedFactor;
     private bool calibrated = false;
+	private bool gogoGadgeto = false;
+    
     private float calibrationY;
 
 	public float rollRate = 100.0f;
@@ -173,6 +175,7 @@ public class SpaceChipsController : MonoBehaviour
 			handLeft.localPosition = new Vector3(-mainHand.positionWorld.x+0.15f,mainHand.positionWorld.z+0.2f,-mainHand.positionWorld.y+0.65f);
 			if (!calibrated)
 			{
+				//bien degueu mais bon...
 				calibrate(ref mainHand);
 				handLeft.GetChild(1).gameObject.renderer.enabled = true;
 				handLeft.GetChild(2).gameObject.renderer.enabled = true;
@@ -195,16 +198,19 @@ public class SpaceChipsController : MonoBehaviour
 					
 				}
 			}
-
-			float mainHandY = mainHand.positionWorld.y;
-			float mainHandZ = mainHand.positionWorld.z;
+			if (gogoGadgeto)
+			{
+				float mainHandY = mainHand.positionWorld.y;
+				float mainHandZ = mainHand.positionWorld.z;
 			
-			float secondaryHandY = secondaryHand.positionWorld.y;
-			float secondaryHandZ = secondaryHand.positionWorld.z;
+				float secondaryHandY = secondaryHand.positionWorld.y;
+				float secondaryHandZ = secondaryHand.positionWorld.z;
 			
-			controlRoll(mainHandZ, secondaryHandZ);
-			controlYaw(mainHandY, secondaryHandY);
-			controlPitch(mainHandY, secondaryHandY);
+				controlRoll(mainHandZ, secondaryHandZ);
+				controlYaw(mainHandY, secondaryHandY);
+				controlPitch(mainHandY, secondaryHandY);
+				
+			}
 
         }else{ calibrated = false; }
 		
@@ -222,14 +228,21 @@ public class SpaceChipsController : MonoBehaviour
 			if(dataMain.label == PXCMGesture.Gesture.Label.LABEL_POSE_BIG5){
 				calibrated = true;
 		  			calibrationY = mainHand.positionWorld.y;
+				gogoGadgeto = false;
 			}
 		}
 		else if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataSecondary)){
 			if(dataSecondary.label == PXCMGesture.Gesture.Label.LABEL_POSE_BIG5){
 				calibrated = true;
 		  			calibrationY = mainHand.positionWorld.y;
+				gogoGadgeto = false;
 			}
-		}	
+		}
+		else if (calibrated)
+		{
+			gogoGadgeto = true;
+			Debug.Log("autre chose");
+		}
 	}
 	
 	bool checkCollide(ref Ray ray, out RaycastHit hit, float distance){
