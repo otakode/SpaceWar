@@ -20,7 +20,7 @@ public class	PlayMenu : MonoBehaviour
 	private string			serverIp = "127.0.0.1";
 	private string			strIp = "";
 	private string			strPort = "";
-	private int				serverPort = 4242;
+	private int				serverPort = 4141;
 
 	private TextMenu	actualText;
 	private bool		scrollRoom;
@@ -69,7 +69,7 @@ public class	PlayMenu : MonoBehaviour
 		this.instantiatedMaster = Instantiate(this.networkMaster, Vector3.zero, Quaternion.identity) as GameObject;
 		this.scriptStartNet = this.instantiatedMaster.GetComponent<StartNetwork>();
 		this.scriptStartNet.server = true;
-		this.scriptStartNet.remoteIp = this.serverIp;
+	//	this.scriptStartNet.remoteIp = this.serverIp;
 		this.scriptStartNet.listenPort = this.serverPort;
 		this.scriptStartNet.Init();
 	}
