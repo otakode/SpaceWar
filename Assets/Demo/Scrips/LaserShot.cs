@@ -32,7 +32,7 @@ public class LaserShot : MonoBehaviour
 			RaycastHit _hit;
 			if (Physics.Raycast(_oldPos, _direction, out _hit, _distance)) 
 			{
-				if (_hit.transform != firedBy && !_hit.collider.isTrigger)
+				if (_hit.transform != firedBy && !_hit.collider.isTrigger && _hit.transform.tag != "Indestructible")
 				{		
 					Quaternion _rotation = Quaternion.FromToRotation(Vector3.up, _hit.normal);
 					Instantiate(impactEffect, _hit.point, _rotation);
