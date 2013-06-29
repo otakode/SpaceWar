@@ -100,6 +100,10 @@ public class Inventory : MonoBehaviour
 		{
 			//GUILayout.Label(new GUIContent(weapon.ToString()));
 			this.weaponsText[i].text = weapon.ToString();
+			if (weapon == this.activeWeapon)
+				this.weaponsText[i].GetComponent<TextController>().SetColor(Color.green);
+			else
+				this.weaponsText[i].GetComponent<TextController>().SetColor(Color.white);
 			i++;
 		}
 		while (i < 5)
