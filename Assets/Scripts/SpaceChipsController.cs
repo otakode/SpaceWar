@@ -153,8 +153,11 @@ public class SpaceChipsController : MonoBehaviour
 			}
 		}
 		PXCMGesture.Gesture dataMain;
-		if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataMain)){
-			if (dataMain.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP)
+		PXCMGesture.Gesture dataSecondary;
+		if(pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out dataMain) ||
+			pp.QueryGesture(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_SECONDARY, out dataSecondary)){
+			if (dataMain.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP || 
+				dataSecondary.label == PXCMGesture.Gesture.Label.LABEL_POSE_THUMB_UP)
 			{
 				cooldown -= Time.deltaTime;
 				
