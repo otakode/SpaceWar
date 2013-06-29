@@ -28,10 +28,10 @@ public class StartNetwork : MonoBehaviour
 
 	void	OnConnectedToServer()	// Appelé par le joueur JOIN après s'être connecté au serveur avec succès.
 	{
-		Debug.LogError("in OnConnectedToServer");
+		Debug.Log("in OnConnectedToServer");
 
 		this.InitPlayer();
-		Debug.LogError("out OnConnectedToServer");
+		Debug.Log("out OnConnectedToServer");
 	}
 
 	private void	InitPlayer()
@@ -53,7 +53,7 @@ public class StartNetwork : MonoBehaviour
 
 	void	OnServerInitialized()	// Appelé par le joueur HOST après s'être connecté au serveur avec succès.
 	{
-		Debug.LogError(" in OnServerInitialized");
+		Debug.Log(" in OnServerInitialized");
 
 		this.InitPlayer();
 		this.meteorInst = Instantiate(this.meteor) as GameObject; 
@@ -61,7 +61,7 @@ public class StartNetwork : MonoBehaviour
 		//this.playerInst = Network.Instantiate(this.player, spawn.transform.position, Quaternion.identity, 0) as GameObject;
 		//this.playerInst.networkView.RPC("CheckPacMan", RPCMode.All);
 
-		Debug.LogError(" out OnServerInitialized");
+		Debug.Log(" out OnServerInitialized");
 	}
 
 	void	OnDisconnectedFromServer(NetworkDisconnection info)	// Appelé par le joueur JOIN lorsque (la connexion a été perdue/il s'est déconnecté du serveur).
