@@ -17,12 +17,15 @@ public class Spaceship : MonoBehaviour
 	
 	public void set_life(int dif)
 	{
+		Transform	cockpit = this.transform.FindChild("Model3D").FindChild("Cockpit");
+
 		life += dif;
+		cockpit.FindChild("LifeText").GetComponent<TextMesh>().text = cockpit.FindChild("LifeText").GetComponent<TextMesh>().text.Remove(7) + life.ToString();
 	}
 	
 	void Start ()
-	{	
-		
+	{
+		this.set_life(0);
 		foreach (Thruster thruster in thrusters)
 		{
 			if (thruster == null) 

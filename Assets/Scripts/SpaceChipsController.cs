@@ -31,8 +31,6 @@ public class SpaceChipsController : MonoBehaviour
 	public GameObject	pilotHands;
 	private Transform	handRight;
 	private Transform	handLeft;
-	public float		limite1 = 1000;
-	public float		death_limite = 1400;
 	private GameObject	spawn;
 	
 	public GameObject	manche;
@@ -42,6 +40,10 @@ public class SpaceChipsController : MonoBehaviour
 	
     private PXCUPipeline.Mode mode = PXCUPipeline.Mode.GESTURE;
     private PXCUPipeline pp;
+
+	public float limite1 = 1500f;
+	public float death_limite = 2000f;
+	public GameObject warning;
 
     // Use this for initialization
     void Start()
@@ -177,15 +179,22 @@ public class SpaceChipsController : MonoBehaviour
 		{
 			this.transform.GetComponent<Spaceship>().Fire();
 		}
-		var distance = Vector3.Distance(spawn.transform.position, this.transform.position);
+		float distance = Vector3.Distance(spawn.transform.position, this.transform.position);
 		if (distance > limite1)
 		{
-			if (distance >limite1 && distance < death_limite)
+			if (distance > limite1 && distance < death_limite)
 			{
-				
+				warning.SetActive(true);
+			}
+			if (distance > death_limite)
+			{
+				warning.SetActive(false);
+				this.GetComponent<Spaceship>().set_life(-1000);
+				Debug.LogWarning("death");
 			}
 		}
-		
+		else
+			warning.SetActive(false);
 		
         if (pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_PRIMARY, out mainHand) &&
             pp.QueryGeoNode(PXCMGesture.GeoNode.Label.LABEL_BODY_HAND_SECONDARY, out secondaryHand))
