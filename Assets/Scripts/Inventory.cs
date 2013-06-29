@@ -129,7 +129,7 @@ public class Inventory : MonoBehaviour
 		this.activeWeapon.Fire(this.transform.position, this.transform.rotation, this.gameObject, target);
 	}
 
-	void DropWeapon(Weapon.Type type)
+	public void DropWeapon(Weapon.Type type)
 	{
 		Weapon weapon;
 		if (type == Weapon.Type.Repair)
